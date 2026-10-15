@@ -1,0 +1,20 @@
+# Decisions
+
+One entry per architecture, dependency or workflow decision. Newest last. Agents do not read this file by default; it explains *why* the policies say what they say.
+
+| ID | Date | Decision | Reason | Consequence |
+|---|---|---|---|---|
+| D-001 | 2026-10-15 | Feature-first folders (`lib/features/<f>/{domain,data,presentation}`) | Keeps a backlog item's files together; lets an agent work on one slice | Shared types must be moved deliberately into `lib/core/` |
+| D-002 | 2026-10-15 | Riverpod with the ViewModel pattern | Compile-time-safe dependency injection; providers can be overridden in tests without code generation | Team must know Riverpod |
+| D-003 | 2026-10-15 | Adaptive UI by width (800 px), not by operating system | One codebase for four platforms; resizing a window switches layout | Widgets are tested in both layouts |
+| D-004 | 2026-10-15 | Python/FastAPI mock backend managed with uv, replacing the planned Go skeleton | Flutter is the product; the backend only serves fixtures, and compiled infrastructure added cost without value | Backend stays mock-only; no databases or real auth |
+| D-005 | 2026-10-16 | Agentic documentation system: four agents in two tiers, three document types, BDD + TDD | Previous docs repeated rules 4–5 times and split each feature across two files | See [docs/README.md](../../README.md) |
+
+**Dependencies approved:** `flutter_riverpod`, `flutter_lints`; `fastapi`, `uvicorn`, `pydantic`, `pytest`, `httpx`.
+**Proposed in backlog, not yet approved:** `http` (BL-006).
+
+## Change history
+
+| Date | CHG | Change |
+|---|---|---|
+| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Replaces ADR 001–005 and lesson #001 |
