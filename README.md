@@ -47,13 +47,22 @@
 ├── docs/
 │   ├── architecture/
 │   │   ├── README.md                 # Complete architecture guide
+│   │   ├── MAP.md                    # Codebase topology & agent context map
+│   │   ├── GLOSSARY.md               # Domain vocabulary & ubiquitous language
 │   │   ├── 001-feature-first-architecture.md
 │   │   ├── 002-state-management.md
 │   │   ├── 003-adaptive-mobile-desktop-ui.md
-│   │   └── 004-agentic-development-workflow.md
+│   │   ├── 004-agentic-development-workflow.md
+│   │   └── 005-agentic-product-management.md
+│   ├── specs/
+│   │   └── APRD-001-discovery.md     # Agentic PRD with FSM & Anti-Scope
+│   ├── quality/
+│   │   └── DOD.md                    # Definition of Done & automated gates
+│   ├── agent/
+│   │   └── LESSONS_LEARNED.md        # Living memory of agent guardrails
 │   └── tasks/
 │       └── README.md                 # Vertical slice task backlog (Phases 1-6)
-├── backend/                          # Mock backend API (Python / FastAPI / uv)
+├── backend/                          # Secondary Mock backend API (Python / FastAPI / uv)
 │   ├── pyproject.toml                # Dependencies & uv project configuration
 │   ├── README.md                     # Backend documentation & endpoints
 │   ├── app/

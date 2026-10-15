@@ -6,17 +6,22 @@ This document describes the architectural principles, layers, responsibilities, 
 
 ## 1. Chosen Architecture
 
-Garblo follows a **Feature-First lightweight MVVM (Model-View-ViewModel)** architecture on the Flutter client, paired with a modular mock API backend in Python/FastAPI.
+Garblo follows a **Feature-First lightweight MVVM (Model-View-ViewModel)** architecture on the Flutter client, paired with a lightweight mock API backend in Python/FastAPI.
+
+### Primary vs. Secondary Roles
+
+- **PRIMARY (Client Frontend)**: Maintainable, multi-native Flutter application targeting **Android, iOS, Windows, and macOS**. All primary domain logic, reactive state machines, and adaptive UI reside here.
+- **SECONDARY (Mock Backend)**: A zero-ceremony **Python / FastAPI** mock server managed with **`uv`**. Its role is strictly to provide realistic sample data, simulate swipe endpoints, and test HTTP client integrations without running complex databases or microservices.
 
 ### Dependency Direction
 
 ```text
 View (Presentation)
-  ↓
+  ↓ watches state & dispatches actions
 ViewModel / Notifier (State Management)
-  ↓
+  ↓ queries & mutates
 Repository Interface (Domain boundary)
-  ↓
+  ↓ fetches / persists
 Data Source / API Client / Local Storage (Data access)
 ```
 
@@ -38,7 +43,7 @@ lib/
 ├── app/                      # Application shell, router, themes, top-level providers
 ├── core/                     # Cross-cutting concerns (errors, shared widgets, contracts)
 └── features/                 # Vertical business slices
-    ├── discovery/            # Candidate discovery feed & swiping
+    ├── discovery/            # Candidate discovery feed & swiping [COMPLETE]
     │   ├── data/             # Repositories and data providers
     │   ├── domain/           # Models, entities, and value objects
     │   └── presentation/     # Views, ViewModels, and UI widgets
@@ -99,7 +104,7 @@ Both form factors share the exact same `Profile` domain entity, `DiscoveryReposi
 
 ---
 
-## 6. Backend Strategy
+## 6. Backend Strategy (Lightweight Simulation)
 
 The backend provides a mock API built with **FastAPI** and managed via **`uv`**:
 
@@ -110,20 +115,17 @@ The backend provides a mock API built with **FastAPI** and managed via **`uv`**:
 
 ---
 
-## 7. When to Introduce Use Cases
+## 7. The Agentic Product Management Framework
 
-Do **not** introduce use-case or interactor classes prematurely for simple CRUD operations that merely pass data from repository to ViewModel.
+To enable a solo developer to effectively direct AI coding agents, the codebase enforces the **5-Layer Documentation Hierarchy**:
 
-Introduce dedicated use case classes only when:
-1. Business logic involves coordinating multiple repositories (e.g., matching + push notification + analytics dispatch).
-2. Complex validation or computation is reused across multiple ViewModels.
-3. Transactional workflows require strict step sequencing.
-
----
-
-## 8. When Not to Introduce Additional Abstractions
-
-- Do not create abstract classes when there is only ever one implementation and no testing need.
-- Do not add boilerplate mapper classes when `Profile.fromJson` or clean factory constructors are sufficient.
-- Do not create microservices for early-stage features.
-
+1. **Governance & Directives**: [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) and [`docs/architecture/MAP.md`](MAP.md).
+2. **Domain & Strategy**: [Agentic PRDs (`docs/specs/`)](../specs/APRD-001-discovery.md) and [Ubiquitous Language (`docs/architecture/GLOSSARY.md`)](GLOSSARY.md).
+3. **Architectural Decisions**:
+   - [ADR 001: Feature-First Organization](001-feature-first-architecture.md)
+   - [ADR 002: State Management with Riverpod](002-state-management.md)
+   - [ADR 003: Adaptive Mobile & Desktop UI](003-adaptive-mobile-desktop-ui.md)
+   - [ADR 004: Agentic Development Workflow](004-agentic-development-workflow.md)
+   - [ADR 005: Agentic Product Management & Documentation Hierarchy](005-agentic-product-management.md)
+4. **Execution & Quality**: [Task Backlog (`docs/tasks/README.md`)](../tasks/README.md) and [Definition of Done (`docs/quality/DOD.md`)](../quality/DOD.md).
+5. **Living Memory**: [Lessons Learned & Guardrails (`docs/agent/LESSONS_LEARNED.md`)](../agent/LESSONS_LEARNED.md).
