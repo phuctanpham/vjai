@@ -1,807 +1,219 @@
-```markdown
-# Initialize Garblo cross-platform application architecture
+# Garblo
 
-You are working in the existing GitHub repository:
+> Cross-platform discovery and social connection application built with Flutter and Python/FastAPI.
 
-- Repository: `phuctanpham/vjai`
-- Product/app name: `Garblo`
-- Target platforms: Android, iOS, Windows, and macOS
-- Development style: solo developer using agentic coding
-- Architecture: Flutter frontend with a Go backend skeleton
-
-Create a pull request containing the initial project foundation. Inspect the existing repository before changing anything and preserve useful existing files.
-
-## Main goals
-
-1. Initialize a maintainable Flutter application structure.
-2. Add agentic coding and architecture documentation.
-3. Add a minimal runnable Flutter app named `Garblo`.
-4. Add a minimal Go backend skeleton.
-5. Demonstrate the recommended architecture with a working discovery feature.
-6. Add tests and verification instructions.
-7. Keep the implementation intentionally minimal. Do not implement the complete product yet.
+[![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![uv](https://img.shields.io/badge/uv-Package%20Manager-DE5FE9)](https://docs.astral.sh/uv/)
 
 ---
 
-## Frontend architecture
+## Product Overview
 
-Use Flutter and Dart with the following rules:
+**Garblo** is a modern cross-platform application designed for discovering people, shared interests, and social connections. Designed for a solo developer utilizing agentic coding workflows, Garblo emphasizes:
 
-- Feature-first organization.
-- Lightweight MVVM or ViewModel-style presentation.
-- Riverpod for state management and dependency injection, unless an existing project decision requires another approach.
-- Repository interfaces between presentation and data access.
-- Adaptive mobile and desktop UI based on available window size.
-- Use `LayoutBuilder`, `MediaQuery`, or equivalent responsive mechanisms.
-- Do not scatter `Platform.isAndroid`, `Platform.isIOS`, or desktop checks throughout widgets.
-- Keep platform-specific behavior behind interfaces or services.
-- Use this dependency direction:
-
-```text
-View
-  ↓
-ViewModel / Notifier
-  ↓
-Repository
-  ↓
-Service / API / Local storage
-```
-
-Avoid strict Clean Architecture boilerplate unless it is clearly useful.
+- **Clean separation of concerns**: Feature-first MVVM architecture with clear dependency flow.
+- **Adaptive UI**: Responsive layouts tailored to mobile touch screens and widescreen desktop environments without platform fragmentation.
+- **Mock-driven velocity**: A lightweight Python / FastAPI mock server managed with `uv` for immediate prototyping and rapid integration.
 
 ---
 
-## Flutter project structure
+## Current Project Status
 
-Create or organize the Flutter code approximately like this:
-
-```text
-lib/
-├── main.dart
-├── app/
-│ ├── app.dart
-│ ├── router.dart
-│ ├── theme/
-│ └── providers.dart
-├── core/
-│ ├── errors/
-│ ├── networking/
-│ ├── storage/
-│ └── widgets/
-└── features/
-    ├── auth/
-    ├── onboarding/
-    ├── discovery/
-    ├── matching/
-    ├── chat/
-    ├── profile/
-    ├── notifications/
-    └── moderation/
-```
-
-The feature directories may contain placeholder documentation or minimal placeholder files, but do not create fake production functionality.
+- **Status**: Foundation & Discovery Scaffold (Initial Architecture Complete).
+- **Frontend**: Flutter application structure with Riverpod, Material 3 theming, responsive mobile/desktop layouts, and fully tested Discovery vertical slice with mock repository.
+- **Backend**: FastAPI mock API managed with `uv`, exposing health checks (`/health`, `/api/v1/health`), sample discovery candidates (`/api/v1/discovery`), and swipe submission (`/api/v1/swipes`).
 
 ---
 
-## Required discovery feature
+## Supported Platforms
 
-Implement a small, working discovery feature to demonstrate the architecture.
-
-Create:
-
-```text
-features/discovery/
-├── data/
-│ └── discovery_repository.dart
-├── domain/
-│ ├── profile.dart
-│ └── swipe_type.dart
-└── presentation/
-    ├── discovery_state.dart
-    ├── discovery_view_model.dart
-    ├── discovery_view.dart
-    └── widgets/
-        ├── profile_card.dart
-        └── discovery_layout.dart
-```
-
-The discovery feature must include:
-
-- A `Profile` model.
-- A repository interface.
-- A mock repository implementation.
-- A ViewModel or Riverpod Notifier.
-- Explicit states:
-  - initial
-  - loading
-  - loaded
-  - empty
-  - error
-- Mock profile data.
-- A retry action for errors.
-- A simple profile card.
-- A mobile layout.
-- A desktop layout.
-- Responsive behavior based on available width.
-- No direct repository or API calls from widgets.
-
-The mobile layout should be touch-friendly and card-oriented.
-
-The desktop layout should provide:
-
-- Navigation area or sidebar.
-- Centered profile card.
-- Visible action buttons.
-- Profile information panel where appropriate.
-- Mouse-friendly controls.
-
-The same domain model, repository, and ViewModel should be reused across mobile and desktop layouts.
-
-Do not implement real swipe persistence, matching, chat, authentication, or networking yet.
+| Platform | Support Tier | Primary Interaction Model |
+|---|---|---|
+| **Android** | Tier 1 (Mobile) | Touch gestures, vertical card stack, mobile app bar |
+| **iOS** | Tier 1 (Mobile) | Touch gestures, swipe cards, iOS safe areas |
+| **Windows** | Tier 1 (Desktop) | Mouse & keyboard, sidebar navigation, profile info panel |
+| **macOS** | Tier 1 (Desktop) | Mouse & keyboard, sidebar navigation, profile info panel |
 
 ---
 
-## Backend skeleton
-
-Create a separate Go backend under:
+## Repository Structure
 
 ```text
-backend/
-```
-
-Use a modular monolith structure:
-
-```text
-backend/
-├── cmd/
-│ └── server/
-│ └── main.go
-├── internal/
-│ ├── config/
-│ ├── httpserver/
-│ ├── auth/
-│ ├── profiles/
-│ ├── discovery/
-│ ├── swipes/
-│ ├── matches/
-│ ├── chat/
-│ ├── notifications/
-│ └── moderation/
-├── go.mod
-└── README.md
-```
-
-Implement only a minimal server skeleton:
-
-- Start an HTTP server.
-- Load configuration from environment variables.
-- Provide:
-
-```text
-GET /health
-GET /api/v1/health
-```
-
-- Return JSON responses.
-- Use clear package boundaries.
-- Add a basic server test, including the health endpoint.
-- Do not implement real authentication, databases, matching, chat, or notifications.
-- Do not add microservices.
-- Do not add external infrastructure unless absolutely necessary.
-
-Example health response:
-
-```json
-{
-  "status": "ok",
-  "service": "garblo-api"
-}
-```
-
-Use idiomatic Go and standard library packages where practical.
-
----
-
-## Documentation requirements
-
-Add or update the root `README.md` with:
-
-- Garblo product overview.
-- Current project status.
-- Supported platforms.
-- Repository structure.
-- Flutter setup instructions.
-- Backend setup instructions.
-- Commands to run tests and static analysis.
-- Explanation of the frontend architecture.
-- Explanation of the backend modular monolith.
-- Known limitations.
-- Future implementation phases.
-
-Add agent instructions at:
-
-```text
-.github/copilot-instructions.md
-```
-
-Include these rules:
-
-- Inspect the repository before editing.
-- Work on one bounded vertical slice at a time.
-- Do not modify unrelated features.
-- Do not add dependencies without explaining why.
-- Follow feature-first organization.
-- Keep widgets free of API and business logic.
-- Keep platform-specific behavior behind interfaces.
-- Use adaptive layouts for mobile and desktop.
-- Add tests for new business logic and important UI states.
-- Run formatting, analysis, and tests before completing work.
-- Never add credentials, secrets, or private user data.
-- Prefer the simplest design that satisfies the requirement.
-
-Add:
-
-```text
-docs/architecture/README.md
-```
-
-Document:
-
-- Chosen architecture.
-- Dependency direction.
-- Feature-first organization.
-- ViewModel responsibilities.
-- Repository responsibilities.
-- Adaptive UI strategy.
-- Mobile versus desktop responsibilities.
-- Backend modular monolith strategy.
-- When to introduce use cases.
-- When not to introduce additional abstractions.
-
-Add ADR files:
-
-```text
-docs/architecture/001-feature-first-architecture.md
-docs/architecture/002-state-management.md
-docs/architecture/003-adaptive-mobile-desktop-ui.md
-docs/architecture/004-agentic-development-workflow.md
-```
-
-Add an initial task backlog:
-
-```text
-docs/tasks/README.md
-```
-
-The task backlog should describe future vertical slices, including:
-
-1. App shell and routing
-2. Authentication
-3. Profile onboarding
-4. Discovery with mock data
-5. Swipe persistence
-6. Backend discovery API
-7. Matching
-8. Match list
-9. Chat history
-10. Realtime chat
-11. Notifications
-12. Blocking and reporting
-13. Moderation
-14. Subscriptions
-15. Performance and accessibility
-
----
-
-## Testing requirements
-
-Flutter tests should cover:
-
-- Profile model behavior where applicable.
-- Mock repository success.
-- Mock repository empty result.
-- Mock repository error.
-- ViewModel loading state.
-- ViewModel loaded state.
-- ViewModel empty state.
-- ViewModel error state.
-- Main discovery screen rendering.
-- Mobile and desktop layout behavior where practical.
-
-Go tests should cover:
-
-- Health endpoint.
-- Basic server response behavior.
-
-Use appropriate test directories, for example:
-
-```text
-test/features/discovery/
-backend/internal/httpserver/
+.
+├── .github/
+│   └── copilot-instructions.md       # AI agent development rules & guidelines
+├── docs/
+│   ├── architecture/
+│   │   ├── README.md                 # Complete architecture guide
+│   │   ├── 001-feature-first-architecture.md
+│   │   ├── 002-state-management.md
+│   │   ├── 003-adaptive-mobile-desktop-ui.md
+│   │   └── 004-agentic-development-workflow.md
+│   └── tasks/
+│       └── README.md                 # Vertical slice task backlog (Phases 1-6)
+├── backend/                          # Mock backend API (Python / FastAPI / uv)
+│   ├── pyproject.toml                # Dependencies & uv project configuration
+│   ├── README.md                     # Backend documentation & endpoints
+│   ├── app/
+│   │   ├── main.py                   # FastAPI server entrypoint & CORS
+│   │   ├── config.py                 # Environment settings
+│   │   ├── api/                      # Aggregated API routes & v1 endpoints
+│   │   ├── models/                   # Pydantic schemas (Profile, Swipe, Health)
+│   │   └── data/                     # Sample mock discovery profiles
+│   └── tests/                        # Backend test suite (pytest)
+├── lib/                              # Flutter client application
+│   ├── main.dart                     # Flutter application entrypoint
+│   ├── app/                          # App shell, routing, theme, providers
+│   ├── core/                         # Core abstractions (errors, widgets, storage)
+│   └── features/                     # Feature-first domain modules
+│       ├── discovery/                # Implemented: Discovery feature slice
+│       │   ├── data/                 # DiscoveryRepository & MockDiscoveryRepository
+│       │   ├── domain/               # Profile entity & SwipeType enum
+│       │   └── presentation/         # Views, ViewModels, and adaptive layouts
+│       ├── auth/                     # Placeholder: Authentication boundary
+│       ├── onboarding/               # Placeholder: Onboarding wizard
+│       ├── matching/                 # Placeholder: Match list & celebration
+│       ├── chat/                     # Placeholder: Realtime messaging
+│       ├── profile/                  # Placeholder: Self profile & settings
+│       ├── notifications/            # Placeholder: Push & alerts
+│       └── moderation/               # Placeholder: Block & report
+├── test/                             # Flutter test suites
+│   └── features/discovery/
+│       ├── data/discovery_repository_test.dart
+│       ├── domain/profile_test.dart
+│       └── presentation/
+│           ├── discovery_view_model_test.dart
+│           └── discovery_view_test.dart
+├── pubspec.yaml                      # Flutter dependencies & metadata
+├── analysis_options.yaml             # Dart static analysis configuration
+└── README.md                         # Project documentation
 ```
 
 ---
 
-## Verification requirements
+## Frontend Architecture
 
-Run the following where the required toolchains are available:
+The Flutter client employs a lightweight **Feature-First MVVM** architecture powered by **Riverpod**:
+
+```text
+View (ConsumerWidget)
+  ↓ watches state & invokes actions
+ViewModel / Notifier (DiscoveryViewModel)
+  ↓ queries / mutates
+Repository (DiscoveryRepository)
+  ↓ fetches / persists
+Data Source (Mock / FastAPI Backend / Local Storage)
+```
+
+### Key Frontend Decisions
+
+1. **Explicit States**: State is modeled with explicit status flags (`initial`, `loading`, `loaded`, `empty`, `error`) and immutable state classes.
+2. **Adaptive Responsive Layouts**: Uses `LayoutBuilder` with an `800px` breakpoint:
+   - **Mobile (< 800px)**: Focuses on touch cards and bottom action buttons (Pass, Superlike, Like).
+   - **Desktop (>= 800px)**: Multi-column view providing sidebar navigation, centered card preview, and a detailed profile metadata sidebar.
+3. **No Platform Checks in Widgets**: Avoids scattering `Platform.isAndroid` or `Platform.isWindows` in presentation code; layout is strictly driven by constraints.
+
+---
+
+## Backend Architecture
+
+The backend is built with **FastAPI** and packaged using **`uv`**:
+
+- **Fast & Lightweight**: Zero heavy infrastructure required for local development.
+- **Realistic Mock Data**: Returns complete `Profile` models with realistic names, bios, interest tags, and photos.
+- **CORS Configured**: Ready for Flutter Web and desktop clients out of the box.
+
+---
+
+## Setup & Running Instructions
+
+### 1. Flutter Client Setup
+
+#### Prerequisites
+- Flutter SDK `>= 3.10.0`
+- Dart SDK `>= 3.0.0`
+
+#### Commands
 
 ```bash
+# Get dependencies
+flutter pub get
+
+# Run on available device (Windows, Chrome, Android, etc.)
+flutter run
+
+# Run with custom backend host if needed
+flutter run --dart-define=API_URL=http://localhost:8080
+```
+
+### 2. Backend Setup (with `uv`)
+
+#### Prerequisites
+- Python `>= 3.10`
+- [`uv`](https://docs.astral.sh/uv/)
+
+#### Commands
+
+```bash
+cd backend
+
+# Install dependencies into virtual environment
+uv sync --extra dev
+
+# Start development server with live reload
+uv run uvicorn app.main:app --reload --port 8080 --host 0.0.0.0
+```
+
+Once running:
+- API Root: [http://localhost:8080/](http://localhost:8080/)
+- Health Check: [http://localhost:8080/health](http://localhost:8080/health)
+- Swagger Documentation: [http://localhost:8080/docs](http://localhost:8080/docs)
+- Discovery Feed: [http://localhost:8080/api/v1/discovery](http://localhost:8080/api/v1/discovery)
+
+---
+
+## Testing & Static Analysis
+
+### Flutter Tests & Quality Checks
+
+```bash
+# Format code
 dart format .
+
+# Static analysis
 flutter analyze
+
+# Run unit and widget tests
 flutter test
 ```
 
-For the backend:
+### Backend Tests & Quality Checks
 
 ```bash
-gofmt -w .
-go test ./...
-go vet ./...
-```
+cd backend
 
-If a command cannot run because the environment lacks Flutter, Dart, Go, or another dependency, clearly report that limitation. Do not hide failed or skipped verification.
-
----
-
-## Scope restrictions
-
-Do not:
-
-- Implement a complete Tinder clone.
-- Add real authentication.
-- Add real user accounts.
-- Add real matching logic.
-- Add a production database.
-- Add payment processing.
-- Add real-time chat.
-- Add recommendation algorithms.
-- Add cloud deployment configuration.
-- Add secrets or credentials.
-- Introduce microservices.
-- Rewrite unrelated existing code.
-- Add large generated files unnecessarily.
-- Add dependencies without documenting the reason.
-
----
-
-## Definition of done
-
-The pull request is complete when:
-
-- The repository contains the documented Flutter architecture.
-- The Flutter app has a minimal Garblo app shell.
-- The discovery feature runs with mock data.
-- Mobile and desktop layouts are both represented.
-- Loading, loaded, empty, and error states exist.
-- The backend starts and exposes a health endpoint.
-- Flutter and Go tests are included.
-- Documentation and agent instructions are present.
-- Formatting and static analysis have been run where possible.
-- The pull request description lists:
-  - Changed files
-  - Architecture decisions
-  - Commands run
-  - Test results
-  - Known limitations
-  - Recommended next tasks
-```
-
-After the agent finishes, review the pull request and verify that it did not implement too much at once. The most important files to inspect first are:
-
-```text
-.github/copilot-instructions.md
-README.md
-docs/architecture/README.md
-lib/features/discovery/
-backend/cmd/server/main.go
-```
-
-If the agent produces an overly large or confusing pull request, ask it to split the work into two follow-up pull requests:
-
-1. Flutter architecture and discovery scaffold  
-2. Go backend skeleton and documentation updatesCopy and paste this into **GitHub Copilot coding agent** for the `phuctanpham/vjai` repository:
-
-```markdown
-# Initialize Garblo cross-platform application architecture
-
-You are working in the existing GitHub repository:
-
-- Repository: `phuctanpham/vjai`
-- Product/app name: `Garblo`
-- Target platforms: Android, iOS, Windows, and macOS
-- Development style: solo developer using agentic coding
-- Architecture: Flutter frontend with a Go backend skeleton
-
-Create a pull request containing the initial project foundation. Inspect the existing repository before changing anything and preserve useful existing files.
-
-## Main goals
-
-1. Initialize a maintainable Flutter application structure.
-2. Add agentic coding and architecture documentation.
-3. Add a minimal runnable Flutter app named `Garblo`.
-4. Add a minimal Go backend skeleton.
-5. Demonstrate the recommended architecture with a working discovery feature.
-6. Add tests and verification instructions.
-7. Keep the implementation intentionally minimal. Do not implement the complete product yet.
-
----
-
-## Frontend architecture
-
-Use Flutter and Dart with the following rules:
-
-- Feature-first organization.
-- Lightweight MVVM or ViewModel-style presentation.
-- Riverpod for state management and dependency injection, unless an existing project decision requires another approach.
-- Repository interfaces between presentation and data access.
-- Adaptive mobile and desktop UI based on available window size.
-- Use `LayoutBuilder`, `MediaQuery`, or equivalent responsive mechanisms.
-- Do not scatter `Platform.isAndroid`, `Platform.isIOS`, or desktop checks throughout widgets.
-- Keep platform-specific behavior behind interfaces or services.
-- Use this dependency direction:
-
-```text
-View
-  ↓
-ViewModel / Notifier
-  ↓
-Repository
-  ↓
-Service / API / Local storage
-```
-
-Avoid strict Clean Architecture boilerplate unless it is clearly useful.
-
----
-
-## Flutter project structure
-
-Create or organize the Flutter code approximately like this:
-
-```text
-lib/
-├── main.dart
-├── app/
-│ ├── app.dart
-│ ├── router.dart
-│ ├── theme/
-│ └── providers.dart
-├── core/
-│ ├── errors/
-│ ├── networking/
-│ ├── storage/
-│ └── widgets/
-└── features/
-    ├── auth/
-    ├── onboarding/
-    ├── discovery/
-    ├── matching/
-    ├── chat/
-    ├── profile/
-    ├── notifications/
-    └── moderation/
-```
-
-The feature directories may contain placeholder documentation or minimal placeholder files, but do not create fake production functionality.
-
----
-
-## Required discovery feature
-
-Implement a small, working discovery feature to demonstrate the architecture.
-
-Create:
-
-```text
-features/discovery/
-├── data/
-│ └── discovery_repository.dart
-├── domain/
-│ ├── profile.dart
-│ └── swipe_type.dart
-└── presentation/
-    ├── discovery_state.dart
-    ├── discovery_view_model.dart
-    ├── discovery_view.dart
-    └── widgets/
-        ├── profile_card.dart
-        └── discovery_layout.dart
-```
-
-The discovery feature must include:
-
-- A `Profile` model.
-- A repository interface.
-- A mock repository implementation.
-- A ViewModel or Riverpod Notifier.
-- Explicit states:
-  - initial
-  - loading
-  - loaded
-  - empty
-  - error
-- Mock profile data.
-- A retry action for errors.
-- A simple profile card.
-- A mobile layout.
-- A desktop layout.
-- Responsive behavior based on available width.
-- No direct repository or API calls from widgets.
-
-The mobile layout should be touch-friendly and card-oriented.
-
-The desktop layout should provide:
-
-- Navigation area or sidebar.
-- Centered profile card.
-- Visible action buttons.
-- Profile information panel where appropriate.
-- Mouse-friendly controls.
-
-The same domain model, repository, and ViewModel should be reused across mobile and desktop layouts.
-
-Do not implement real swipe persistence, matching, chat, authentication, or networking yet.
-
----
-
-## Backend skeleton
-
-Create a separate Go backend under:
-
-```text
-backend/
-```
-
-Use a modular monolith structure:
-
-```text
-backend/
-├── cmd/
-│ └── server/
-│ └── main.go
-├── internal/
-│ ├── config/
-│ ├── httpserver/
-│ ├── auth/
-│ ├── profiles/
-│ ├── discovery/
-│ ├── swipes/
-│ ├── matches/
-│ ├── chat/
-│ ├── notifications/
-│ └── moderation/
-├── go.mod
-└── README.md
-```
-
-Implement only a minimal server skeleton:
-
-- Start an HTTP server.
-- Load configuration from environment variables.
-- Provide:
-
-```text
-GET /health
-GET /api/v1/health
-```
-
-- Return JSON responses.
-- Use clear package boundaries.
-- Add a basic server test, including the health endpoint.
-- Do not implement real authentication, databases, matching, chat, or notifications.
-- Do not add microservices.
-- Do not add external infrastructure unless absolutely necessary.
-
-Example health response:
-
-```json
-{
-  "status": "ok",
-  "service": "garblo-api"
-}
-```
-
-Use idiomatic Go and standard library packages where practical.
-
----
-
-## Documentation requirements
-
-Add or update the root `README.md` with:
-
-- Garblo product overview.
-- Current project status.
-- Supported platforms.
-- Repository structure.
-- Flutter setup instructions.
-- Backend setup instructions.
-- Commands to run tests and static analysis.
-- Explanation of the frontend architecture.
-- Explanation of the backend modular monolith.
-- Known limitations.
-- Future implementation phases.
-
-Add agent instructions at:
-
-```text
-.github/copilot-instructions.md
-```
-
-Include these rules:
-
-- Inspect the repository before editing.
-- Work on one bounded vertical slice at a time.
-- Do not modify unrelated features.
-- Do not add dependencies without explaining why.
-- Follow feature-first organization.
-- Keep widgets free of API and business logic.
-- Keep platform-specific behavior behind interfaces.
-- Use adaptive layouts for mobile and desktop.
-- Add tests for new business logic and important UI states.
-- Run formatting, analysis, and tests before completing work.
-- Never add credentials, secrets, or private user data.
-- Prefer the simplest design that satisfies the requirement.
-
-Add:
-
-```text
-docs/architecture/README.md
-```
-
-Document:
-
-- Chosen architecture.
-- Dependency direction.
-- Feature-first organization.
-- ViewModel responsibilities.
-- Repository responsibilities.
-- Adaptive UI strategy.
-- Mobile versus desktop responsibilities.
-- Backend modular monolith strategy.
-- When to introduce use cases.
-- When not to introduce additional abstractions.
-
-Add ADR files:
-
-```text
-docs/architecture/001-feature-first-architecture.md
-docs/architecture/002-state-management.md
-docs/architecture/003-adaptive-mobile-desktop-ui.md
-docs/architecture/004-agentic-development-workflow.md
-```
-
-Add an initial task backlog:
-
-```text
-docs/tasks/README.md
-```
-
-The task backlog should describe future vertical slices, including:
-
-1. App shell and routing
-2. Authentication
-3. Profile onboarding
-4. Discovery with mock data
-5. Swipe persistence
-6. Backend discovery API
-7. Matching
-8. Match list
-9. Chat history
-10. Realtime chat
-11. Notifications
-12. Blocking and reporting
-13. Moderation
-14. Subscriptions
-15. Performance and accessibility
-
----
-
-## Testing requirements
-
-Flutter tests should cover:
-
-- Profile model behavior where applicable.
-- Mock repository success.
-- Mock repository empty result.
-- Mock repository error.
-- ViewModel loading state.
-- ViewModel loaded state.
-- ViewModel empty state.
-- ViewModel error state.
-- Main discovery screen rendering.
-- Mobile and desktop layout behavior where practical.
-
-Go tests should cover:
-
-- Health endpoint.
-- Basic server response behavior.
-
-Use appropriate test directories, for example:
-
-```text
-test/features/discovery/
-backend/internal/httpserver/
+# Run pytest suite
+uv run pytest
 ```
 
 ---
 
-## Verification requirements
+## Known Limitations
 
-Run the following where the required toolchains are available:
-
-```bash
-dart format .
-flutter analyze
-flutter test
-```
-
-For the backend:
-
-```bash
-gofmt -w .
-go test ./...
-go vet ./...
-```
-
-If a command cannot run because the environment lacks Flutter, Dart, Go, or another dependency, clearly report that limitation. Do not hide failed or skipped verification.
+- **Mock Discovery Data**: Discovery profiles are currently generated from mock sample data; production database persistence is scheduled for Phase 3.
+- **Swipes**: Swipes are recorded in-memory without persistent user session tracking.
+- **Placeholders**: Feature modules for Auth, Matching, Chat, Notifications, and Moderation have established directory structures and interfaces, but business logic is deferred to upcoming vertical slices.
 
 ---
 
-## Scope restrictions
+## Future Implementation Phases
 
-Do not:
+1. **Phase 2**: Authentication (Email/OAuth) & Multi-Step Profile Onboarding.
+2. **Phase 3**: Mutual Match Formation, Match Celebrations & Swipe Persistence.
+3. **Phase 4**: Realtime Chat via WebSockets & Message History.
+4. **Phase 5**: User Safety (Block/Report) & Push Notifications.
+5. **Phase 6**: Premium Subscriptions & Performance Optimizations.
 
-- Implement a complete Tinder clone.
-- Add real authentication.
-- Add real user accounts.
-- Add real matching logic.
-- Add a production database.
-- Add payment processing.
-- Add real-time chat.
-- Add recommendation algorithms.
-- Add cloud deployment configuration.
-- Add secrets or credentials.
-- Introduce microservices.
-- Rewrite unrelated existing code.
-- Add large generated files unnecessarily.
-- Add dependencies without documenting the reason.
-
----
-
-## Definition of done
-
-The pull request is complete when:
-
-- The repository contains the documented Flutter architecture.
-- The Flutter app has a minimal Garblo app shell.
-- The discovery feature runs with mock data.
-- Mobile and desktop layouts are both represented.
-- Loading, loaded, empty, and error states exist.
-- The backend starts and exposes a health endpoint.
-- Flutter and Go tests are included.
-- Documentation and agent instructions are present.
-- Formatting and static analysis have been run where possible.
-- The pull request description lists:
-  - Changed files
-  - Architecture decisions
-  - Commands run
-  - Test results
-  - Known limitations
-  - Recommended next tasks
-```
-
-After the agent finishes, review the pull request and verify that it did not implement too much at once. The most important files to inspect first are:
-
-```text
-.github/copilot-instructions.md
-README.md
-docs/architecture/README.md
-lib/features/discovery/
-backend/cmd/server/main.go
-```
-
-If the agent produces an overly large or confusing pull request, ask it to split the work into two follow-up pull requests:
-
-1. Flutter architecture and discovery scaffold  
-2. Go backend skeleton and documentation updates
+For full details, see [`docs/tasks/README.md`](file:///f:/github/vjai/docs/tasks/README.md).
