@@ -218,6 +218,12 @@ Add or update the root `README.md` with:
 - Known limitations.
 - Future implementation phases.
 
+# Historical Bootstrap Guide
+
+> **Historical document:** This file records the original repository bootstrap prompt. It is retained for project history and must not be treated as the current implementation specification.
+>
+> The current sources of truth are [`.github/copilot-instructions.md`](.github/copilot-instructions.md), [`docs/architecture/MAP.md`](docs/architecture/MAP.md), the relevant APRD and task card, and [`docs/quality/DOD.md`](docs/quality/DOD.md). The backend has since moved from the originally proposed Go skeleton to the lightweight Python/FastAPI mock backend documented in [`backend/README.md`](backend/README.md).
+
 Add agent instructions at:
 
 ```text

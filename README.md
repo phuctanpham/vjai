@@ -55,7 +55,13 @@
 │   │   ├── 004-agentic-development-workflow.md
 │   │   └── 005-agentic-product-management.md
 │   ├── specs/
-│   │   └── APRD-001-discovery.md     # Agentic PRD with FSM & Anti-Scope
+│   │   ├── APRD-001-discovery.md
+│   │   ├── APRD-002-authentication.md
+│   │   ├── APRD-003-profile-onboarding.md
+│   │   ├── APRD-005-swipe-persistence.md
+│   │   ├── APRD-006-backend-api-integration.md
+│   │   ├── APRD-007-mutual-matching.md
+│   │   └── APRD-008-matches-list.md
 │   ├── quality/
 │   │   └── DOD.md                    # Definition of Done & automated gates
 │   ├── agent/

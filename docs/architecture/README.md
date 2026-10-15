@@ -129,3 +129,5 @@ To enable a solo developer to effectively direct AI coding agents, the codebase 
    - [ADR 005: Agentic Product Management & Documentation Hierarchy](005-agentic-product-management.md)
 4. **Execution & Quality**: [Task Backlog (`docs/tasks/README.md`)](../tasks/README.md) and [Definition of Done (`docs/quality/DOD.md`)](../quality/DOD.md).
 5. **Living Memory**: [Lessons Learned & Guardrails (`docs/agent/LESSONS_LEARNED.md`)](../agent/LESSONS_LEARNED.md).
+
+Every implementation task must connect an APRD (goal, scope, anti-scope, state model, and acceptance criteria) to a task card (file locks, dependencies, execution sequence, tests, and verification commands). The complete index is maintained in [`docs/tasks/README.md`](../tasks/README.md).
