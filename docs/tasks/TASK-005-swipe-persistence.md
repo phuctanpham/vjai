@@ -85,11 +85,17 @@ And candidate "usr_01" must be visible again
 
 ---
 
-## 6. Verification Commands
+## 6. Technical Implementation Contract
+
+- **Boundary:** `LocalStorage` is injected into the repository; widgets invoke `resetFeed()` through the ViewModel only.
+- **Serialization:** `garblo_swiped_profile_ids` stores a deterministic JSON string or repository-approved delimited representation of profile IDs.
+- **Failure behavior:** storage read/write failures remain observable and must not silently report a persisted swipe.
+- **Test matrix:** storage mutation, filtering, all-swiped empty state, reset behavior, ViewModel transitions, and reset action rendering.
+
+## 7. Verification Commands
 
 ```bash
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test test/features/discovery/
 ```
-

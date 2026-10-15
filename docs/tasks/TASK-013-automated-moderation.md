@@ -37,6 +37,13 @@ No machine-learning model, third-party scanning service, user profiling, data re
 - Invalid payloads return a documented validation error.
 - Fixture outcomes are deterministic and tested.
 
+## Technical implementation contract
+
+- **Boundary:** moderation endpoint logic remains in `backend/app/api/v1/endpoints/`; Pydantic models define the API boundary.
+- **Serialization:** response decisions are limited to the documented safe/review/rejected values and include a stable request reference.
+- **Failure behavior:** malformed input returns explicit validation errors; unsupported fixture content never produces an ambiguous success.
+- **Test matrix:** schema validation, each deterministic decision, malformed payloads, and HTTP status/body assertions.
+
 ## Verification
 
 Run `cd backend; uv sync --extra dev; uv run pytest`.

@@ -93,11 +93,17 @@ And "David Kim" must be filtered out
 
 ---
 
-## 6. Verification Commands
+## 6. Technical Implementation Contract
+
+- **Boundary:** `MatchesViewModel` owns loading and query filtering; carousel and list widgets receive already-selected presentation data.
+- **Serialization:** matches use the canonical `Match` entity and do not introduce `Connection` or `Pair` synonyms.
+- **Failure behavior:** repository failures render ErrorView with retry; empty results remain distinct from errors.
+- **Test matrix:** repository states, case-insensitive filtering, route navigation, empty/error actions, and mobile/desktop layouts.
+
+## 7. Verification Commands
 
 ```bash
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test test/features/matching/
 ```
-

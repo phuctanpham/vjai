@@ -95,11 +95,17 @@ And upon repository completion, navigator must route to "/discovery"
 
 ---
 
-## 6. Verification Commands
+## 6. Technical Implementation Contract
+
+- **Boundary:** step widgets emit field intent; `OnboardingViewModel` owns validation and draft transitions; the repository owns persistence.
+- **Serialization:** the final draft converts to the canonical `Profile` entity without introducing a duplicate profile model.
+- **Failure behavior:** submission errors remain in an explicit error state and preserve the draft for retry.
+- **Test matrix:** draft validation, step transitions, completion conversion, repository failure, widget button enablement, and desktop/mobile constraints.
+
+## 7. Verification Commands
 
 ```bash
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test test/features/onboarding/
 ```
-

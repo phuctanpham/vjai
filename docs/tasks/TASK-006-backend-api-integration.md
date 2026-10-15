@@ -103,7 +103,14 @@ And the user must still be able to browse mock profiles
 
 ---
 
-## 6. Verification Commands
+## 6. Technical Implementation Contract
+
+- **Boundary:** `HttpDiscoveryRepository` is the only Discovery layer that translates `ApiClient` responses into `Profile` entities.
+- **Serialization:** use the existing camelCase API fields `profileId`, `swipeType`, `distanceKm`, and `imageUrls`.
+- **Failure behavior:** map non-success HTTP responses to `ServerFailure`; map connection/timeout failures to `NetworkFailure`; fallback is allowed only for network failure and must be observable.
+- **Test matrix:** HTTP method/path/body, response decoding, each failure mapping, fallback behavior, and backend endpoint compatibility.
+
+## 7. Verification Commands
 
 ```bash
 # Frontend checks
@@ -115,4 +122,3 @@ flutter test test/features/discovery/
 cd backend
 uv run pytest
 ```
-

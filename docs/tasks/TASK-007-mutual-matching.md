@@ -107,11 +107,17 @@ And the feed must smoothly advance to candidate "usr_03"
 
 ---
 
-## 6. Verification Commands
+## 6. Technical Implementation Contract
+
+- **Boundary:** the Discovery ViewModel exposes a match event/result; the dialog remains presentation-only and does not query the repository.
+- **Serialization:** `Match` contains the canonical matched `Profile` and creation timestamp; no duplicate profile shape is introduced.
+- **Failure behavior:** a failed match persistence operation is visible to the owning state flow and must not show a false celebration.
+- **Test matrix:** Match equality/serialization, qualifying and non-qualifying swipes, event delivery, dialog actions, and responsive dialog constraints.
+
+## 7. Verification Commands
 
 ```bash
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test test/features/matching/
 ```
-

@@ -39,6 +39,13 @@ No automated moderation, legal/compliance workflow, identity verification, appea
 - Failed submission displays an error and allows retry.
 - Destructive actions require confirmation.
 
+## Technical implementation contract
+
+- **Boundary:** moderation owns report/block contracts; feature widgets use callbacks or ViewModel actions rather than repository calls.
+- **Serialization:** report requests carry a canonical reason enum, target profile ID, and optional detail with bounded length.
+- **Failure behavior:** failed block/report submissions preserve the user’s context and show retryable feedback.
+- **Test matrix:** request validation, confirmation flow, repository success/failure, blocked filtering, and endpoint responses.
+
 ## Verification
 
 Run format, `flutter analyze`, focused Flutter moderation tests, and backend pytest.

@@ -36,6 +36,13 @@ No broad rewrite, speculative optimization, analytics SDK, or visual redesign un
 - Targeted performance measurements improve or remain within the recorded baseline.
 - `flutter analyze` and all affected tests pass.
 
+## Technical implementation contract
+
+- **Boundary:** changes remain limited to measured hotspots or accessibility defects; no architecture rewrite is permitted.
+- **Measurement:** record the baseline, target threshold, device/layout conditions, and post-change result in the task or pull request.
+- **Failure behavior:** accessibility regressions and threshold misses block completion rather than being waived silently.
+- **Test matrix:** semantics tree, focus order, keyboard interaction, touch target constraints, responsive constraints, and targeted performance measurement.
+
 ## Verification
 
 Run format, `flutter analyze`, focused tests, and the full `flutter test` suite.

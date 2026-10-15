@@ -40,6 +40,13 @@ No WebSockets, push notifications, read receipts, attachments, voice/video calls
 - Empty and error states are explicit and retryable.
 - Sending a message updates only the in-memory mock list.
 
+## Technical implementation contract
+
+- **Boundary:** thread widgets dispatch message intent to a Chat ViewModel; only the repository owns conversation data.
+- **Serialization:** use canonical `Conversation` and `Message` entities with stable IDs and timestamps.
+- **Failure behavior:** loading, empty, and repository errors are distinct; failed sends do not append a success-shaped message.
+- **Test matrix:** entity behavior, chronological ordering, repository states, local send success/failure, retry, and responsive thread rendering.
+
 ## Verification
 
 Run format, `flutter analyze`, and `flutter test test/features/chat/`.

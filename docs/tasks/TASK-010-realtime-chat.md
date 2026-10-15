@@ -40,6 +40,13 @@ No production broker, message durability, encryption protocol, presence system, 
 - Leaving the view closes the socket.
 - Existing repository contracts remain testable without a server.
 
+## Technical implementation contract
+
+- **Boundary:** a transport adapter owns WebSocket lifecycle; the Chat ViewModel consumes typed messages/events and never manages sockets directly.
+- **Serialization:** transport payloads must map to the existing `Message` contract and reject malformed payloads explicitly.
+- **Failure behavior:** connection, reconnect, and close failures are represented in state; cleanup is idempotent.
+- **Test matrix:** payload mapping, connected/disconnected/reconnecting states, cleanup on disposal, retry, and backend endpoint behavior.
+
 ## Verification
 
 Run format, `flutter analyze`, focused Flutter chat tests, and `cd backend; uv run pytest`.

@@ -38,6 +38,13 @@ No Firebase/APNs/FCM integration, native permission prompts, background services
 - Empty and error states have clear UI.
 - Notifications do not directly access platform APIs.
 
+## Technical implementation contract
+
+- **Boundary:** notification services and storage are hidden behind a repository; widgets consume ViewModel state.
+- **Serialization:** notification records require stable IDs, read status, timestamp, and typed category.
+- **Failure behavior:** failed read mutations remain visible and do not remove unread state optimistically without confirmation.
+- **Test matrix:** repository states, unread count, mark-read success/failure, badge semantics, and responsive list rendering.
+
 ## Verification
 
 Run format, `flutter analyze`, and `flutter test test/features/notifications/`.

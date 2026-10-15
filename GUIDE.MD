@@ -1,3 +1,131 @@
+# Current Agentic Engineering Manager Guide
+
+> **Current authority:** This section supersedes the historical bootstrap prompt below. Coding agents must follow the current repository documents, not the original Go-backend proposal.
+
+## Current source-of-truth order
+
+Before changing code, an agent must read these documents in order:
+
+1. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — non-negotiable engineering rules.
+2. [`docs/architecture/MAP.md`](docs/architecture/MAP.md) — bounded-context topology and file ownership.
+3. [`docs/architecture/GLOSSARY.md`](docs/architecture/GLOSSARY.md) — canonical domain vocabulary.
+4. The relevant ADRs under [`docs/architecture/`](docs/architecture/).
+5. The feature APRD under [`docs/specs/`](docs/specs/), when one exists.
+6. The task card under [`docs/tasks/`](docs/tasks/).
+7. [`docs/quality/DOD.md`](docs/quality/DOD.md) — completion and verification gates.
+8. [`docs/agent/LESSONS_LEARNED.md`](docs/agent/LESSONS_LEARNED.md) — known agent failure modes.
+
+If documents conflict, the current repository implementation and the source-of-truth order above take precedence. Do not infer requirements from stale examples.
+
+## Current technical point of view
+
+### Product architecture
+
+- Flutter/Dart under [`lib/`](lib/) is the primary product.
+- Python/FastAPI under [`backend/`](backend/) is a lightweight secondary mock API managed with `uv`.
+- Use feature-first bounded vertical slices under `lib/features/<feature>/`.
+- Keep shared infrastructure in `lib/core/` and app shell concerns in `lib/app/`.
+- Use Riverpod for dependency injection and immutable ViewModel state.
+- Preserve the dependency direction:
+
+```text
+View
+  ↓ observes state and dispatches intent
+ViewModel / Notifier
+  ↓ executes business flow
+Repository interface
+  ↓ isolates data access
+API client / local storage / mock data
+```
+
+Widgets must not call repositories, parse raw JSON, access storage, or contain business rules.
+
+### Responsive and platform policy
+
+- Use available width, not operating-system checks, to choose presentation.
+- `< 800px` is the mobile layout; `>= 800px` is the desktop layout.
+- Keep native capabilities behind interfaces.
+- Test both layout classes when a task changes presentation.
+
+### Backend policy
+
+- Add routes under `backend/app/api/v1/endpoints/`.
+- Define request and response contracts with Pydantic models.
+- Keep the backend deterministic, fixture-backed, and easy to run locally.
+- Do not introduce databases, microservices, production auth, cloud deployment, or infrastructure for a mock-only requirement.
+- Backend verification uses `uv sync --extra dev` and `uv run pytest`.
+
+## Product backlog technical contract
+
+Every task card in [`docs/tasks/README.md`](docs/tasks/README.md) must communicate the following technical points before an agent starts:
+
+| Required point | Managerial purpose |
+|---|---|
+| Goal and user outcome | Prevent implementation without a measurable product result |
+| Bounded context and target directory | Keep work vertically sliced and localized |
+| Dependencies | Prevent agents from coding against unfinished contracts |
+| Allowed files | Make the intended change surface explicit |
+| Locked files | Prevent unrelated feature drift |
+| In-scope behavior | Define the smallest acceptable implementation |
+| Anti-scope | Explicitly prohibit speculative features |
+| Domain/API contracts | Make boundaries and serialization testable |
+| State machine | Define loading, success, empty, and error behavior |
+| Acceptance criteria | Convert product intent into verifiable outcomes |
+| Test matrix | Require domain, repository, ViewModel, widget, and endpoint coverage |
+| Verification commands | Make completion reproducible |
+
+### Required task execution loop
+
+For each task, the coding agent must:
+
+1. Confirm the task's dependencies and bounded context.
+2. Read the APRD, task card, glossary, relevant ADRs, and DoD.
+3. Inspect only the target slice and its declared integration points.
+4. State the anti-scope and locked files before editing.
+5. Implement domain contracts first, then data, state, presentation, and tests.
+6. Add no dependency unless the task documents why it is necessary.
+7. Run the smallest relevant verification commands.
+8. Report changed files, tests, limitations, and follow-up work.
+
+### State and error requirements
+
+- Feature state must explicitly model the states named by its APRD/task card.
+- Errors must remain visible and actionable.
+- Do not swallow exceptions, return success-shaped fallbacks, or silently ignore failed writes.
+- Offline fallback is allowed only where the task explicitly requires it and must be observable.
+- ViewModels must prevent duplicate actions during loading or submission.
+
+### Required backlog sequence
+
+The current backlog is organized as:
+
+| Task | Technical outcome |
+|---|---|
+| TASK-001 / TASK-004 | App shell and Discovery foundation |
+| TASK-002 / TASK-003 | Mock authentication and profile onboarding |
+| TASK-005 / TASK-006 | Local swipe persistence and FastAPI integration |
+| TASK-007 / TASK-008 | Mutual matching and matches view |
+| TASK-009 / TASK-010 | Conversation history and optional mock realtime transport |
+| TASK-011 / TASK-012 / TASK-013 | Notifications, user safety, and deterministic moderation |
+| TASK-014 / TASK-015 | Mock subscriptions, accessibility, and performance quality |
+
+Agents must not implement a later task early merely because its placeholder directory exists.
+
+## Documentation maintenance rules
+
+- Every major feature requires an APRD with anti-scope, state model, and acceptance criteria.
+- Every executable slice requires a task card with locked files and verification commands.
+- Add an ADR only when a decision changes architecture, contracts, dependencies, persistence, networking, or platform behavior.
+- Update the topology map when files or bounded contexts materially change.
+- Update the glossary when a new canonical domain concept is introduced.
+- Add recurring agent failure modes to the lessons-learned log.
+
+---
+
+## Historical bootstrap prompt
+
+The material below is retained for repository history only. It is not a current implementation specification.
+
 ```markdown
 # Initialize Garblo cross-platform application architecture
 

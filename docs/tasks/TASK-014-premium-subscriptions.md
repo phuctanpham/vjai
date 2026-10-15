@@ -38,6 +38,13 @@ No payment SDK, billing account, transaction handling, receipt validation, or pr
 - Errors are explicit and retryable.
 - No payment credentials or secrets are introduced.
 
+## Technical implementation contract
+
+- **Boundary:** the paywall is a presentation of repository-provided entitlement state; it must not call a billing SDK.
+- **Serialization:** subscription status uses typed plan and entitlement values, not arbitrary booleans scattered through widgets.
+- **Failure behavior:** plan-loading failures are explicit; upgrade actions remain mock-only and never imply a completed payment.
+- **Test matrix:** plan decoding, loading/error states, locked-feature interaction, dismissal, semantics, and responsive layout.
+
 ## Verification
 
 Run format, `flutter analyze`, and focused profile/subscription tests.

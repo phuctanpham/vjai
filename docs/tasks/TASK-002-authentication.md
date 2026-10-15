@@ -110,7 +110,14 @@ And the submit button must be re-enabled
 
 ---
 
-## 7. Verification Commands
+## 7. Technical Implementation Contract
+
+- **Boundary:** `AuthView` dispatches to `AuthViewModel`; only the repository handles session persistence.
+- **Serialization:** `AuthSession` owns `userId`, `token`, and `expiresAt` conversion; the storage key is `auth_token`.
+- **Failure behavior:** invalid credentials and network failures remain typed, visible, and retryable; logout must not claim success if storage cleanup fails.
+- **Test matrix:** session equality/JSON, repository success/failure, ViewModel transitions, validation, route behavior, and responsive form rendering.
+
+## 8. Verification Commands
 
 ```bash
 # Frontend checks
@@ -122,4 +129,3 @@ flutter test test/features/auth/
 cd backend
 uv run pytest tests/test_health.py
 ```
-
