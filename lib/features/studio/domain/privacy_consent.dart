@@ -16,8 +16,13 @@ class PrivacyConsent {
   });
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S01');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PrivacyConsent &&
+          version == other.version &&
+          grantedAt == other.grantedAt &&
+          includesBodyProcessing == other.includesBodyProcessing;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S01');
+  int get hashCode => Object.hash(version, grantedAt, includesBodyProcessing);
 }

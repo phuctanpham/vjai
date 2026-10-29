@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../domain/item_group.dart';
 import '../domain/wardrobe_item.dart';
 
-/// Explicit status values for the Wardrobe screen.
+/// Explicit status values for the Archive screen.
 enum WardrobeStatus {
   initial,
   loading,
@@ -12,7 +12,7 @@ enum WardrobeStatus {
   error,
 }
 
-/// State of the Wardrobe catalog (5a).
+/// State of the Archive catalog (5a).
 @immutable
 class WardrobeState {
   final WardrobeStatus status;
@@ -41,10 +41,16 @@ class WardrobeState {
     this.errorMessage,
   });
 
-  factory WardrobeState.initial() => throw UnimplementedError('TASK-003-S07');
+  factory WardrobeState.initial() => const WardrobeState(
+        status: WardrobeStatus.initial,
+        items: [],
+        total: 0,
+        daysUnworn: {},
+      );
 
   /// True when a group chip is active and it has no items.
-  bool get isGroupEmpty => throw UnimplementedError('TASK-003-S07');
+  bool get isGroupEmpty =>
+      status == WardrobeStatus.loaded && activeGroup != null && items.isEmpty;
 
   WardrobeState copyWith({
     WardrobeStatus? status,
@@ -54,14 +60,42 @@ class WardrobeState {
     bool clearGroup = false,
     Map<String, int>? daysUnworn,
     String? nextCursor,
+    bool clearCursor = false,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      throw UnimplementedError('TASK-003-S07');
+  }) {
+    return WardrobeState(
+      status: status ?? this.status,
+      items: items ?? this.items,
+      total: total ?? this.total,
+      activeGroup: clearGroup ? null : (activeGroup ?? this.activeGroup),
+      daysUnworn: daysUnworn ?? this.daysUnworn,
+      nextCursor: clearCursor ? null : (nextCursor ?? this.nextCursor),
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S07');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WardrobeState &&
+          status == other.status &&
+          listEquals(items, other.items) &&
+          total == other.total &&
+          activeGroup == other.activeGroup &&
+          mapEquals(daysUnworn, other.daysUnworn) &&
+          nextCursor == other.nextCursor &&
+          errorMessage == other.errorMessage;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S07');
+  int get hashCode => Object.hash(
+        status,
+        Object.hashAll(items),
+        total,
+        activeGroup,
+        Object.hashAllUnordered(
+            daysUnworn.entries.map((e) => Object.hash(e.key, e.value))),
+        nextCursor,
+        errorMessage,
+      );
 }

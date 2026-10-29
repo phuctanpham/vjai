@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for the photo picker. Phase 1 uses preset fixture photos.
 final photoPickerProvider = Provider<PhotoPicker>((ref) {
-  throw UnimplementedError('TASK-003-S09');
+  return const PresetPhotoPicker();
 });
 
 /// One photo returned by the picker, before it is staged.
@@ -15,10 +15,12 @@ class PickedPhoto {
   const PickedPhoto({required this.uri, required this.mimeType});
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S09');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PickedPhoto && uri == other.uri && mimeType == other.mimeType;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S09');
+  int get hashCode => Object.hash(uri, mimeType);
 }
 
 /// Contract for picking photos from the device. Native pickers sit behind it.
@@ -43,7 +45,6 @@ class PresetPhotoPicker implements PhotoPicker {
   const PresetPhotoPicker();
 
   @override
-  Future<List<PickedPhoto>> pick({required int maxCount}) {
-    throw UnimplementedError('TASK-003-S09');
-  }
+  Future<List<PickedPhoto>> pick({required int maxCount}) async =>
+      presets.take(maxCount).toList();
 }

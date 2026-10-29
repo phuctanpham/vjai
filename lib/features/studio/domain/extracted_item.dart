@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../wardrobe/domain/item_group.dart';
+import '../../wardrobe/domain/item_type.dart';
 import 'last_worn.dart';
 
 /// The editable attributes of an extracted item.
@@ -23,14 +24,26 @@ class ItemAttributes {
     String? color,
     String? material,
     String? styleTag,
-  }) =>
-      throw UnimplementedError('TASK-003-S04');
+  }) {
+    return ItemAttributes(
+      typeCode: typeCode ?? this.typeCode,
+      color: color ?? this.color,
+      material: material ?? this.material,
+      styleTag: styleTag ?? this.styleTag,
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S04');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ItemAttributes &&
+          typeCode == other.typeCode &&
+          color == other.color &&
+          material == other.material &&
+          styleTag == other.styleTag;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S04');
+  int get hashCode => Object.hash(typeCode, color, material, styleTag);
 }
 
 /// An AI draft of a wardrobe item, editable during review (4a, D1).
@@ -64,13 +77,13 @@ class ExtractedItem {
   });
 
   /// True only when a value differs from the AI's (TAC-03.5).
-  bool get userModified => throw UnimplementedError('TASK-003-S04');
+  bool get userModified => ai != value;
 
   /// Derived from the current type (TAC-03.6).
-  ItemGroup get group => throw UnimplementedError('TASK-003-S04');
+  ItemGroup get group => ItemTypeCatalog.groupOf(value.typeCode);
 
   /// Rounded percentage, e.g. 94 for 0.94.
-  int get confidencePercent => throw UnimplementedError('TASK-003-S04');
+  int get confidencePercent => (confidence * 100).round();
 
   /// Applies user edits. Throws [ArgumentError] for an unknown type code.
   ExtractedItem edit({
@@ -78,15 +91,52 @@ class ExtractedItem {
     String? color,
     String? material,
     String? styleTag,
-  }) =>
-      throw UnimplementedError('TASK-003-S04');
+  }) {
+    if (typeCode != null && ItemTypeCatalog.byCode(typeCode) == null) {
+      throw ArgumentError.value(typeCode, 'typeCode', 'Unknown item type');
+    }
+    return _copy(
+      value: value.copyWith(
+        typeCode: typeCode,
+        color: color,
+        material: material,
+        styleTag: styleTag,
+      ),
+    );
+  }
 
   ExtractedItem withLastWorn(LastWornInput lastWorn) =>
-      throw UnimplementedError('TASK-003-S13');
+      _copy(lastWorn: lastWorn);
+
+  ExtractedItem _copy({ItemAttributes? value, LastWornInput? lastWorn}) {
+    return ExtractedItem(
+      draftId: draftId,
+      assetId: assetId,
+      slotIndex: slotIndex,
+      itemIndex: itemIndex,
+      name: name,
+      confidence: confidence,
+      ai: ai,
+      value: value ?? this.value,
+      lastWorn: lastWorn ?? this.lastWorn,
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S04');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ExtractedItem &&
+          draftId == other.draftId &&
+          assetId == other.assetId &&
+          slotIndex == other.slotIndex &&
+          itemIndex == other.itemIndex &&
+          name == other.name &&
+          confidence == other.confidence &&
+          ai == other.ai &&
+          value == other.value &&
+          lastWorn == other.lastWorn;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S04');
+  int get hashCode => Object.hash(draftId, assetId, slotIndex, itemIndex, name,
+      confidence, ai, value, lastWorn);
 }

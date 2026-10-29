@@ -31,22 +31,47 @@ class ReviewDraft {
     required this.items,
   });
 
-  AnalysisOutcome get outcome => throw UnimplementedError('TASK-003-S11');
+  AnalysisOutcome get outcome {
+    if (photoCount > 0 && failedPhotoCount >= photoCount) {
+      return AnalysisOutcome.allFailed;
+    }
+    if (items.isEmpty) return AnalysisOutcome.zeroItems;
+    if (failedPhotoCount > 0) return AnalysisOutcome.partial;
+    return AnalysisOutcome.success;
+  }
 
   /// Spec T7 › G3 4a: "FROM {P} PHOTOS · {N} PIECES", singular forms
   /// "1 PHOTO" / "1 PIECE" (C2).
-  String get bannerText => throw UnimplementedError('TASK-003-S11');
+  String get bannerText {
+    final photos = photoCount == 1 ? '1 PHOTO' : '$photoCount PHOTOS';
+    final pieces = items.length == 1 ? '1 PIECE' : '${items.length} PIECES';
+    return 'FROM $photos · $pieces';
+  }
 
   /// For a partial result: "1 photo couldn't be read" / "2 photos couldn't
   /// be read" (UC-02 states). Null otherwise.
-  String? get failureNote => throw UnimplementedError('TASK-003-S11');
+  String? get failureNote {
+    if (outcome != AnalysisOutcome.partial) return null;
+    return failedPhotoCount == 1
+        ? "1 photo couldn't be read"
+        : "$failedPhotoCount photos couldn't be read";
+  }
 
-  ReviewDraft replaceItem(int index, ExtractedItem item) =>
-      throw UnimplementedError('TASK-003-S04');
+  ReviewDraft replaceItem(int index, ExtractedItem item) => ReviewDraft(
+        photoCount: photoCount,
+        failedPhotoCount: failedPhotoCount,
+        items: List.unmodifiable([...items]..[index] = item),
+      );
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S04');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ReviewDraft &&
+          photoCount == other.photoCount &&
+          failedPhotoCount == other.failedPhotoCount &&
+          listEquals(items, other.items);
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S04');
+  int get hashCode =>
+      Object.hash(photoCount, failedPhotoCount, Object.hashAll(items));
 }

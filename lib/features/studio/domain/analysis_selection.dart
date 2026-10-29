@@ -9,21 +9,24 @@ class AnalysisSelection {
 
   const AnalysisSelection(this.tasks);
 
-  /// Outfit on, pose and background off (AC-02.3).
+  /// Pieces (outfit) on, pose and background off (AC-02.3).
   factory AnalysisSelection.defaults() =>
-      throw UnimplementedError('TASK-003-S10');
+      const AnalysisSelection({AnalysisTask.outfitExtraction});
 
   /// At least one task is checked (I4).
-  bool get isValid => throw UnimplementedError('TASK-003-S10');
+  bool get isValid => tasks.isNotEmpty;
 
-  bool contains(AnalysisTask task) => throw UnimplementedError('TASK-003-S10');
+  bool contains(AnalysisTask task) => tasks.contains(task);
 
-  AnalysisSelection toggle(AnalysisTask task) =>
-      throw UnimplementedError('TASK-003-S10');
-
-  @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S10');
+  AnalysisSelection toggle(AnalysisTask task) => AnalysisSelection(
+        contains(task) ? ({...tasks}..remove(task)) : {...tasks, task},
+      );
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S10');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AnalysisSelection && setEquals(tasks, other.tasks);
+
+  @override
+  int get hashCode => Object.hashAllUnordered(tasks);
 }

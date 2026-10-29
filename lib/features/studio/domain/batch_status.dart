@@ -12,6 +12,20 @@ enum BatchStatus {
 
 /// Allowed transitions. Skipped transitions are rejected (TAC-02.5).
 extension BatchStatusTransitions on BatchStatus {
-  bool canTransitionTo(BatchStatus next) =>
-      throw UnimplementedError('TASK-003-S12');
+  static const Map<BatchStatus, Set<BatchStatus>> _allowed = {
+    BatchStatus.draft: {BatchStatus.sanitizing, BatchStatus.deletedByUser},
+    BatchStatus.sanitizing: {BatchStatus.draft, BatchStatus.queuedForAi},
+    BatchStatus.queuedForAi: {BatchStatus.aiProcessing},
+    BatchStatus.aiProcessing: {BatchStatus.awaitingReview, BatchStatus.failed},
+    BatchStatus.awaitingReview: {
+      BatchStatus.completed,
+      BatchStatus.deletedByUser,
+    },
+    // CHG-003 A-02: Reselect photos (→ draft) or Try again (→ queued).
+    BatchStatus.failed: {BatchStatus.draft, BatchStatus.queuedForAi},
+    BatchStatus.completed: {BatchStatus.deletedByUser},
+    BatchStatus.deletedByUser: {},
+  };
+
+  bool canTransitionTo(BatchStatus next) => _allowed[this]!.contains(next);
 }

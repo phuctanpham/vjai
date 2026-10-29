@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/errors/failures.dart';
 import '../domain/analysis_selection.dart';
 import '../domain/extracted_item.dart';
 import '../domain/media_asset.dart';
@@ -8,8 +9,9 @@ import '../domain/privacy_consent.dart';
 import '../domain/review_draft.dart';
 
 /// Provider for StudioRepository. Phase 1: fixture analysis, no network.
+/// The short delay lets the demo show the "Reading photos" state.
 final studioRepositoryProvider = Provider<StudioRepository>((ref) {
-  throw UnimplementedError('TASK-003-S11');
+  return MockStudioRepository(delay: const Duration(milliseconds: 600));
 });
 
 /// Contract for Studio (Add pillar) operations.
@@ -107,13 +109,58 @@ class MockStudioRepository implements StudioRepository {
   });
 
   @override
-  Future<PrivacyConsent> recordConsent(PrivacyConsent consent) =>
-      throw UnimplementedError('TASK-003-S01');
+  Future<PrivacyConsent> recordConsent(PrivacyConsent consent) async {
+    await _wait();
+    recordedConsents.add(consent);
+    return consent;
+  }
 
+  /// Only Pieces (outfit extraction) produces items. Pose and background
+  /// analyses have no Phase 1 output; they would skip photos without a
+  /// person (AC-02.7) once real models exist (AI-001).
   @override
   Future<ReviewDraft> analyze({
     required List<MediaAsset> assets,
     required AnalysisSelection selection,
-  }) =>
-      throw UnimplementedError('TASK-003-S11');
+  }) async {
+    await _wait();
+    analyzedAssets.add(List.unmodifiable(assets));
+    if (shouldFail) {
+      throw const ServerFailure('Garblo could not read these photos.');
+    }
+
+    final bySlot = [...assets]
+      ..sort((a, b) => a.slotIndex.compareTo(b.slotIndex));
+    final items = <ExtractedItem>[];
+    var failed = 0;
+    for (final asset in bySlot) {
+      if (failingUris.contains(asset.uri)) {
+        failed++;
+        continue;
+      }
+      final found = fixtures[asset.uri] ?? const <StudioFixtureItem>[];
+      for (var i = 0; i < found.length; i++) {
+        items.add(ExtractedItem(
+          draftId: 'draft_${asset.assetId}_${i + 1}',
+          assetId: asset.assetId,
+          slotIndex: asset.slotIndex,
+          itemIndex: i + 1,
+          name: found[i].name,
+          confidence: found[i].confidence,
+          ai: found[i].attributes,
+          value: found[i].attributes,
+        ));
+      }
+    }
+
+    return ReviewDraft(
+      photoCount: assets.length,
+      failedPhotoCount: failed,
+      items: List.unmodifiable(items),
+    );
+  }
+
+  Future<void> _wait() async {
+    if (delay > Duration.zero) await Future<void>.delayed(delay);
+  }
 }

@@ -13,10 +13,15 @@ class ItemType {
       {required this.code, required this.group, required this.label});
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S04');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ItemType &&
+          code == other.code &&
+          group == other.group &&
+          label == other.label;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S04');
+  int get hashCode => Object.hash(code, group, label);
 }
 
 /// The item-type lookup (spec T2 `item_types`). The group of an item is
@@ -32,16 +37,49 @@ class ItemType {
 class ItemTypeCatalog {
   const ItemTypeCatalog._();
 
-  static List<ItemType> get all => throw UnimplementedError('TASK-003-S04');
+  static const List<ItemType> all = [
+    ItemType(code: 'SHIRT', group: ItemGroup.tops, label: 'Shirt'),
+    ItemType(code: 'T_SHIRT', group: ItemGroup.tops, label: 'T-shirt'),
+    ItemType(code: 'SWEATER', group: ItemGroup.tops, label: 'Sweater'),
+    ItemType(
+      code: 'WIDE_LEG_TROUSERS',
+      group: ItemGroup.bottoms,
+      label: 'Wide-leg trousers',
+    ),
+    ItemType(code: 'JEANS', group: ItemGroup.bottoms, label: 'Jeans'),
+    ItemType(code: 'SKIRT', group: ItemGroup.bottoms, label: 'Skirt'),
+    ItemType(code: 'SNEAKERS', group: ItemGroup.shoes, label: 'Sneakers'),
+    ItemType(code: 'LOAFERS', group: ItemGroup.shoes, label: 'Loafers'),
+    ItemType(code: 'TOTE_BAG', group: ItemGroup.bags, label: 'Tote bag'),
+    ItemType(
+      code: 'CROSSBODY_BAG',
+      group: ItemGroup.bags,
+      label: 'Crossbody bag',
+    ),
+    ItemType(code: 'CAP', group: ItemGroup.hats, label: 'Cap'),
+    ItemType(code: 'BUCKET_HAT', group: ItemGroup.hats, label: 'Bucket hat'),
+    ItemType(code: 'TIE', group: ItemGroup.accessories, label: 'Tie'),
+    ItemType(code: 'SCARF', group: ItemGroup.accessories, label: 'Scarf'),
+    ItemType(code: 'BELT', group: ItemGroup.accessories, label: 'Belt'),
+  ];
 
   /// Returns the type for [code], or null when the code is unknown.
-  static ItemType? byCode(String code) =>
-      throw UnimplementedError('TASK-003-S04');
+  static ItemType? byCode(String code) {
+    for (final type in all) {
+      if (type.code == code) return type;
+    }
+    return null;
+  }
 
   /// Returns the group of [code]. Throws [ArgumentError] for unknown codes.
-  static ItemGroup groupOf(String code) =>
-      throw UnimplementedError('TASK-003-S04');
+  static ItemGroup groupOf(String code) {
+    final type = byCode(code);
+    if (type == null) {
+      throw ArgumentError.value(code, 'code', 'Unknown item type');
+    }
+    return type.group;
+  }
 
   static List<ItemType> typesIn(ItemGroup group) =>
-      throw UnimplementedError('TASK-003-S04');
+      all.where((t) => t.group == group).toList();
 }

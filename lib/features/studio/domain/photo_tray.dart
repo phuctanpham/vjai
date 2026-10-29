@@ -16,26 +16,69 @@ class PhotoTray {
 
   const PhotoTray({required this.assets, required this.nextSequence});
 
-  factory PhotoTray.empty() => throw UnimplementedError('TASK-003-S02');
+  factory PhotoTray.empty() => const PhotoTray(assets: [], nextSequence: 1);
 
-  int get count => throw UnimplementedError('TASK-003-S02');
-  bool get isEmpty => throw UnimplementedError('TASK-003-S02');
-  bool get isFull => throw UnimplementedError('TASK-003-S09');
-  int get remainingCapacity => throw UnimplementedError('TASK-003-S09');
+  int get count => assets.length;
+  bool get isEmpty => assets.isEmpty;
+  bool get isFull => count >= maxPhotos;
+  int get remainingCapacity => maxPhotos - count;
 
   /// Stages accepted photos after the current ones. Files that are not JPG or
   /// PNG are rejected; photos beyond [maxPhotos] are not added (I2).
-  PhotoTrayAddResult add(List<PickedPhoto> picked) =>
-      throw UnimplementedError('TASK-003-S09');
+  PhotoTrayAddResult add(List<PickedPhoto> picked) {
+    final staged = List.of(assets);
+    var sequence = nextSequence;
+    var rejected = 0;
+    var overLimit = 0;
+
+    for (final photo in picked) {
+      if (!acceptedMimeTypes.contains(photo.mimeType)) {
+        rejected++;
+      } else if (staged.length >= maxPhotos) {
+        overLimit++;
+      } else {
+        staged.add(MediaAsset(
+          assetId: 'asset_$sequence',
+          slotIndex: _lowestFreeSlot(staged),
+          uri: photo.uri,
+          mimeType: photo.mimeType,
+        ));
+        sequence++;
+      }
+    }
+
+    return PhotoTrayAddResult(
+      tray:
+          PhotoTray(assets: List.unmodifiable(staged), nextSequence: sequence),
+      rejectedCount: rejected,
+      overLimitCount: overLimit,
+    );
+  }
 
   /// Removes one photo; the others keep their order (AC-01.4).
-  PhotoTray remove(String assetId) => throw UnimplementedError('TASK-003-S02');
+  PhotoTray remove(String assetId) => PhotoTray(
+        assets: List.unmodifiable(assets.where((a) => a.assetId != assetId)),
+        nextSequence: nextSequence,
+      );
+
+  static int _lowestFreeSlot(List<MediaAsset> staged) {
+    final used = staged.map((a) => a.slotIndex).toSet();
+    var slot = 1;
+    while (used.contains(slot)) {
+      slot++;
+    }
+    return slot;
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S02');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PhotoTray &&
+          listEquals(assets, other.assets) &&
+          nextSequence == other.nextSequence;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S02');
+  int get hashCode => Object.hash(Object.hashAll(assets), nextSequence);
 }
 
 /// Outcome of [PhotoTray.add].

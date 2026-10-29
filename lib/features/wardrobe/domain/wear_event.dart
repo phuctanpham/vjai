@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Where a wear was confirmed. Phase 1 only has the Gu Match like flow.
+/// Where a wear was confirmed. Phase 1 only has the Gu Match flow.
 enum WearSource {
   likeConfirm,
 }
@@ -22,21 +22,34 @@ class WearEvent {
     this.candidateId,
   });
 
-  /// Builds the event for a worn look, normalising [wornOn] to its date.
+  /// Builds the event for a worn Fit, normalising [wornOn] to its date.
   factory WearEvent.forLook({
     required DateTime wornOn,
     required List<String> itemIds,
     String? candidateId,
-  }) =>
-      throw UnimplementedError('TASK-004-S06');
+  }) {
+    return WearEvent(
+      wornDate: DateTime(wornOn.year, wornOn.month, wornOn.day),
+      itemIds: List.unmodifiable(itemIds),
+      candidateId: candidateId,
+      source: WearSource.likeConfirm,
+    );
+  }
 
-  /// Identifies the look independent of item order. One event per
+  /// Identifies the Fit independent of item order. One event per
   /// (date, signature) (TAC-07.4).
-  String get signature => throw UnimplementedError('TASK-004-S06');
+  String get signature => ([...itemIds]..sort()).join(',');
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-004-S06');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WearEvent &&
+          wornDate == other.wornDate &&
+          listEquals(itemIds, other.itemIds) &&
+          candidateId == other.candidateId &&
+          source == other.source;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-004-S06');
+  int get hashCode =>
+      Object.hash(wornDate, Object.hashAll(itemIds), candidateId, source);
 }

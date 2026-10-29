@@ -40,20 +40,38 @@ class StudioState {
   });
 
   /// Draft batch, empty tray, consent unchecked, default selection.
-  factory StudioState.initial() => throw UnimplementedError('TASK-003-S01');
+  factory StudioState.initial() => StudioState(
+        batchStatus: BatchStatus.draft,
+        tray: PhotoTray.empty(),
+        consentChecked: false,
+        selection: AnalysisSelection.defaults(),
+        expandedIndex: 0,
+        isSaving: false,
+      );
 
   /// 1 ≤ photos ≤ 10 AND consent, while the batch is a draft (I1).
-  bool get canAnalyze => throw UnimplementedError('TASK-003-S01');
+  bool get canAnalyze =>
+      batchStatus == BatchStatus.draft &&
+      tray.count >= 1 &&
+      tray.count <= PhotoTray.maxPhotos &&
+      consentChecked;
 
   /// The 3a sheet is open while the batch is sanitizing.
-  bool get isScopeSheetOpen => throw UnimplementedError('TASK-003-S03');
+  bool get isScopeSheetOpen => batchStatus == BatchStatus.sanitizing;
 
-  bool get canConfirmScope => throw UnimplementedError('TASK-003-S10');
+  bool get canConfirmScope => isScopeSheetOpen && selection.isValid;
 
-  bool get canSave => throw UnimplementedError('TASK-003-S06');
+  bool get canSave =>
+      batchStatus == BatchStatus.awaitingReview &&
+      !isSaving &&
+      (review?.items.isNotEmpty ?? false);
 
   /// Spec T7 › G4: "Index N Pieces", "Index 1 Piece", "Nothing to index".
-  String get saveLabel => throw UnimplementedError('TASK-003-S05');
+  String get saveLabel {
+    final count = review?.items.length ?? 0;
+    if (count == 0) return 'Nothing to index';
+    return count == 1 ? 'Index 1 Piece' : 'Index $count Pieces';
+  }
 
   StudioState copyWith({
     BatchStatus? batchStatus,
@@ -69,12 +87,37 @@ class StudioState {
     bool clearNotice = false,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      throw UnimplementedError('TASK-003-S01');
+  }) {
+    return StudioState(
+      batchStatus: batchStatus ?? this.batchStatus,
+      tray: tray ?? this.tray,
+      consentChecked: consentChecked ?? this.consentChecked,
+      consent: consent ?? this.consent,
+      selection: selection ?? this.selection,
+      review: clearReview ? null : (review ?? this.review),
+      expandedIndex: expandedIndex ?? this.expandedIndex,
+      isSaving: isSaving ?? this.isSaving,
+      notice: clearNotice ? null : (notice ?? this.notice),
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S01');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StudioState &&
+          batchStatus == other.batchStatus &&
+          tray == other.tray &&
+          consentChecked == other.consentChecked &&
+          consent == other.consent &&
+          selection == other.selection &&
+          review == other.review &&
+          expandedIndex == other.expandedIndex &&
+          isSaving == other.isSaving &&
+          notice == other.notice &&
+          errorMessage == other.errorMessage;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S01');
+  int get hashCode => Object.hash(batchStatus, tray, consentChecked, consent,
+      selection, review, expandedIndex, isSaving, notice, errorMessage);
 }

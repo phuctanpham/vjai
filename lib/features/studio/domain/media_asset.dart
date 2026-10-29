@@ -18,8 +18,14 @@ class MediaAsset {
   });
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-003-S02');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MediaAsset &&
+          assetId == other.assetId &&
+          slotIndex == other.slotIndex &&
+          uri == other.uri &&
+          mimeType == other.mimeType;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-003-S02');
+  int get hashCode => Object.hash(assetId, slotIndex, uri, mimeType);
 }
