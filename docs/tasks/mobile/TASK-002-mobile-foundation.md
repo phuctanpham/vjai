@@ -1,7 +1,7 @@
 # TASK-002: Mobile foundation and app-shell baseline
 
 > **Phase:** 1 · Foundation  
-> **Status:** Tests written (red); pending CHG-003 approval for implementation  
+> **Status:** Green · delivered, in review ([report](../../reports/TASK-002-app-developer.md))  
 > **Dependencies:** [TASK-001](TASK-001-product-domain-alignment.md) · [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)  
 > **Target:** Flutter app shell, theme, routing, clock, shared state views  
 > **Source:** Spec T1 (zone grammar, shell modes, accent tokens) · T6 P1-01 to P1-03 · V1 (flags off) · D1
@@ -86,7 +86,8 @@ stubs. It is still listed in the red-run report.
   (`pillarPagesProvider`: maps each pillar to its page; tests override it so
   shell tests do not depend on feature screens)
 - `lib/core/navigation/pillar.dart`, `lib/core/time/clock.dart`,
-  `lib/core/widgets/loading_view.dart`
+  `lib/core/widgets/loading_view.dart`, `lib/core/layout/breakpoints.dart`
+  (`Breakpoints.desktop = 800`, shared so features do not hard-code it)
 - `test/app/**`, `test/core/**`, `test/architecture/**`, `test/helpers/**`
 
 **Locked:** `lib/features/discovery/**` and the other dating features,

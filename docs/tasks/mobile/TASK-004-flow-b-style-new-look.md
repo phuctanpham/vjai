@@ -116,7 +116,8 @@ presentation code (covered by TASK-002-S06); both layouts for the widget file.
 - `lib/features/wardrobe/domain/wear_event.dart`,
   `lib/features/wardrobe/data/wear_repository.dart` (wear events are owned by
   the Wardrobe pillar; Gu Match writes them through the repository interface)
-- `lib/app/shell/app_shell.dart` (plug the Gu Match page in)
+- No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
+  the Gu Match pillar to `GuMatchView`
 - `test/features/gu_match/**`, `test/features/wardrobe/data/wear_repository_test.dart`,
   `test/helpers/**`
 

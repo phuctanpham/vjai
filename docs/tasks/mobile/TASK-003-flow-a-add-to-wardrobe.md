@@ -122,7 +122,8 @@ state with retry; both layouts for every widget test file.
 - `lib/core/media/photo_picker.dart`
 - `lib/features/studio/{domain,data,presentation}/**`
 - `lib/features/wardrobe/{domain,data,presentation}/**`
-- `lib/app/shell/app_shell.dart` (plug Studio and Wardrobe pages in)
+- No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
+  the Add and Archive pillars to `StudioView` and `WardrobeView`
 - `test/features/studio/**`, `test/features/wardrobe/**`,
   `test/app/flow_a_journey_test.dart`, `test/helpers/**`
 

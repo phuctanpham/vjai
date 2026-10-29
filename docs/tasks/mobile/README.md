@@ -24,7 +24,7 @@ stays in place, unchanged and unrouted, until a removal CHG.
 | ID | Task | Dependency | Status |
 |---|---|---|---|
 | [TASK-001](TASK-001-product-domain-alignment.md) | Product-domain alignment and contract freeze | None | **Decided; CHG-003 awaiting approval** |
-| [TASK-002](TASK-002-mobile-foundation.md) | Mobile foundation and 5-pillar shell | TASK-001 | Tests written (red) |
+| [TASK-002](TASK-002-mobile-foundation.md) | Mobile foundation and 5-pillar shell | TASK-001 | **Green · in review** ([report](../../reports/TASK-002-app-developer.md)) |
 | [TASK-003](TASK-003-flow-a-add-to-wardrobe.md) | Flow A: Add photos → Wardrobe (`studio`, `wardrobe`) | TASK-002 | Tests written (red) |
 | [TASK-004](TASK-004-flow-b-style-new-look.md) | Flow B: Gu Match (`gu_match`) | TASK-003 | Tests written (red) |
 
