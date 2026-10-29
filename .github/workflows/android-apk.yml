@@ -28,6 +28,9 @@ jobs:
       - name: Generate Android host project
         run: flutter create --platforms=android --org com.garblo --project-name garblo .
 
+      - name: Remove generated placeholder test
+        run: rm -f test/widget_test.dart
+
       - name: Install dependencies
         run: flutter pub get
 

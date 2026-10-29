@@ -6,7 +6,6 @@ import 'package:garblo/core/widgets/error_view.dart';
 import 'package:garblo/features/discovery/data/discovery_repository.dart';
 import 'package:garblo/features/discovery/domain/profile.dart';
 import 'package:garblo/features/discovery/presentation/discovery_view.dart';
-import 'package:garblo/features/discovery/presentation/widgets/discovery_layout.dart';
 import 'package:garblo/features/discovery/presentation/widgets/profile_card.dart';
 
 void main() {
@@ -109,4 +108,3 @@ void main() {
     });
   });
 }
-

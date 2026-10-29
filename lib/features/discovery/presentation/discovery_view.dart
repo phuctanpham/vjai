@@ -22,7 +22,10 @@ class DiscoveryView extends ConsumerWidget {
           children: [
             Icon(Icons.local_fire_department_rounded, color: Colors.deepOrangeAccent),
             SizedBox(width: 8),
-            Text('Garblo', fontWeight: FontWeight.bold),
+            Text(
+              'Garblo',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
         centerTitle: true,
@@ -84,4 +87,3 @@ class DiscoveryView extends ConsumerWidget {
     }
   }
 }
-

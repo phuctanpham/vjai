@@ -55,8 +55,6 @@ class DiscoveryLayout extends StatelessWidget {
 
   /// Desktop layout with sidebar, centered card, and detailed info panel.
   Widget _buildDesktopLayout(BuildContext context, BoxConstraints constraints) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
         // Desktop navigation sidebar
@@ -102,8 +100,6 @@ class DiscoveryLayout extends StatelessWidget {
 
   /// Action buttons (Pass, Superlike, Like).
   Widget _buildActionButtons(BuildContext context, {required bool isCompact}) {
-    final theme = Theme.of(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -343,4 +339,3 @@ class _ActionButton extends StatelessWidget {
     );
   }
 }
-
