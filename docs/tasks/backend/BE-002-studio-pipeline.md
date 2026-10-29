@@ -18,7 +18,9 @@ deterministic stub extractor, without changing the mobile contract.
 | `BatchStatus` | `draft → sanitizing → queuedForAi → aiProcessing → awaitingReview → completed`; `aiProcessing → failed`; `failed → draft` / `queuedForAi` (A-02); erasure → `deletedByUser` | `test/features/studio/domain/batch_status_test.dart` |
 | `PhotoTray` | 1–10 photos, MIME `image/jpeg` or `image/png` only (I1, I2) | `photo_tray_test.dart` |
 | `AnalysisSelection` | Outfit on by default; at least one task (I4) | `analysis_selection_test.dart` |
-| `PrivacyConsent` | `version = v1.0_studio_body_ai`, `grantedAt`; insert-only (TAC-01.8) | `studio_repository_test.dart` |
+| `PrivacyConsent` | `version = v1.0_studio_body_ai`, `grantedAt`, **`includesBodyProcessing = true`** (the 1a box reads "Process my photos, including body photos if any"; UC-01 submit sends `includes_body_processing: true`); insert-only (TAC-01.8); one record reused by later batches (D3) | `studio_view_model_test.dart`, `studio_repository_test.dart` |
+| Draft IDs | `draft_<assetId>_<itemIndex>` in Phase 1 (fixture only); the server issues its own `draft_id` | `studio_repository_test.dart` |
+| Analysis tasks | Only Pieces (outfit extraction) yields items in Phase 1. Pose and Background have no Phase 1 output; the real pipeline ends them as `SKIPPED_NO_PERSON` when no person is found (AC-02.7, AI-001) | — |
 | `ExtractedItem` | `draftId, assetId, slotIndex, itemIndex, name, confidence (0..1)`, `ai` and `value` attribute sets (`typeCode, color, material, styleTag`); `userModified` derived (TAC-03.5); group derived from type (TAC-03.6) | `extracted_item_test.dart` |
 | Review order | slot, then item index (AC-03.3) | `studio_repository_test.dart` |
 | Outcomes | partial / all failed / zero items (UC-02/03 states) | `review_draft_test.dart` |
@@ -47,3 +49,4 @@ what BE-001 approves.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Studio contract. |
+| 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: consent includes body processing; draft IDs; Pose/Background output in Phase 1. |

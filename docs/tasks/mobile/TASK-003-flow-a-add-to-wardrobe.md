@@ -1,7 +1,7 @@
 # TASK-003: Flow A — Add photos to wardrobe
 
 > **Phase:** 1 · MVP  
-> **Status:** Tests written (red); pending CHG-003 approval for implementation  
+> **Status:** Green · delivered, in review ([report](../../reports/TASK-003-app-developer.md))  
 > **Dependencies:** [TASK-002](TASK-002-mobile-foundation.md) · [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)  
 > **Source use cases:** UC-01, UC-02, UC-03, UC-04 · spec T2 (enums, state machine, invariants I1, I2, I4, I8, I9) · T6 P1-05, P1-07, P1-08
 
@@ -119,7 +119,8 @@ state with retry; both layouts for every widget test file.
 
 **App Developer may create or modify:**
 
-- `lib/core/media/photo_picker.dart`
+- `lib/core/media/photo_picker.dart`, `lib/core/widgets/primary_button.dart`
+  (the 48-high primary action of T7 › G2, shared with TASK-004)
 - `lib/features/studio/{domain,data,presentation}/**`
 - `lib/features/wardrobe/{domain,data,presentation}/**`
 - No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
