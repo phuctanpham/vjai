@@ -204,6 +204,25 @@ flutter analyze
 flutter test
 ```
 
+### Download a sample Android APK
+
+Every push to `main` and every manually dispatched run of
+[`.github/workflows/android-apk.yml`](.github/workflows/android-apk.yml) builds the
+sample Discovery app and publishes an artifact named `garblo-android-apk`.
+
+To download it:
+
+1. Open the repository's **Actions** tab.
+2. Select the **Android APK** workflow and a successful run.
+3. Download **garblo-android-apk** from the **Artifacts** section.
+4. Extract the archive and install `app-release.apk` on an Android device or
+   emulator.
+
+The workflow generates the Android host project during the build so the
+repository can keep the Flutter feature code focused on the shared application
+surface. This is an unsigned sample APK for development and evaluation, not a
+production Play Store release.
+
 ### Backend Tests & Quality Checks
 
 ```bash
