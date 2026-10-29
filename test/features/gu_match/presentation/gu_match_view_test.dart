@@ -144,6 +144,8 @@ void main() {
 
       controller.add(const ContextCard(
           kind: ContextCardKind.weather, label: 'WEATHER', headline: '29°C'));
+      // One pump delivers the stream event, the next renders the new card.
+      await tester.pump();
       await tester.pump();
       expect(find.text('29°C'), findsOneWidget);
       expect(find.text('Reading your context…'), findsOneWidget);
