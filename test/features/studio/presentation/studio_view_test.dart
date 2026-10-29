@@ -195,7 +195,8 @@ void main() {
 
       expect(find.text("1 photo couldn't be read"), findsOneWidget);
       expect(find.text('PIECE 1/2'), findsOneWidget);
-      expect(find.text('Wide-leg trousers'), findsOneWidget);
+      // Shown twice: as the Piece name and as its Type value.
+      expect(find.text('Wide-leg trousers'), findsWidgets);
       expect(find.text('Index 2 Pieces'), findsOneWidget);
     });
 

@@ -140,9 +140,14 @@ void main() {
 
       expect(vm.state.batchStatus, BatchStatus.sanitizing);
       expect(vm.state.isScopeSheetOpen, isTrue);
+      // The 1a consent reads "Process my photos, including body photos if
+      // any", and the UC-01 submit contract sends includes_body_processing.
       expect(studio.recordedConsents, [
         PrivacyConsent(
-            version: PrivacyConsent.studioVersion, grantedAt: testToday),
+          version: PrivacyConsent.studioVersion,
+          grantedAt: testToday,
+          includesBodyProcessing: true,
+        ),
       ]);
       expect(vm.state.consent, studio.recordedConsents.single);
     });

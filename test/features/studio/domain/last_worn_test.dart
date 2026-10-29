@@ -23,7 +23,8 @@ void main() {
       for (final MapEntry(key: option, value: days) in cases.entries) {
         expect(
           LastWornInput(option).resolve(today),
-          todayDate.subtract(Duration(days: days)),
+          // Calendar days, so the expectation holds across DST changes.
+          DateTime(todayDate.year, todayDate.month, todayDate.day - days),
           reason: '$option',
         );
       }
