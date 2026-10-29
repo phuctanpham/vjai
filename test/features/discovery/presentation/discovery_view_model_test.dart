@@ -42,7 +42,8 @@ void main() {
       expect(viewModel.state.hasMoreProfiles, isTrue);
     });
 
-    test('transitions to empty state when repository returns empty list', () async {
+    test('transitions to empty state when repository returns empty list',
+        () async {
       final repo = MockDiscoveryRepository(
         delay: Duration.zero,
         returnEmpty: true,
@@ -69,7 +70,9 @@ void main() {
       expect(viewModel.state.errorMessage, isNotNull);
     });
 
-    test('advances current index and becomes empty after last profile is swiped', () async {
+    test(
+        'advances current index and becomes empty after last profile is swiped',
+        () async {
       final repo = MockDiscoveryRepository(
         delay: Duration.zero,
         customProfiles: [testProfile1, testProfile2],
@@ -113,4 +116,3 @@ void main() {
     });
   });
 }
-

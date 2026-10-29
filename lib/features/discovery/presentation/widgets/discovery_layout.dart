@@ -168,26 +168,31 @@ class DiscoveryLayout extends StatelessWidget {
               leading: const Icon(Icons.explore_rounded),
               title: const Text('Discover'),
               selected: true,
-              selectedTileColor: theme.colorScheme.primaryContainer.withOpacity(0.3),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              selectedTileColor:
+                  theme.colorScheme.primaryContainer.withOpacity(0.3),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.favorite_border_rounded),
               title: const Text('Matches'),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.chat_bubble_outline_rounded),
               title: const Text('Messages'),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               onTap: () {},
             ),
             ListTile(
               leading: const Icon(Icons.person_outline_rounded),
               title: const Text('Profile'),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               onTap: () {},
             ),
           ],
@@ -225,7 +230,9 @@ class DiscoveryLayout extends StatelessWidget {
             theme,
             Icons.work_outline_rounded,
             'Occupation',
-            profile.occupation.isNotEmpty ? profile.occupation : 'Not specified',
+            profile.occupation.isNotEmpty
+                ? profile.occupation
+                : 'Not specified',
           ),
           const SizedBox(height: 12),
           _buildInfoRow(
@@ -256,7 +263,8 @@ class DiscoveryLayout extends StatelessWidget {
               children: profile.interests.map((interest) {
                 return Chip(
                   label: Text(interest),
-                  backgroundColor: theme.colorScheme.secondaryContainer.withOpacity(0.5),
+                  backgroundColor:
+                      theme.colorScheme.secondaryContainer.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -269,7 +277,8 @@ class DiscoveryLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(ThemeData theme, IconData icon, String label, String value) {
+  Widget _buildInfoRow(
+      ThemeData theme, IconData icon, String label, String value) {
     return Row(
       children: [
         Icon(icon, size: 20, color: theme.colorScheme.primary),

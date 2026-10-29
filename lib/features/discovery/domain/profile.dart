@@ -53,8 +53,14 @@ class Profile {
       bio: json['bio'] as String? ?? '',
       occupation: json['occupation'] as String? ?? '',
       distanceKm: (json['distanceKm'] as num?)?.toInt() ?? 0,
-      interests: (json['interests'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? const [],
-      imageUrls: (json['imageUrls'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? const [],
+      interests: (json['interests'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      imageUrls: (json['imageUrls'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
     );
   }
 
@@ -101,4 +107,3 @@ class Profile {
     return 'Profile(id: $id, name: $name, age: $age, occupation: $occupation, distanceKm: $distanceKm)';
   }
 }
-

@@ -75,4 +75,3 @@ class DiscoveryViewModel extends StateNotifier<DiscoveryState> {
   /// Retries loading profiles after an error.
   Future<void> retry() => loadProfiles();
 }
-
