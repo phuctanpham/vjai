@@ -1,5 +1,34 @@
 # Garblo Master Product Backlog for Coding Agents
 
+> **⚠ Superseded (2026-10-29, [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)).**
+> The product direction is now **wardrobe/outfit**
+> ([TASK-001](../mobile/TASK-001-product-domain-alignment.md)). Everything from
+> §1 onward describes the retired dating product. It is kept unchanged for history
+> only; do not implement it. The active backend and AI work is the wardrobe
+> handoff below.
+
+## Wardrobe handoff for backend and AI engineers
+
+Mobile Phase 1 (spec T6 **P1 Clickable offline app**) needs **no** backend or
+AI work: it runs on in-memory repositories and fakes. The cards below record
+the contracts that the Phase 1 fakes define, so the real services can replace
+them in spec phases P3–P5 without changing the mobile features. None is
+`Ready` until BE-001 is decided.
+
+| ID | Owner | Task | Spec phase | Replaces Phase 1 fake | Status |
+|---|---|---|---|---|---|
+| [BE-001](BE-001-platform-decision.md) | Backend + EM | Platform decision: FastAPI mock (D-004) vs. MongoDB + PowerSync + auth (spec T4) | before P3 | — | **Acknowledged · decide before P3** |
+| [BE-002](BE-002-studio-pipeline.md) | Backend | Studio API: batches, consent, analysis jobs, review drafts, atomic commit | P4 | `MockStudioRepository` | Blocked by BE-001 |
+| [BE-003](BE-003-wardrobe-and-wear-api.md) | Backend | Wardrobe items API, item-type catalog, wear events, dormancy parity | P3–P4 | `MockWardrobeRepository`, `MockWearRepository` | Blocked by BE-001 |
+| [BE-004](BE-004-gu-match-api.md) | Backend | Gu Match sessions, context events, rule-based generator, interactions, swap | P4 | `MockGuMatchRepository` | Blocked by BE-001 |
+| [AI-001](AI-001-outfit-extraction.md) | AI | Outfit extraction (segmentation, attributes, confidence, embeddings), pose/scene | P5 | Fixture items in `MockStudioRepository` | Blocked by BE-002 |
+| [AI-002](AI-002-virtual-try-on.md) | AI + Backend | Virtual try-on render pipeline and body-photo consent | P5 | "Try-on is coming soon" | Blocked by BE-004, SP-3 |
+| [AI-003](AI-003-agent-context-and-styling.md) | AI + Backend | Agent context (calendar, weather, mobility), LLM intent/naming, PII scrubber, embedding-ranked generator | P5 | Fixture context cards, `FakeCandidateGenerator` | Blocked by BE-004, SP-7 |
+
+---
+
+## Retired dating backlog (history)
+
 This backlog is the single source of truth for AI coding agents and the solo fullstack engineer. Tasks are structured as **bounded vertical slices** with explicit in-scope criteria, negative boundaries (anti-scope), locked files, finite state machine matrices, and automated verification commands.
 
 ---
