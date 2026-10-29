@@ -9,7 +9,7 @@ enum ContextCardKind {
 }
 
 /// One context card. Its [label] tells where the context came from
-/// ("Your request", "Today's event", "Weather", …).
+/// ("YOUR REQUEST", "TODAY", "WEATHER", …).
 @immutable
 class ContextCard {
   final ContextCardKind kind;
@@ -28,13 +28,33 @@ class ContextCard {
     this.isMissing = false,
   });
 
-  /// The card shown when its source did not return.
-  factory ContextCard.missing(ContextCardKind kind) =>
-      throw UnimplementedError('TASK-004-S10');
+  /// The card shown when its source did not return: it says what is
+  /// missing, and the flow carries on without it.
+  factory ContextCard.missing(ContextCardKind kind) {
+    final (label, headline) = switch (kind) {
+      ContextCardKind.occasion => ('TODAY', 'Calendar not connected'),
+      ContextCardKind.weather => ('WEATHER', 'Weather unavailable'),
+      ContextCardKind.rain => ('RAIN', 'Rain forecast unavailable'),
+      ContextCardKind.commute => ('COMMUTE', 'Commute unknown'),
+    };
+    return ContextCard(
+      kind: kind,
+      label: label,
+      headline: headline,
+      isMissing: true,
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-004-S03');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ContextCard &&
+          kind == other.kind &&
+          label == other.label &&
+          headline == other.headline &&
+          detail == other.detail &&
+          isMissing == other.isMissing;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-004-S03');
+  int get hashCode => Object.hash(kind, label, headline, detail, isMissing);
 }

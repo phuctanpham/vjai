@@ -1,6 +1,6 @@
 import '../../wardrobe/domain/item_group.dart';
 
-/// The role an item plays in a look (spec `candidate_items.slot_role`).
+/// The role a Piece plays in a Fit (spec `candidate_items.slot_role`).
 enum SlotRole {
   top,
   bottom,
@@ -11,13 +11,27 @@ enum SlotRole {
 }
 
 extension SlotRoleGroup on SlotRole {
-  /// The wardrobe group that may fill this slot.
-  ItemGroup get group => throw UnimplementedError('TASK-004-S09');
+  /// The Archive group that may fill this slot.
+  ItemGroup get group => switch (this) {
+        SlotRole.top => ItemGroup.tops,
+        SlotRole.bottom => ItemGroup.bottoms,
+        SlotRole.footwear => ItemGroup.shoes,
+        SlotRole.bag => ItemGroup.bags,
+        SlotRole.hat => ItemGroup.hats,
+        SlotRole.accessory => ItemGroup.accessories,
+      };
 
   /// "Top", "Bottom", "Shoes", "Bag", "Hat", "Accessory" (Adjust sheet rows).
-  String get label => throw UnimplementedError('TASK-004-S09');
+  String get label => switch (this) {
+        SlotRole.top => 'Top',
+        SlotRole.bottom => 'Bottom',
+        SlotRole.footwear => 'Shoes',
+        SlotRole.bag => 'Bag',
+        SlotRole.hat => 'Hat',
+        SlotRole.accessory => 'Accessory',
+      };
 }
 
-/// The slot an item of [group] fills.
+/// The slot a Piece of [group] fills.
 SlotRole slotRoleFor(ItemGroup group) =>
-    throw UnimplementedError('TASK-004-S04');
+    SlotRole.values.firstWhere((slot) => slot.group == group);

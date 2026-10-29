@@ -3,25 +3,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/time/clock.dart';
 import '../../wardrobe/data/wardrobe_repository.dart';
 import '../../wardrobe/data/wear_repository.dart';
+import '../../wardrobe/domain/dormancy.dart';
 import '../../wardrobe/domain/wardrobe_item.dart';
-import '../domain/generated_deck.dart';
-import 'fake_candidate_generator.dart';
+import '../../wardrobe/domain/wear_event.dart';
 import '../domain/context_card.dart';
+import '../domain/generated_deck.dart';
+import '../domain/gu_match_failures.dart';
 import '../domain/gu_match_session.dart';
 import '../domain/interaction.dart';
+import '../domain/occasion.dart';
 import '../domain/outfit_candidate.dart';
+import '../domain/session_path.dart';
 import '../domain/slot_role.dart';
 import '../domain/styling_context.dart';
+import 'fake_candidate_generator.dart';
 
 /// Provider for GuMatchRepository. Phase 1: fixtures and the on-phone
-/// rule-based generator over the Wardrobe repositories.
+/// rule-based generator over the Archive repositories.
 final guMatchRepositoryProvider = Provider<GuMatchRepository>((ref) {
-  throw UnimplementedError('TASK-004-S01');
+  return MockGuMatchRepository(
+    wardrobeRepository: ref.watch(wardrobeRepositoryProvider),
+    wearRepository: ref.watch(wearRepositoryProvider),
+    clock: ref.watch(clockProvider),
+  );
 });
 
-/// Contract for Gu Match operations.
+/// Contract for Gu Match operations: drafting Fits (outfits) from the user's
+/// own Pieces for the day ahead.
 abstract class GuMatchRepository {
-  /// Non-archived wardrobe items; the same count as the Wardrobe total (I9).
+  /// Non-archived Pieces; the same count as the Archive total (I9).
   Future<int> readyItemCount();
 
   /// Creates a session. Throws `NoEligibleItemsFailure` when no item is usable.
@@ -47,7 +57,7 @@ abstract class GuMatchRepository {
     String itemId,
   );
 
-  /// Logs the look as worn today. Returns false when it was already logged
+  /// Logs the Fit as worn today. Returns false when it was already logged
   /// today (TAC-07.4).
   Future<bool> confirmWearing(OutfitCandidate candidate);
 }
@@ -70,6 +80,9 @@ abstract class GuMatchRepository {
 ///
 /// Session IDs are `session_1`, `session_2`, … in creation order.
 class MockGuMatchRepository implements GuMatchRepository {
+  final WardrobeRepository _wardrobeRepository;
+  final WearRepository _wearRepository;
+  final Clock _clock;
   final FakeCandidateGenerator generator;
 
   /// Card kinds whose source fails in this fake.
@@ -79,6 +92,8 @@ class MockGuMatchRepository implements GuMatchRepository {
   /// Every interaction recorded, in order.
   final List<Interaction> interactions = [];
 
+  int _sessionCount = 0;
+
   MockGuMatchRepository({
     required WardrobeRepository wardrobeRepository,
     required WearRepository wearRepository,
@@ -86,43 +101,150 @@ class MockGuMatchRepository implements GuMatchRepository {
     this.generator = const FakeCandidateGenerator(),
     this.missingContextKinds = const {},
     this.hasCalendarEvent = true,
-  });
+  })  : _wardrobeRepository = wardrobeRepository,
+        _wearRepository = wearRepository,
+        _clock = clock;
 
   @override
-  Future<int> readyItemCount() => throw UnimplementedError('TASK-004-S01');
+  Future<int> readyItemCount() => _wardrobeRepository.countEligible();
 
   @override
-  Future<GuMatchSession> startSession(StylingContext context) =>
-      throw UnimplementedError('TASK-004-S02');
+  Future<GuMatchSession> startSession(StylingContext context) async {
+    final eligible = await _wardrobeRepository.countEligible();
+    if (eligible == 0) throw const NoEligibleItemsFailure();
+    _sessionCount++;
+    return GuMatchSession(
+      sessionId: 'session_$_sessionCount',
+      path: context.path,
+      occasions: context.occasions,
+      prompt: context.prompt,
+      eligibleItemCount: eligible,
+    );
+  }
 
   @override
-  Stream<ContextCard> gatherContext(GuMatchSession session) =>
-      throw UnimplementedError('TASK-004-S03');
+  Stream<ContextCard> gatherContext(GuMatchSession session) {
+    final cards = [
+      _occasionCard(session),
+      const ContextCard(
+        kind: ContextCardKind.weather,
+        label: 'WEATHER · TOKYO',
+        headline: '16–19°C',
+        detail: '10:00 17° · 13:00 RAIN 80% · 16:00 16°',
+      ),
+      const ContextCard(
+        kind: ContextCardKind.rain,
+        label: 'RAIN',
+        headline: '80%',
+        detail: 'AROUND 13:00',
+      ),
+      const ContextCard(
+        kind: ContextCardKind.commute,
+        label: 'COMMUTE',
+        headline: 'Walking + train',
+        detail: 'Expected to travel between stations and walk to the venue',
+      ),
+    ];
+    return Stream.fromIterable(
+      cards.where((card) => !missingContextKinds.contains(card.kind)),
+    );
+  }
 
   @override
-  Future<GeneratedDeck> buildDeck(GuMatchSession session) =>
-      throw UnimplementedError('TASK-004-S04');
+  Future<GeneratedDeck> buildDeck(GuMatchSession session) async {
+    final items = await _wardrobeRepository.getEligibleItems();
+    return generator.generate(
+      sessionId: session.sessionId,
+      items: items,
+      daysUnworn: await _daysUnworn(items),
+      context: session.context,
+    );
+  }
 
   @override
-  Future<void> recordInteraction(Interaction interaction) =>
-      throw UnimplementedError('TASK-004-S05');
+  Future<void> recordInteraction(Interaction interaction) async {
+    interactions.add(interaction);
+  }
 
   @override
   Future<List<WardrobeItem>> swapOptions(
     OutfitCandidate candidate,
     SlotRole slot,
-  ) =>
-      throw UnimplementedError('TASK-004-S09');
+  ) async {
+    final items = await _wardrobeRepository.getEligibleItems();
+    return generator.swapOptions(
+        candidate: candidate, slot: slot, items: items);
+  }
 
   @override
   Future<OutfitCandidate> swapItem(
     OutfitCandidate candidate,
     SlotRole slot,
     String itemId,
-  ) =>
-      throw UnimplementedError('TASK-004-S09');
+  ) async {
+    final items = await _wardrobeRepository.getEligibleItems();
+    final replacement = items.where((i) => i.itemId == itemId).firstOrNull;
+    if (replacement == null) {
+      throw ArgumentError.value(itemId, 'itemId', 'Not in the Archive');
+    }
+    final days = await _daysUnworn([replacement]);
+    return generator.swap(
+      candidate: candidate,
+      slot: slot,
+      replacement: replacement,
+      items: items,
+      replacementDaysUnworn: days[itemId] ?? 0,
+    );
+  }
 
   @override
-  Future<bool> confirmWearing(OutfitCandidate candidate) =>
-      throw UnimplementedError('TASK-004-S06');
+  Future<bool> confirmWearing(OutfitCandidate candidate) {
+    return _wearRepository.logWear(WearEvent.forLook(
+      wornOn: _clock.now(),
+      itemIds: [for (final item in candidate.items) item.itemId],
+      candidateId: candidate.candidateId,
+    ));
+  }
+
+  ContextCard _occasionCard(GuMatchSession session) {
+    if (session.path == SessionPath.promptLed) {
+      final chips = Occasion.values
+          .where(session.occasions.contains)
+          .map((o) => o.label)
+          .join(' · ');
+      return ContextCard(
+        kind: ContextCardKind.occasion,
+        label: 'YOUR REQUEST',
+        headline: chips.isEmpty ? 'Your words' : chips,
+        detail: session.prompt.trim().isEmpty ? null : session.prompt,
+      );
+    }
+    if (!hasCalendarEvent) {
+      return const ContextCard(
+        kind: ContextCardKind.occasion,
+        label: 'TODAY',
+        headline: 'No event found',
+        detail: 'styling for an everyday day',
+      );
+    }
+    return const ContextCard(
+      kind: ContextCardKind.occasion,
+      label: 'TODAY',
+      headline: 'Hackathon Pitching Day',
+      detail: '09:00–18:00 · Tokyo',
+    );
+  }
+
+  Future<Map<String, int>> _daysUnworn(List<WardrobeItem> items) async {
+    final lastWorn = await _wearRepository.lastWornByItem();
+    final today = _clock.now();
+    return {
+      for (final item in items)
+        item.itemId: DormancyRules.daysUnworn(
+          item: item,
+          today: today,
+          lastWear: lastWorn[item.itemId],
+        ),
+    };
+  }
 }

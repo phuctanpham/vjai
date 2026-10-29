@@ -84,20 +84,45 @@ class GuMatchState {
     this.errorMessage,
   });
 
-  factory GuMatchState.initial() => throw UnimplementedError('TASK-004-S01');
+  factory GuMatchState.initial() => const GuMatchState(
+        status: GuMatchStatus.initial,
+        readyCount: 0,
+        context: StylingContext(),
+        phase: GuMatchPhase.studio,
+        cards: {},
+        isContextComplete: false,
+        deck: [],
+        currentIndex: 0,
+        isWearPromptVisible: false,
+        isTryOnNoticeVisible: false,
+        isAdjustOpen: false,
+        swapOptions: [],
+        likedCount: 0,
+        isBusy: false,
+      );
 
   /// N ≥ 1, on the studio, nothing in flight.
-  bool get canStart => throw UnimplementedError('TASK-004-S01');
+  bool get canStart =>
+      status == GuMatchStatus.loaded &&
+      readyCount > 0 &&
+      phase == GuMatchPhase.studio &&
+      !isBusy;
 
   OutfitCandidate? get currentCandidate =>
-      throw UnimplementedError('TASK-004-S05');
+      phase == GuMatchPhase.deck && currentIndex < deck.length
+          ? deck[currentIndex]
+          : null;
 
   /// "{k}/{N} FITS" (T7 › G4).
-  String get hudLabel => throw UnimplementedError('TASK-004-S05');
+  String get hudLabel {
+    final shown = deck.isEmpty ? 0 : (currentIndex + 1).clamp(1, deck.length);
+    return '$shown/${deck.length} FITS';
+  }
 
   /// "Reading your context…" until every card is in, then "Context read"
   /// (T7 › G3 2b).
-  String get contextTitle => throw UnimplementedError('TASK-004-S03');
+  String get contextTitle =>
+      isContextComplete ? 'Context read' : 'Reading your context…';
 
   GuMatchState copyWith({
     GuMatchStatus? status,
@@ -122,12 +147,72 @@ class GuMatchState {
     bool? isBusy,
     String? errorMessage,
     bool clearError = false,
-  }) =>
-      throw UnimplementedError('TASK-004-S01');
+  }) {
+    return GuMatchState(
+      status: status ?? this.status,
+      readyCount: readyCount ?? this.readyCount,
+      context: context ?? this.context,
+      phase: phase ?? this.phase,
+      session: clearSession ? null : (session ?? this.session),
+      cards: cards ?? this.cards,
+      isContextComplete: isContextComplete ?? this.isContextComplete,
+      deck: deck ?? this.deck,
+      currentIndex: currentIndex ?? this.currentIndex,
+      deckHint: clearDeckHint ? null : (deckHint ?? this.deckHint),
+      isWearPromptVisible: isWearPromptVisible ?? this.isWearPromptVisible,
+      isTryOnNoticeVisible: isTryOnNoticeVisible ?? this.isTryOnNoticeVisible,
+      isAdjustOpen: isAdjustOpen ?? this.isAdjustOpen,
+      adjustSlot: clearAdjustSlot ? null : (adjustSlot ?? this.adjustSlot),
+      swapOptions: swapOptions ?? this.swapOptions,
+      likedCount: likedCount ?? this.likedCount,
+      isBusy: isBusy ?? this.isBusy,
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+    );
+  }
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-004-S01');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GuMatchState &&
+          status == other.status &&
+          readyCount == other.readyCount &&
+          context == other.context &&
+          phase == other.phase &&
+          session == other.session &&
+          mapEquals(cards, other.cards) &&
+          isContextComplete == other.isContextComplete &&
+          listEquals(deck, other.deck) &&
+          currentIndex == other.currentIndex &&
+          deckHint == other.deckHint &&
+          isWearPromptVisible == other.isWearPromptVisible &&
+          isTryOnNoticeVisible == other.isTryOnNoticeVisible &&
+          isAdjustOpen == other.isAdjustOpen &&
+          adjustSlot == other.adjustSlot &&
+          listEquals(swapOptions, other.swapOptions) &&
+          likedCount == other.likedCount &&
+          isBusy == other.isBusy &&
+          errorMessage == other.errorMessage;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-004-S01');
+  int get hashCode => Object.hashAll([
+        status,
+        readyCount,
+        context,
+        phase,
+        session,
+        Object.hashAllUnordered(
+            cards.entries.map((e) => Object.hash(e.key, e.value))),
+        isContextComplete,
+        Object.hashAll(deck),
+        currentIndex,
+        deckHint,
+        isWearPromptVisible,
+        isTryOnNoticeVisible,
+        isAdjustOpen,
+        adjustSlot,
+        Object.hashAll(swapOptions),
+        likedCount,
+        isBusy,
+        errorMessage,
+      ]);
 }

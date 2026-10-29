@@ -9,5 +9,11 @@ enum Occasion {
 
 /// User-facing labels ("Work", "Coffee", "Afternoon rain", …).
 extension OccasionLabel on Occasion {
-  String get label => throw UnimplementedError('TASK-004-S02');
+  String get label => switch (this) {
+        Occasion.work => 'Work',
+        Occasion.coffee => 'Coffee',
+        Occasion.afternoonRain => 'Afternoon rain',
+        Occasion.date => 'Date',
+        Occasion.weekendOuting => 'Weekend outing',
+      };
 }
