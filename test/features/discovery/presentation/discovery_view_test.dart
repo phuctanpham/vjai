@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -5,8 +7,22 @@ import 'package:garblo/core/widgets/empty_view.dart';
 import 'package:garblo/core/widgets/error_view.dart';
 import 'package:garblo/features/discovery/data/discovery_repository.dart';
 import 'package:garblo/features/discovery/domain/profile.dart';
+import 'package:garblo/features/discovery/domain/swipe_type.dart';
 import 'package:garblo/features/discovery/presentation/discovery_view.dart';
 import 'package:garblo/features/discovery/presentation/widgets/profile_card.dart';
+
+class _LoadingDiscoveryRepository implements DiscoveryRepository {
+  final _profiles = Completer<List<Profile>>();
+
+  @override
+  Future<List<Profile>> getProfiles() => _profiles.future;
+
+  @override
+  Future<void> recordSwipe({
+    required String profileId,
+    required SwipeType swipeType,
+  }) async {}
+}
 
 void main() {
   const testProfile = Profile(
@@ -34,17 +50,19 @@ void main() {
 
   group('DiscoveryView rendering', () {
     testWidgets('renders loading state initially', (tester) async {
-      final repo = MockDiscoveryRepository(
-        delay: const Duration(seconds: 10),
+      await tester.pumpWidget(
+        createSubject(repository: _LoadingDiscoveryRepository()),
       );
-
-      await tester.pumpWidget(createSubject(repository: repo));
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
     testWidgets('renders profile card and controls when loaded', (tester) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       final repo = MockDiscoveryRepository(
         delay: Duration.zero,
         customProfiles: [testProfile],
