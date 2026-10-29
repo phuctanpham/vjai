@@ -79,7 +79,9 @@ green run must still show 18/18. The only dating-route test is a new one in
 |---|---|
 | [terminology.md](../policies/product/terminology.md) | Add the TASK-001 canonical wardrobe terms; mark dating terms as retired |
 | [design-system.md](../policies/product/design-system.md) | Replace with T7 tokens (G0), grid (G1), components (G2), voice (G4) |
-| `pubspec.yaml` description | "social discovery application" → wardrobe/outfit wording |
+| `pubspec.yaml` description | "social discovery application" → lookbook generating and matching wording |
+| Root `README.md` | Still describes a "discovery and social connection application" with swipe cards and profiles. Rewrite for the wardrobe product (found in the TASK-004 dating-confusion audit) |
+| `backend/` mock API and `backend/README.md` | Still the dating API; retire per [BE-005](../tasks/backend/BE-005-retire-dating-mock-api.md) before any wardrobe endpoint is built |
 | Flow spec | Q-03 (T6 › P1-02) |
 | [docs/tasks/backend/](../tasks/backend/README.md) | Dating tasks marked superseded; wardrobe handoff cards added |
 

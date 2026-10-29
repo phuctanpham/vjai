@@ -25,7 +25,9 @@ replaces the fixtures and the rule with the agent and models, keeping the
   ID, attendees or event notes in calls (TAC-06.4).
 - Generator v2: embedding similarity + constraints + dormancy boost; must still
   pass the Phase 1 property tests (owned-only, ≤ 8, deterministic for a fixed
-  model version) and beat the rule-based like rate on the evaluation set.
+  model version) and beat the rule-based **Add to Rotation rate** (share of
+  Fits kept with `CardAction.LIKE_SAVE`; a decision on an outfit, not a
+  person) on the evaluation set.
 - Calibrated match % (replaces A-03).
 
 ## Change history
@@ -33,3 +35,4 @@ replaces the fixtures and the rule with the agent and models, keeping the
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created; Phase 1 uses fixture context and a rule-based generator. |
+| 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | "Like rate" → Add to Rotation rate (a decision on a Fit). |

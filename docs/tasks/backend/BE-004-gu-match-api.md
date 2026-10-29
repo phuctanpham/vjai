@@ -5,6 +5,14 @@
 > **Spec phase:** P4 (P4-B07: rule-based generator, live weather, SSE)  
 > **Source:** UC-05 – UC-08 · T2 (I6, I9, enums) · TAC-05.2, 05.5, 05.6, 06.1–06.3, 06.5–06.7, 07.3, 08.6
 
+> **⚠ Not a dating API.** Gu Match drafts **Fits** (outfits) from the user's
+> own Pieces. `match_pct` is how well a Fit suits the day; `swipe_status`
+> and `CardAction.LIKE_SAVE` ("Add to Rotation") are decisions on a Fit,
+> never on a person. Do **not** build on the retired dating endpoints
+> `POST /api/v1/swipes`, `GET /api/v1/discovery` or `/api/v1/matches`
+> ([BE-005](BE-005-retire-dating-mock-api.md)). Gu Match lives under
+> `/v1/gu-match/…`.
+
 ## Why
 
 Phase 1 builds decks on the phone with `FakeCandidateGenerator` (behind
@@ -44,3 +52,4 @@ No LLM intent/naming (AI-003), no try-on (AI-002), no thank-you or rewards.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Gu Match contract. |
+| 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-004 green: not-a-dating-API warning; do not extend `/api/v1/swipes` or `/matches` (BE-005). |

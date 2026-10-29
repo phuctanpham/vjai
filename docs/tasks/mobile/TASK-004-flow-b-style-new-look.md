@@ -1,7 +1,7 @@
 # TASK-004: Flow B — Gu Match: style a new look
 
 > **Phase:** 1 · MVP  
-> **Status:** Tests written (red); pending CHG-003 approval for implementation  
+> **Status:** Green · delivered, in review ([report](../../reports/TASK-004-app-developer.md))  
 > **Dependencies:** [TASK-003](TASK-003-flow-a-add-to-wardrobe.md) · [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)  
 > **Source use cases:** UC-05, UC-06, UC-07, UC-08 (AC-08.1–08.4 only) · spec T2 (I6, I9, enums) · T6 P1-09
 
@@ -81,6 +81,7 @@ emoji. Strings derived from G4 are listed in CHG-003.
 |---|---|---|---|
 | S01 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S01] |
 | S01 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S01] |
+| S01 | Journey | test/app/flow_b_journey_test.dart | [TASK-004-S01] (I9 across pillars; added at green) |
 | S02 | Domain | test/features/gu_match/domain/styling_context_test.dart | [TASK-004-S02] |
 | S02 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S02] |
 | S03 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S03] |
@@ -119,7 +120,7 @@ presentation code (covered by TASK-002-S06); both layouts for the widget file.
 - No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
   the Gu Match pillar to `GuMatchView`
 - `test/features/gu_match/**`, `test/features/wardrobe/data/wear_repository_test.dart`,
-  `test/helpers/**`
+  `test/app/flow_b_journey_test.dart`, `test/helpers/**`
 
 Cross-feature reads must use the Wardrobe domain/repository contract, never
 Wardrobe presentation widgets.

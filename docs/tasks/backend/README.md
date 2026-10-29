@@ -7,6 +7,30 @@
 > only; do not implement it. The active backend and AI work is the wardrobe
 > handoff below.
 
+## Read this first: Garblo is not a dating app
+
+Garblo is a **lookbook generating and matching** app: it turns photos of the
+user's own clothes into **Pieces** in their **Archive**, then drafts
+**Fits** (outfits) from those Pieces for the day ahead. There are no other
+people, profiles, matches between users, or chats.
+
+Some spec and data names sound like the retired dating product. They mean:
+
+| Name (spec / code) | Means in Garblo | Does **not** mean |
+|---|---|---|
+| Gu Match | The styling pillar: drafting Fits from your own Pieces | Matching people |
+| `match_pct` / "82% FIT" | How well a Fit suits the day (context fit score) | Compatibility between users |
+| swipe, `swipe_status` | Deciding on a Fit: Pass or Add to Rotation | Liking a person |
+| `CardAction.LIKE_SAVE` | "Add to Rotation": keep a Fit. The UI never says "Like" (T7 › G4) | A like on a profile |
+| deck, candidate (`outfit_candidates`) | The session's up to 8 Fits | A queue of people |
+| Wear today (`wear_events`) | The user wore that Fit today | — |
+
+The existing FastAPI code in `backend/` (`discovery.py`, `/api/v1/swipes`,
+`matches.py`, `chat.py`, `models/profile.py`, `sample_data.py`) is the
+**retired dating mock**. Do not extend it for wardrobe work; see
+[BE-005](BE-005-retire-dating-mock-api.md). Wardrobe endpoints live under
+`/v1/studio`, `/v1/wardrobe` and `/v1/gu-match` (spec T2 › API surface).
+
 ## Wardrobe handoff for backend and AI engineers
 
 Mobile Phase 1 (spec T6 **P1 Clickable offline app**) needs **no** backend or
@@ -21,6 +45,7 @@ them in spec phases P3–P5 without changing the mobile features. None is
 | [BE-002](BE-002-studio-pipeline.md) | Backend | Studio API: batches, consent, analysis jobs, review drafts, atomic commit | P4 | `MockStudioRepository` | Blocked by BE-001 |
 | [BE-003](BE-003-wardrobe-and-wear-api.md) | Backend | Wardrobe items API, item-type catalog, wear events, dormancy parity | P3–P4 | `MockWardrobeRepository`, `MockWearRepository` | Blocked by BE-001 |
 | [BE-004](BE-004-gu-match-api.md) | Backend | Gu Match sessions, context events, rule-based generator, interactions, swap | P4 | `MockGuMatchRepository` | Blocked by BE-001 |
+| [BE-005](BE-005-retire-dating-mock-api.md) | Backend | Retire the dating mock API (`/api/v1/discovery`, `/swipes`, `/profiles`, `/matches`, `/chat`, `/auth` placeholder) and rewrite `backend/README.md` for the wardrobe product | before BE-002 | — | Proposed · needs a CHG |
 | [AI-001](AI-001-outfit-extraction.md) | AI | Outfit extraction (segmentation, attributes, confidence, embeddings), pose/scene | P5 | Fixture items in `MockStudioRepository` | Blocked by BE-002 |
 | [AI-002](AI-002-virtual-try-on.md) | AI + Backend | Virtual try-on render pipeline and body-photo consent | P5 | "Try-on is coming soon" | Blocked by BE-004, SP-3 |
 | [AI-003](AI-003-agent-context-and-styling.md) | AI + Backend | Agent context (calendar, weather, mobility), LLM intent/naming, PII scrubber, embedding-ranked generator | P5 | Fixture context cards, `FakeCandidateGenerator` | Blocked by BE-004, SP-7 |

@@ -18,6 +18,11 @@ remain for the decision record.
 
 Both cannot be true. Mobile Phase 1 does not depend on the answer; P3 does.
 
+Whatever is decided, the current FastAPI code is the **retired dating mock**
+(`/api/v1/discovery`, `/api/v1/swipes`, `/api/v1/matches`, `/api/v1/chat`,
+`Profile` models). It is not a starting point for the wardrobe API; retiring
+it is [BE-005](BE-005-retire-dating-mock-api.md).
+
 ## Decision required
 
 1. Does the FastAPI mock remain the backend, and if so, does it grow into the
@@ -43,3 +48,4 @@ No infrastructure, database or service is built under this card.
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 conflict analysis. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Acknowledged in review: D-004 must change; decide before P3. |
+| 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | The current FastAPI code is the retired dating mock; retirement is BE-005. |
