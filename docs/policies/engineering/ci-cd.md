@@ -21,14 +21,20 @@ A gate that cannot run (missing toolchain) is reported as **skipped** with the r
 ## 2. Toolchain
 | Tool | Version |
 |---|---|
-| Flutter | ≥ 3.10 per `pubspec.yaml`; exact version not pinned yet ([CHG-002](../../changes/CHG-002-restore-green-build.md)) |
+| Flutter | **3.24.5** (Dart 3.5.4), pinned in [`.fvmrc`](../../../.fvmrc) and the CI workflow ([CHG-004](../../changes/CHG-004-enforce-format-gate.md)). `pubspec.yaml` keeps `>= 3.10.0` as the minimum |
 | Python | ≥ 3.10 |
 | uv | latest |
 
 `pubspec.lock` and `uv.lock` must be committed. `.gitignore` currently ignores `*.lock` (CHG-002).
 
-## 3. CI (planned, not yet implemented)
-`.github/workflows/ci.yml`, triggered on pull requests to `main`:
+## 3. CI
+**Today:** [`.github/workflows/android-apk.yml`](../../../.github/workflows/android-apk.yml)
+runs on every push to `main` (and on manual dispatch) with Flutter 3.24.5:
+`flutter pub get` → `dart format --output=none --set-exit-if-changed .` →
+`flutter analyze` → `flutter test` → release APK artifact. An unformatted file
+fails the build ([CHG-004](../../changes/CHG-004-enforce-format-gate.md)).
+
+**Planned:** `.github/workflows/ci.yml`, triggered on pull requests to `main`:
 
 | Job | Steps |
 |---|---|
@@ -51,3 +57,4 @@ flutter run          # requires platform folders, see CHG-002
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created; gate commands moved here from README, DoD and copilot instructions |
+| 2026-10-29 | [CHG-004](../../changes/CHG-004-enforce-format-gate.md) | Flutter pinned to 3.24.5 (`.fvmrc`); CI checks formatting instead of rewriting it; existing APK workflow documented |
