@@ -11,16 +11,19 @@ abstract class Failure {
 
 /// Represents failure during server communication.
 class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'A server error occurred. Please try again.', super.cause]);
+  const ServerFailure(
+      [super.message = 'A server error occurred. Please try again.',
+      super.cause]);
 }
 
 /// Represents network connectivity failures.
 class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'Network connection unavailable.', super.cause]);
+  const NetworkFailure(
+      [super.message = 'Network connection unavailable.', super.cause]);
 }
 
 /// Represents cache or local storage errors.
 class StorageFailure extends Failure {
-  const StorageFailure([super.message = 'Storage operation failed.', super.cause]);
+  const StorageFailure(
+      [super.message = 'Storage operation failed.', super.cause]);
 }
-

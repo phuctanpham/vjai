@@ -2,7 +2,7 @@
 
 > Cross-platform discovery and social connection application built with Flutter and Python/FastAPI.
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-3.24.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![uv](https://img.shields.io/badge/uv-Package%20Manager-DE5FE9)](https://docs.astral.sh/uv/)
@@ -147,8 +147,8 @@ The backend is built with **FastAPI** and packaged using **`uv`**:
 ### 1. Flutter Client Setup
 
 #### Prerequisites
-- Flutter SDK `>= 3.10.0`
-- Dart SDK `>= 3.0.0`
+- Flutter SDK **3.24.5** (pinned in `.fvmrc` and CI; with [FVM](https://fvm.app) run `fvm use` in the repo root)
+- Dart SDK 3.5.4 (bundled with Flutter 3.24.5)
 
 #### Commands
 

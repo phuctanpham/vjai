@@ -19,4 +19,3 @@ class GarbloApp extends StatelessWidget {
     );
   }
 }
-

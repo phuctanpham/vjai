@@ -58,7 +58,8 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('renders profile card and controls when loaded', (tester) async {
+    testWidgets('renders profile card and controls when loaded',
+        (tester) async {
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(() => tester.view.resetPhysicalSize());
@@ -78,7 +79,8 @@ void main() {
       expect(find.byTooltip('Like'), findsOneWidget);
     });
 
-    testWidgets('renders EmptyView when repository returns no profiles', (tester) async {
+    testWidgets('renders EmptyView when repository returns no profiles',
+        (tester) async {
       final repo = MockDiscoveryRepository(
         delay: Duration.zero,
         returnEmpty: true,
@@ -92,7 +94,8 @@ void main() {
       expect(find.text('Refresh Feed'), findsOneWidget);
     });
 
-    testWidgets('renders ErrorView when repository fails and allows retry', (tester) async {
+    testWidgets('renders ErrorView when repository fails and allows retry',
+        (tester) async {
       final repo = MockDiscoveryRepository(
         delay: Duration.zero,
         shouldFail: true,
@@ -105,7 +108,8 @@ void main() {
       expect(find.text('Try Again'), findsOneWidget);
     });
 
-    testWidgets('renders desktop layout with sidebar on wide screens', (tester) async {
+    testWidgets('renders desktop layout with sidebar on wide screens',
+        (tester) async {
       // Set desktop screen size
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;

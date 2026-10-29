@@ -35,7 +35,8 @@ void main() {
       );
     });
 
-    test('recordSwipe succeeds without throwing when not configured to fail', () async {
+    test('recordSwipe succeeds without throwing when not configured to fail',
+        () async {
       final repository = MockDiscoveryRepository(delay: Duration.zero);
 
       await expectLater(
@@ -51,10 +52,10 @@ void main() {
       );
 
       expect(
-        () => repository.recordSwipe(profileId: 'usr_01', swipeType: SwipeType.pass),
+        () => repository.recordSwipe(
+            profileId: 'usr_01', swipeType: SwipeType.pass),
         throwsA(isA<Exception>()),
       );
     });
   });
 }
-

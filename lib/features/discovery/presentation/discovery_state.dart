@@ -83,4 +83,3 @@ class DiscoveryState {
     return 'DiscoveryState(status: $status, profiles: ${profiles.length}, index: $currentIndex, error: $errorMessage)';
   }
 }
-

@@ -20,7 +20,8 @@ class DiscoveryView extends ConsumerWidget {
         title: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.local_fire_department_rounded, color: Colors.deepOrangeAccent),
+            Icon(Icons.local_fire_department_rounded,
+                color: Colors.deepOrangeAccent),
             SizedBox(width: 8),
             Text(
               'Garblo',
@@ -62,7 +63,8 @@ class DiscoveryView extends ConsumerWidget {
       case DiscoveryStatus.empty:
         return EmptyView(
           title: "You're all caught up!",
-          message: 'No more profiles nearby right now. Check back later or expand your preferences.',
+          message:
+              'No more profiles nearby right now. Check back later or expand your preferences.',
           icon: Icons.explore_off_outlined,
           actionLabel: 'Refresh Feed',
           onAction: () => viewModel.retry(),

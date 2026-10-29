@@ -30,4 +30,3 @@ class InMemoryLocalStorage implements LocalStorage {
     _store.clear();
   }
 }
-

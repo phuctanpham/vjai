@@ -3,4 +3,3 @@
 class ChatPlaceholder {
   const ChatPlaceholder();
 }
-

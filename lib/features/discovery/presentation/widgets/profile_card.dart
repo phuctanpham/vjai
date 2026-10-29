@@ -121,7 +121,9 @@ class ProfileCard extends StatelessWidget {
                   Text(
                     profile.bio,
                     maxLines: showFullBio ? null : 3,
-                    overflow: showFullBio ? TextOverflow.visible : TextOverflow.ellipsis,
+                    overflow: showFullBio
+                        ? TextOverflow.visible
+                        : TextOverflow.ellipsis,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white.withOpacity(0.95),
                       height: 1.3,
@@ -135,7 +137,8 @@ class ProfileCard extends StatelessWidget {
                     runSpacing: 6,
                     children: profile.interests.map((interest) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(16),
@@ -168,7 +171,8 @@ class ProfileCard extends StatelessWidget {
       return Image.network(
         profile.imageUrls.first,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => _buildFallbackBackground(colorScheme),
+        errorBuilder: (context, error, stackTrace) =>
+            _buildFallbackBackground(colorScheme),
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return _buildFallbackBackground(colorScheme);
@@ -200,4 +204,3 @@ class ProfileCard extends StatelessWidget {
     );
   }
 }
-

@@ -11,4 +11,3 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 final localStorageProvider = Provider<LocalStorage>((ref) {
   return InMemoryLocalStorage();
 });
-
