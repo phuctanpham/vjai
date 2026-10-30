@@ -1,0 +1,111 @@
+{
+  "spring": {
+    "gesture": {
+      "$type": "spring",
+      "$value": {
+        "mass": 1,
+        "stiffness": 1472.7,
+        "damping": 61.4
+      },
+      "$description": "ζ 0.80, settles 300 ms"
+    },
+    "keyboard": {
+      "$type": "spring",
+      "$value": {
+        "mass": 1,
+        "stiffness": 1752.7,
+        "damping": 83.7
+      },
+      "$description": "ζ 1.00, settles 220 ms"
+    },
+    "node-pickup": {
+      "$type": "spring",
+      "$value": {
+        "mass": 0.8,
+        "stiffness": 300,
+        "damping": 22
+      },
+      "$description": "ζ 0.71"
+    },
+    "sheet": {
+      "$type": "spring",
+      "$value": {
+        "mass": 1,
+        "stiffness": 300,
+        "damping": 28
+      },
+      "$description": "ζ 0.81"
+    }
+  },
+  "duration": {
+    "instant": {
+      "$value": "100ms",
+      "$type": "duration"
+    },
+    "fast": {
+      "$value": "150ms",
+      "$type": "duration"
+    },
+    "base": {
+      "$value": "220ms",
+      "$type": "duration"
+    },
+    "pulse": {
+      "$value": "1200ms",
+      "$type": "duration"
+    },
+    "toast": {
+      "$value": "6000ms",
+      "$type": "duration"
+    }
+  },
+  "easing": {
+    "out": {
+      "$value": [
+        0.2,
+        0,
+        0,
+        1
+      ],
+      "$type": "cubicBezier"
+    },
+    "in-out": {
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ],
+      "$type": "cubicBezier"
+    },
+    "exit": {
+      "$value": [
+        0.4,
+        0,
+        1,
+        1
+      ],
+      "$type": "cubicBezier"
+    }
+  },
+  "gesture": {
+    "commit-ratio": {
+      "$value": 0.35,
+      "$type": "number"
+    },
+    "commit-velocity": {
+      "$value": 500,
+      "$type": "number",
+      "$description": "px/s"
+    },
+    "tilt-max": {
+      "$value": 12,
+      "$type": "number",
+      "$description": "degrees"
+    },
+    "slow-pass-ms": {
+      "$value": 3500,
+      "$type": "number"
+    }
+  }
+}

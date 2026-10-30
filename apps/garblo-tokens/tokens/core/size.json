@@ -1,0 +1,82 @@
+{
+  "size": {
+    "header": {
+      "$value": 56,
+      "$type": "number"
+    },
+    "nav": {
+      "$value": 64,
+      "$type": "number",
+      "$description": "Bottom nav (D48; was 56)"
+    },
+    "button": {
+      "$value": 48,
+      "$type": "number"
+    },
+    "fab": {
+      "$value": 48,
+      "$type": "number"
+    },
+    "chip-filter": {
+      "$value": 32,
+      "$type": "number"
+    },
+    "chip-context": {
+      "$value": 36,
+      "$type": "number"
+    },
+    "pill": {
+      "$value": 24,
+      "$type": "number"
+    },
+    "rail": {
+      "$value": 52,
+      "$type": "number"
+    },
+    "avatar": {
+      "$value": 32,
+      "$type": "number"
+    },
+    "target": {
+      "$value": 44,
+      "$type": "number",
+      "$description": "Minimum touch target"
+    },
+    "touch-gap": {
+      "$value": 8,
+      "$type": "number"
+    },
+    "icon": {
+      "sm": {
+        "$value": 16,
+        "$type": "number"
+      },
+      "md": {
+        "$value": 20,
+        "$type": "number"
+      },
+      "lg": {
+        "$value": 24,
+        "$type": "number"
+      }
+    },
+    "inspector": {
+      "$value": 340,
+      "$type": "number",
+      "$description": "Post-pilot workbench (D44)"
+    },
+    "tree": {
+      "$value": 260,
+      "$type": "number",
+      "$description": "Post-pilot workbench (D44)"
+    },
+    "card-max": {
+      "$value": 420,
+      "$type": "number"
+    },
+    "bar-max": {
+      "$value": 640,
+      "$type": "number"
+    }
+  }
+}

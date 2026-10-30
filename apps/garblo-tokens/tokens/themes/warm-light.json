@@ -1,0 +1,111 @@
+{
+  "surface": {
+    "canvas": {
+      "$value": "{color.warm.light.canvas}",
+      "$type": "color"
+    },
+    "card": {
+      "$value": "{color.warm.light.card}",
+      "$type": "color"
+    },
+    "well": {
+      "$value": "{color.warm.light.well}",
+      "$type": "color"
+    },
+    "divider": {
+      "$value": "{color.warm.light.divider}",
+      "$type": "color"
+    },
+    "hud-glass": {
+      "$value": "{color.warm.light.canvas}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.86
+      }
+    },
+    "image-scrim": {
+      "$value": "{color.fixed.black}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.1
+      }
+    },
+    "overlay-scrim": {
+      "$value": "{color.fixed.black}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.32
+      }
+    }
+  },
+  "ink": {
+    "primary": {
+      "$value": "{color.warm.light.ink-primary}",
+      "$type": "color"
+    },
+    "editorial": {
+      "$value": "{color.warm.light.ink-editorial}",
+      "$type": "color"
+    },
+    "muted": {
+      "$value": "{color.warm.light.ink-muted}",
+      "$type": "color"
+    }
+  },
+  "rule": {
+    "structural": {
+      "$value": "{color.warm.light.rule-structural}",
+      "$type": "color"
+    },
+    "product": {
+      "$value": "{color.warm.light.rule-product}",
+      "$type": "color"
+    }
+  },
+  "accent": {
+    "primary": {
+      "$value": "{color.accent.light.primary}",
+      "$type": "color",
+      "$description": "The one primary action per view (D39)"
+    },
+    "primary-pressed": {
+      "$value": "{color.accent.light.primary-pressed}",
+      "$type": "color"
+    },
+    "on-primary": {
+      "$value": "{color.accent.light.on-primary}",
+      "$type": "color"
+    },
+    "agentic-bg": {
+      "$value": "{color.accent.light.agentic-bg}",
+      "$type": "color",
+      "$description": "Anchor-lock ring only, always with the lock icon (D39)"
+    },
+    "agentic-text": {
+      "$value": "{color.accent.light.agentic-text}",
+      "$type": "color"
+    },
+    "synthesis-ai": {
+      "$value": "{color.accent.light.synthesis-ai}",
+      "$type": "color"
+    },
+    "social-pulse": {
+      "$value": "{color.accent.light.social-pulse}",
+      "$type": "color"
+    }
+  },
+  "status": {
+    "cpw-optimal": {
+      "$value": "{color.accent.light.cpw-optimal}",
+      "$type": "color"
+    },
+    "cpw-dormant": {
+      "$value": "{color.accent.light.cpw-dormant}",
+      "$type": "color"
+    },
+    "cpw-dormant-text": {
+      "$value": "{color.accent.light.cpw-dormant-text}",
+      "$type": "color"
+    }
+  }
+}

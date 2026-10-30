@@ -68,6 +68,28 @@ legacy contracts only. Do not extend them for wardrobe work. The wardrobe
 REST, sync and authentication contracts remain blocked on
 [BE-001](../../tasks/backend/BE-001-platform-decision.md).
 
+## 6. Sync security invariants
+
+When P3/P4 is approved, these invariants apply to every synced table and
+attachment path:
+
+- The verified JWT `sub` is the owner identity. Sync queries filter by that
+  identity, and the write handler rejects a payload whose `user_id` does not
+  match it.
+- Client-writable fields are allow-listed per collection. Server-owned fields,
+  catalogs and derived values cannot be changed through the upload queue.
+- JWT verification uses the configured asymmetric algorithm and `kid` from the
+  auth service's JWKS. Key material and refresh credentials are never schema
+  columns, synced values or logs.
+- Sync and attachment URLs use TLS. Signed attachment URLs are short-lived and
+  scoped to the owning object; public community data remains REST-only.
+- Health probes are operational endpoints, not data APIs: they are network
+  restricted and return no configuration, tokens or row contents.
+
+This section is a security contract for the future platform, not an approval to
+build it. See [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md)
+and [BE-001](../../tasks/backend/BE-001-platform-decision.md).
+
 ## Change history
 
 | Date | CHG | Change |
@@ -75,3 +97,4 @@ REST, sync and authentication contracts remain blocked on
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the previous implementation contract |
 | 2026-10-30 | [CHG-007](../../changes/CHG-007-documentation-authority-migration.md) | Replaced the dating API contract with the Flow Spec and Phase 2 phone schema authorities |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md) | Added deferred sync authorization and transport-security invariants |

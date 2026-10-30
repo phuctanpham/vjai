@@ -17,7 +17,7 @@ The **human** approves documents, edits agent specs, and merges code.
 
 | Type | Content | Written by | Location |
 |---|---|---|---|
-| **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.github/copilot-instructions.md`) |
+| **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`GEMINI.md`, `AGENTS.md`, `.agents/`, `CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.github/copilot-instructions.md`) |
 | **2 · Followed files** | Policies, backlog documents, change records, lessons | Tier A, one owner per file | `docs/policies/`, `docs/backlog/`, `docs/changes/`, `docs/memory/` |
 | **3 · Generated files** | Code lines and delivery reports | Tier B | `apps/mobile/lib/`, `apps/mobile/test/`, `backend/`, `docs/reports/` |
 
@@ -95,3 +95,4 @@ A delivery is "in review" when its report exists in `docs/reports/`.
 | 2026-10-30 | [CHG-007](changes/CHG-007-documentation-authority-migration.md) | Centralized superseded documents under `archive/legacy/`; active paths remain under policies, backlog, changes, tasks, memory and reports |
 | 2026-10-30 | [CHG-008](changes/CHG-008-claude-code-adapter.md) | Claude Code adapter: `CLAUDE.md`, `.claude/agents/` and `.claude/skills/` (flow-spec, gates); `GUIDE.MD` archived |
 | 2026-10-30 | [CHG-010](changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | Antigravity Adapter | Google Antigravity adapter: `GEMINI.md`, `AGENTS.md`, `.agents/skills/` (flow-spec, gates), and `.agents/rules/` |

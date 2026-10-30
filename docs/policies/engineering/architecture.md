@@ -37,7 +37,29 @@ ApiClient / LocalStorage / mock  data sources in apps/mobile/lib/core/
 - Fixtures in `backend/app/data/`. Responses are deterministic.
 - Out of bounds: databases, real authentication, microservices, message brokers, cloud deployment.
 
-## 5. Technical terms
+## 5. P3/P4 sync security boundary
+
+These rules apply only after [BE-001](../../tasks/backend/BE-001-platform-decision.md)
+approves the MongoDB/PowerSync platform. They do not authorize implementation in
+the current mock backend.
+
+- The authentication service signs JWTs with a protected asymmetric private key.
+  PowerSync receives only the published JWKS and accepts only the configured
+  algorithm and key IDs. Private keys never enter the app, PowerSync or source
+  control.
+- The Flutter connector gets short-lived access tokens from the auth boundary;
+  refresh credentials use the existing `SecureStore` abstraction. Widgets never
+  read tokens or configure sync endpoints.
+- Sync streams and the write handler derive ownership from the verified JWT
+  `sub`. Payload `user_id` values are consistency-checked, not authorization
+  credentials.
+- Sync and API traffic require TLS with cleartext disabled. Public certificate
+  pinning is optional until backup pins, rotation and recovery have been tested
+  for every supported platform.
+- Reverse-proxy probes are restricted to the monitoring network and contain no
+  sensitive response data. Server version disclosure is disabled.
+
+## 6. Technical terms
 | Term | Meaning |
 |---|---|
 | Bounded vertical slice | One backlog item delivered end to end: UI, ViewModel, repository, mock/API, tests |
@@ -50,3 +72,4 @@ ApiClient / LocalStorage / mock  data sources in apps/mobile/lib/core/
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Merged from `docs/archive/legacy/architecture/README.md`, ADR 001–003 and glossary technical terms |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md) | Added deferred P3/P4 sync security boundary rules |

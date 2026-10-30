@@ -1,0 +1,12 @@
+# Paste under `flutter:` in pubspec.yaml. Ship WOFF2/TTF subsets: latin, latin-ext, vietnamese.
+# Licences: SIL OFL 1.1 — include each OFL.txt on the open-source credits screen (Ch.17).
+  fonts:
+    - family: Newsreader
+      fonts:
+        - asset: assets/fonts/Newsreader[opsz,wght].ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter[opsz,wght].ttf
+    - family: JetBrains Mono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono[wght].ttf

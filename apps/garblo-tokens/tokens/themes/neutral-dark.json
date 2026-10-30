@@ -1,0 +1,111 @@
+{
+  "surface": {
+    "canvas": {
+      "$value": "{color.neutral.dark.canvas}",
+      "$type": "color"
+    },
+    "card": {
+      "$value": "{color.neutral.dark.card}",
+      "$type": "color"
+    },
+    "well": {
+      "$value": "{color.neutral.dark.well}",
+      "$type": "color"
+    },
+    "divider": {
+      "$value": "{color.neutral.dark.divider}",
+      "$type": "color"
+    },
+    "hud-glass": {
+      "$value": "{color.neutral.dark.canvas}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.88
+      }
+    },
+    "image-scrim": {
+      "$value": "{color.fixed.black}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.24
+      }
+    },
+    "overlay-scrim": {
+      "$value": "{color.fixed.black}",
+      "$type": "color",
+      "$extensions": {
+        "garblo.alpha": 0.48
+      }
+    }
+  },
+  "ink": {
+    "primary": {
+      "$value": "{color.neutral.dark.ink-primary}",
+      "$type": "color"
+    },
+    "editorial": {
+      "$value": "{color.neutral.dark.ink-editorial}",
+      "$type": "color"
+    },
+    "muted": {
+      "$value": "{color.neutral.dark.ink-muted}",
+      "$type": "color"
+    }
+  },
+  "rule": {
+    "structural": {
+      "$value": "{color.neutral.dark.rule-structural}",
+      "$type": "color"
+    },
+    "product": {
+      "$value": "{color.neutral.dark.rule-product}",
+      "$type": "color"
+    }
+  },
+  "accent": {
+    "primary": {
+      "$value": "{color.accent.dark.primary}",
+      "$type": "color",
+      "$description": "The one primary action per view (D39)"
+    },
+    "primary-pressed": {
+      "$value": "{color.accent.dark.primary-pressed}",
+      "$type": "color"
+    },
+    "on-primary": {
+      "$value": "{color.accent.dark.on-primary}",
+      "$type": "color"
+    },
+    "agentic-bg": {
+      "$value": "{color.accent.dark.agentic-bg}",
+      "$type": "color",
+      "$description": "Anchor-lock ring only, always with the lock icon (D39)"
+    },
+    "agentic-text": {
+      "$value": "{color.accent.dark.agentic-text}",
+      "$type": "color"
+    },
+    "synthesis-ai": {
+      "$value": "{color.accent.dark.synthesis-ai}",
+      "$type": "color"
+    },
+    "social-pulse": {
+      "$value": "{color.accent.dark.social-pulse}",
+      "$type": "color"
+    }
+  },
+  "status": {
+    "cpw-optimal": {
+      "$value": "{color.accent.dark.cpw-optimal}",
+      "$type": "color"
+    },
+    "cpw-dormant": {
+      "$value": "{color.accent.dark.cpw-dormant}",
+      "$type": "color"
+    },
+    "cpw-dormant-text": {
+      "$value": "{color.accent.dark.cpw-dormant-text}",
+      "$type": "color"
+    }
+  }
+}

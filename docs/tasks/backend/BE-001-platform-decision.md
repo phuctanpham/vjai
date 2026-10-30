@@ -32,6 +32,19 @@ it is [BE-005](BE-005-retire-dating-mock-api.md).
 3. Which wire format do the mobile repositories target: the spec's REST + SSE
    contracts (T2 › API surface) or PowerSync tables (T4 › Phone schema)?
 
+The decision must also approve the minimum security contract from
+[CHG-011](../../changes/CHG-011-power-sync-security-baseline.md):
+
+4. Will the auth service issue asymmetric JWTs and publish a JWKS with an
+   explicit algorithm and `kid` rotation policy?
+5. How do PowerSync streams and `POST /v1/sync/tx` enforce
+   `JWT.sub == user_id`, client-field allow-lists, replay protection and
+   append-only rules?
+6. Which TLS termination, probe network allow-list, secret storage and
+   attachment URL expiry/ownership controls are part of the deployment?
+7. If certificate pinning is selected, where are backup pins, rotation,
+   emergency recovery and Android/iOS/Windows/macOS coverage documented?
+
 ## Deliverable
 
 A `decisions.md` entry (D-006 or later) and an updated
@@ -49,3 +62,4 @@ No infrastructure, database or service is built under this card.
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 conflict analysis. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Acknowledged in review: D-004 must change; decide before P3. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | The current FastAPI code is the retired dating mock; retirement is BE-005. |
+| 2026-10-30 | [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md) | Added security acceptance questions for the P3/P4 platform decision. |

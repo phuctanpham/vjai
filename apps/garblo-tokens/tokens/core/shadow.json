@@ -1,0 +1,88 @@
+{
+  "shadow": {
+    "cutout-resting": {
+      "light": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "offsetX": 0,
+            "offsetY": 2,
+            "blur": 3,
+            "color": "rgba(0,0,0,0.18)"
+          },
+          {
+            "offsetX": 0,
+            "offsetY": 8,
+            "blur": 16,
+            "color": "rgba(0,0,0,0.08)"
+          }
+        ]
+      },
+      "dark": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "offsetX": 0,
+            "offsetY": 2,
+            "blur": 3,
+            "color": "rgba(0,0,0,0.65)"
+          },
+          {
+            "offsetX": 0,
+            "offsetY": 8,
+            "blur": 16,
+            "color": "rgba(0,0,0,0.45)"
+          }
+        ]
+      }
+    },
+    "cutout-lifted": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": 0,
+          "offsetY": 12,
+          "blur": 24,
+          "color": "rgba(0,0,0,0.22)"
+        }
+      ]
+    },
+    "sheet": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": 0,
+          "offsetY": 8,
+          "blur": 24,
+          "color": "rgba(0,0,0,0.12)"
+        }
+      ]
+    }
+  },
+  "z": {
+    "base": {
+      "$value": 0,
+      "$type": "number"
+    },
+    "sticky": {
+      "$value": 10,
+      "$type": "number"
+    },
+    "hud": {
+      "$value": 20,
+      "$type": "number"
+    },
+    "sheet": {
+      "$value": 30,
+      "$type": "number"
+    },
+    "toast": {
+      "$value": 40,
+      "$type": "number"
+    },
+    "modal": {
+      "$value": 50,
+      "$type": "number"
+    }
+  }
+}

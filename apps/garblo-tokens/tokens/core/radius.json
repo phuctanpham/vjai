@@ -1,0 +1,24 @@
+{
+  "radius": {
+    "media": {
+      "$value": 1,
+      "$type": "number"
+    },
+    "key": {
+      "$value": 3,
+      "$type": "number"
+    },
+    "control": {
+      "$value": 8,
+      "$type": "number"
+    },
+    "hud": {
+      "$value": 12,
+      "$type": "number"
+    },
+    "pill": {
+      "$value": 9999,
+      "$type": "number"
+    }
+  }
+}

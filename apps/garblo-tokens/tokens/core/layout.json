@@ -1,0 +1,98 @@
+{
+  "layout": {
+    "breakpoint": {
+      "medium": {
+        "$value": 600,
+        "$type": "number"
+      },
+      "expanded": {
+        "$value": 1024,
+        "$type": "number",
+        "$description": "Workbench, post-pilot (D44)"
+      }
+    },
+    "grid": {
+      "compact": {
+        "columns": {
+          "$value": 4,
+          "$type": "number"
+        },
+        "margin": {
+          "$value": 16,
+          "$type": "number"
+        },
+        "gutter": {
+          "$value": 8,
+          "$type": "number"
+        }
+      },
+      "medium": {
+        "columns": {
+          "$value": 8,
+          "$type": "number"
+        },
+        "margin": {
+          "$value": 24,
+          "$type": "number"
+        },
+        "gutter": {
+          "$value": 16,
+          "$type": "number"
+        }
+      },
+      "expanded": {
+        "columns": {
+          "$value": 12,
+          "$type": "number"
+        },
+        "margin": {
+          "$value": 32,
+          "$type": "number"
+        },
+        "gutter": {
+          "$value": 24,
+          "$type": "number"
+        }
+      }
+    },
+    "span": {
+      "full": {
+        "$value": 358,
+        "$type": "number"
+      },
+      "half": {
+        "$value": 175,
+        "$type": "number"
+      },
+      "third": {
+        "$value": 114,
+        "$type": "number"
+      }
+    },
+    "frame": {
+      "width": {
+        "$value": 390,
+        "$type": "number"
+      },
+      "height": {
+        "$value": 844,
+        "$type": "number"
+      },
+      "inset-top": {
+        "$value": 47,
+        "$type": "number",
+        "$description": "Reference only; read the OS inset"
+      },
+      "inset-bottom": {
+        "$value": 34,
+        "$type": "number",
+        "$description": "Reference only; read the OS inset"
+      }
+    },
+    "offset-floating": {
+      "$value": 16,
+      "$type": "number",
+      "$description": "Sticky CTA and FAB above the nav, or above the bottom inset"
+    }
+  }
+}
