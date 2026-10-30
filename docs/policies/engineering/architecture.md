@@ -48,4 +48,4 @@ ApiClient / LocalStorage / mock  data sources in lib/core/
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Merged from `docs/architecture/README.md`, ADR 001–003 and glossary technical terms |
+| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Merged from `docs/archive/legacy/architecture/README.md`, ADR 001–003 and glossary technical terms |

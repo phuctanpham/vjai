@@ -1,57 +1,70 @@
 # Design System
 
-Visual and interaction rules for every screen. Source of truth for UI decisions; code in `lib/app/theme/` implements it.
+The [Garblo Flow Spec](../../tasks/mobile/Garblo%20Flow%20Spec.html) T7 is
+the source of truth for UI tokens, layout, interaction patterns and copy.
+This policy records only the implementation bridge and accepted deviations;
+it must not recreate T7 or reintroduce the retired dating design.
 
-## 1. Foundations
+## 1. Authority and implementation
 
-| Token | Value |
+- T7 G0–G4 defines the visual contract and wins over older prose.
+- `lib/app/theme/` implements the tokens and themes.
+- Widgets use theme tokens and localized product copy; they do not hard-code
+  product colours or strings.
+- Layout is selected from available width with `LayoutBuilder` or
+  `MediaQuery`, never from the operating system.
+
+## 2. Product tokens
+
+| Token | Contract |
 |---|---|
-| Framework | Material 3 (`useMaterial3: true`) |
-| Colour | `ColorScheme.fromSeed(seedColor: #FF4B6E)`, light and dark, `ThemeMode.system` |
-| Colour usage | Always from `Theme.of(context).colorScheme`. Hard-coded colours only for the swipe actions below and white text on photo overlays |
-| Typography | Material text theme. Names: `headlineMedium` bold; section titles: `titleLarge`/`titleMedium` bold; body: `bodyMedium`/`bodyLarge` |
-| Spacing scale | 4 · 8 · 12 · 16 · 20 · 24 · 32 |
-| Corner radius | 12 list tiles · 16 cards and chips · 20 profile card |
-| Touch target | ≥ 48 × 48 logical px |
-| Brand mark | `Icons.local_fire_department_rounded` + "Garblo" |
+| Primary | Warm forest green `#1F5A2E`; dark theme primary `#7BC88A` |
+| Working state | Violet means Garblo is working |
+| Social accent | Cobalt is reserved for social/community surfaces |
+| Anchor lock | Lime is reserved for the anchor-lock ring |
+| Status | Use the T7 status dot/triangle plus a word; do not communicate status by colour alone |
+| Product pillars | Add, Wardrobe, Gu Match, Impact, Community |
 
-## 2. Layout
+The exact type scale, spacing, grid, shapes, motion, shell modes and
+component redlines remain in T7 G0–G3. UI copy and the glossary remain in
+T7 G4.
+
+## 3. Responsive contract
+
+The application retains the accepted 800 px mobile/desktop breakpoint from
+D-003 and CHG-003 Q-02. T7 grid thresholds still apply to grids and columns
+where specified; the 800 px value is the application shell breakpoint.
 
 | Class | Width | Structure |
 |---|---|---|
-| Mobile | `< 800` | App bar; full-width content; primary actions at the bottom |
-| Desktop | `≥ 800` | 240 px navigation sidebar; centred content; optional detail panel on the right |
+| Mobile | `< 800` | Full-width content and bottom pillar navigation |
+| Desktop | `≥ 800` | Multi-column layout or side navigation as defined by T7 |
 
-Maximum content widths on desktop: profile card 480 × 700 · auth form 420 · onboarding 560 · matches 720 · dialogs 400.
+## 4. Required states and copy
 
-Layout is chosen by available width, never by operating system.
+Screens that load data expose `initial`, `loading`, `loaded`, `empty` and
+`error` states. Empty, error, trust and commit copy follows the relevant T7
+screen and G4 glossary. Do not use dating copy such as “Feed”, “Match” or
+“You're all caught up!” unless it is explicitly part of a legacy feature.
 
-## 3. Components
+## 5. Phase-truth rule
 
-| Component | Rule |
-|---|---|
-| Loading | Centred `CircularProgressIndicator` |
-| Empty | `EmptyView` (`lib/core/widgets/`): icon, title, message, optional outlined action |
-| Error | `ErrorView`: "Something went wrong", message, filled "Try Again" button |
-| Swipe actions | Pass: `close`, red · Superlike: `star`, blue · Like: `favorite`, green. Circular, sizes 64 / 54 / 64, every button has a tooltip |
-| Profile card | Photo or gradient fallback, dark bottom gradient, name + age, occupation, distance, bio (3 lines), interest chips |
+Trust statements describe only behavior implemented in the current phase:
 
-## 4. Standard copy
+- P1 does not claim EXIF/GPS stripping or bystander blurring.
+- P2 may claim implemented metadata stripping.
+- Bystander blurring is not claimed until its implementation phase.
 
-| Situation | Text |
-|---|---|
-| Feed exhausted | "You're all caught up!" · action "Refresh Feed" |
-| Generic error | "Something went wrong" · action "Try Again" |
-| No matches | "No matches yet!" |
+## 6. Known deviations
 
-## 5. Known deviations in code
-- Swipe buttons use `Colors.white` as background, which fails in dark mode.
-- The discovery app bar uses `Colors.deepOrangeAccent` instead of `colorScheme.primary`.
-
-Fix through a CHG record; do not copy these patterns.
+- The 800 px application breakpoint is retained even where T7 uses 600/840/1024
+  grid thresholds.
+- The legacy discovery feature retains its old visual contract until a
+  separate removal or migration change.
 
 ## Change history
 
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the implemented theme, layouts and backlog item constraints |
+| 2026-10-30 | [CHG-007](../../changes/CHG-007-documentation-authority-migration.md) | Aligned active UI policy with Flow Spec T7 and CHG-003 |

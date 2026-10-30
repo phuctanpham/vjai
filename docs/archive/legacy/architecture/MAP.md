@@ -8,10 +8,10 @@ Use this map to navigate the repository efficiently. Do not crawl directories ou
 
 | Partition | Role | Priority | Tech Stack | Root Directory |
 |---|---|---|---|---|
-| **Client Frontend** | Primary multi-native application (Android, iOS, Windows, macOS) | **Primary** | Flutter 3.10+, Dart, Riverpod | [`lib/`](../../lib/) |
-| **Mock Backend** | Lightweight mock API & fixture generator | **Secondary** | Python 3.10+, FastAPI, uv | [`backend/`](../../backend/) |
-| **Test Suites** | Automated verification gates | **Critical** | flutter_test, pytest | [`test/`](../../test/), [`backend/tests/`](../../backend/tests/) |
-| **Documentation & Control**| System governance, ADRs, APRDs, DoD | **Control Plane**| Markdown | [`docs/`](../), [`.github/`](../../.github/) |
+| **Client Frontend** | Primary multi-native application (Android, iOS, Windows, macOS) | **Primary** | Flutter 3.10+, Dart, Riverpod | [`lib/`](../../../../lib/) |
+| **Mock Backend** | Lightweight mock API & fixture generator | **Secondary** | Python 3.10+, FastAPI, uv | [`backend/`](../../../../backend/) |
+| **Test Suites** | Automated verification gates | **Critical** | flutter_test, pytest | [`test/`](../../../../test/), [`backend/tests/`](../../../../backend/tests/) |
+| **Documentation & Control**| System governance, ADRs, APRDs, DoD | **Control Plane**| Markdown | [`docs/`](../../..), [`.github/`](../../../../.github/) |
 
 ---
 
@@ -100,11 +100,10 @@ test/
 
 ## 5. Control Plane Documents (`docs/` & `.github/`)
 
-- `.github/copilot-instructions.md`: Non-negotiable agent directives.
-- `docs/architecture/00X-*.md`: Architectural Decision Records (ADRs).
-- `docs/architecture/GLOSSARY.md`: Domain glossary & ubiquitous language.
-- `docs/specs/`: Agentic Product Requirements Documents (APRDs).
-- `docs/tasks/README.md`: Phased vertical slice backlog.
-- `docs/quality/DOD.md`: Executable Definition of Done.
-- `docs/agent/LESSONS_LEARNED.md`: Living memory of agent guardrails.
-
+- [`../../../../.github/copilot-instructions.md`](../../../../.github/copilot-instructions.md): Non-negotiable agent directives.
+- `docs/archive/legacy/architecture/00X-*.md`: Superseded ADRs.
+- `docs/archive/legacy/architecture/GLOSSARY.md`: Superseded domain glossary.
+- `docs/archive/legacy/specs/`: Superseded APRDs.
+- `docs/tasks/mobile/README.md` and `docs/tasks/backend/README.md`: Active task indexes.
+- `docs/archive/legacy/quality/DOD.md`: Superseded Definition of Done.
+- `docs/memory/LESSONS_LEARNED.md`: Living memory of agent guardrails.

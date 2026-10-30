@@ -17,6 +17,10 @@ __pycache__/
 htmlcov/
 dist/
 
+# Claude Code: personal notes and settings (CLAUDE.md and .claude/ are shared)
+CLAUDE.local.md
+.claude/settings.local.json
+
 # IDE & OS
 .DS_Store
 Thumbs.db

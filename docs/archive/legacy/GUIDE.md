@@ -1,28 +1,40 @@
 # Current Agentic Engineering Manager Guide
 
+> **Migration note:** This file is retained as a historical guide. The active
+> authority is [`docs/README.md`](../../README.md), the relevant
+> [`docs/policies/`](../../policies/) files, the applicable task, and the
+> [Garblo Flow Spec](../../tasks/mobile/Garblo%20Flow%20Spec.html).
+> Sections below that describe discovery, dating, or the old phase sequence
+> are historical and must not be used as current product requirements.
+
 > **Current authority:** This section supersedes the historical bootstrap prompt below. Coding agents must follow the current repository documents, not the original Go-backend proposal.
 
-## Current source-of-truth order
+## Historical source-of-truth order
 
 Before changing code, an agent must read these documents in order:
 
-1. [`.github/copilot-instructions.md`](.github/copilot-instructions.md) — non-negotiable engineering rules.
-2. [`docs/architecture/MAP.md`](docs/architecture/MAP.md) — bounded-context topology and file ownership.
-3. [`docs/architecture/GLOSSARY.md`](docs/architecture/GLOSSARY.md) — canonical domain vocabulary.
-4. The relevant ADRs under [`docs/architecture/`](docs/architecture/).
-5. The feature APRD under [`docs/specs/`](docs/specs/), when one exists.
-6. The task card under [`docs/tasks/`](docs/tasks/).
-7. [`docs/quality/DOD.md`](docs/quality/DOD.md) — completion and verification gates.
-8. [`docs/agent/LESSONS_LEARNED.md`](docs/agent/LESSONS_LEARNED.md) — known agent failure modes.
+1. [`.github/copilot-instructions.md`](../../../.github/copilot-instructions.md) — non-negotiable engineering rules.
+2. [`docs/archive/legacy/architecture/MAP.md`](../../archive/legacy/architecture/MAP.md) — bounded-context topology and file ownership.
+3. [`docs/archive/legacy/architecture/GLOSSARY.md`](../../archive/legacy/architecture/GLOSSARY.md) — canonical domain vocabulary.
+4. The relevant ADRs under [`docs/archive/legacy/architecture/`](../../archive/legacy/architecture/).
+5. The feature APRD under [`docs/archive/legacy/specs/`](../../archive/legacy/specs/), when one exists.
+6. The task card under [`docs/tasks/`](../../tasks/).
+7. [`docs/archive/legacy/quality/DOD.md`](../../archive/legacy/quality/DOD.md) — completion and verification gates.
+8. [`docs/memory/LESSONS_LEARNED.md`](../../memory/LESSONS_LEARNED.md) — known agent failure modes.
 
-If documents conflict, the current repository implementation and the source-of-truth order above take precedence. Do not infer requirements from stale examples.
+For current work, use the precedence in [`docs/README.md`](../../README.md):
+agent specs > item card > acceptance/test plans > Flow Spec by section (T7/T2/T4/T6)
+> active policies > existing code. Do not infer requirements from the
+historical examples below.
 
 ## Current technical point of view
 
 ### Product architecture
 
-- Flutter/Dart under [`lib/`](lib/) is the primary product.
-- Python/FastAPI under [`backend/`](backend/) is a lightweight secondary mock API managed with `uv`.
+- Flutter/Dart under [`lib/`](../../../lib/) is the primary product.
+- Python/FastAPI under [`backend/`](../../../backend/) is currently a phase-limited
+  legacy mock API managed with `uv`; BE-001 controls any future backend
+  platform decision.
 - Use feature-first bounded vertical slices under `lib/features/<feature>/`.
 - Keep shared infrastructure in `lib/core/` and app shell concerns in `lib/app/`.
 - Use Riverpod for dependency injection and immutable ViewModel state.
@@ -52,12 +64,15 @@ Widgets must not call repositories, parse raw JSON, access storage, or contain b
 - Add routes under `backend/app/api/v1/endpoints/`.
 - Define request and response contracts with Pydantic models.
 - Keep the backend deterministic, fixture-backed, and easy to run locally.
-- Do not introduce databases, microservices, production auth, cloud deployment, or infrastructure for a mock-only requirement.
+- Do not introduce backend infrastructure while BE-001 is unresolved. Follow
+  the applicable phase anti-scope rather than assuming the mock is final.
 - Backend verification uses `uv sync --extra dev` and `uv run pytest`.
 
 ## Product backlog technical contract
 
-Every task card in [`docs/tasks/README.md`](docs/tasks/README.md) must communicate the following technical points before an agent starts:
+Every active task card in [`docs/tasks/mobile/README.md`](../../tasks/mobile/README.md)
+or [`docs/tasks/backend/README.md`](../../tasks/backend/README.md) must communicate
+the following technical points before an agent starts:
 
 | Required point | Managerial purpose |
 |---|---|
@@ -95,7 +110,7 @@ For each task, the coding agent must:
 - Offline fallback is allowed only where the task explicitly requires it and must be observable.
 - ViewModels must prevent duplicate actions during loading or submission.
 
-### Required backlog sequence
+### Historical backlog sequence
 
 The current backlog is organized as:
 
@@ -109,7 +124,8 @@ The current backlog is organized as:
 | TASK-011 / TASK-012 / TASK-013 | Notifications, user safety, and deterministic moderation |
 | TASK-014 / TASK-015 | Mock subscriptions, accessibility, and performance quality |
 
-Agents must not implement a later task early merely because its placeholder directory exists.
+Agents must not use this historical sequence as the active backlog. Follow the
+current mobile and backend task indexes instead.
 
 ## Documentation maintenance rules
 
@@ -350,7 +366,7 @@ Add or update the root `README.md` with:
 
 > **Historical document:** This file records the original repository bootstrap prompt. It is retained for project history and must not be treated as the current implementation specification.
 >
-> The current sources of truth are [`.github/copilot-instructions.md`](.github/copilot-instructions.md), [`docs/architecture/MAP.md`](docs/architecture/MAP.md), the relevant APRD and task card, and [`docs/quality/DOD.md`](docs/quality/DOD.md). The backend has since moved from the originally proposed Go skeleton to the lightweight Python/FastAPI mock backend documented in [`backend/README.md`](backend/README.md).
+> The current sources of truth are [`.github/copilot-instructions.md`](../../../.github/copilot-instructions.md), [`docs/archive/legacy/architecture/MAP.md`](../../archive/legacy/architecture/MAP.md), the relevant APRD and task card, and [`docs/archive/legacy/quality/DOD.md`](../../archive/legacy/quality/DOD.md). The backend has since moved from the originally proposed Go skeleton to the lightweight Python/FastAPI mock backend documented in [`backend/README.md`](../../../backend/README.md).
 
 Add agent instructions at:
 
@@ -376,7 +392,7 @@ Include these rules:
 Add:
 
 ```text
-docs/architecture/README.md
+docs/archive/legacy/architecture/README.md
 ```
 
 Document:
@@ -395,16 +411,16 @@ Document:
 Add ADR files:
 
 ```text
-docs/architecture/001-feature-first-architecture.md
-docs/architecture/002-state-management.md
-docs/architecture/003-adaptive-mobile-desktop-ui.md
-docs/architecture/004-agentic-development-workflow.md
+docs/archive/legacy/architecture/001-feature-first-architecture.md
+docs/archive/legacy/architecture/002-state-management.md
+docs/archive/legacy/architecture/003-adaptive-mobile-desktop-ui.md
+docs/archive/legacy/architecture/004-agentic-development-workflow.md
 ```
 
 Add an initial task backlog:
 
 ```text
-docs/tasks/README.md
+docs/tasks/mobile/README.md
 ```
 
 The task backlog should describe future vertical slices, including:
@@ -526,7 +542,7 @@ After the agent finishes, review the pull request and verify that it did not imp
 ```text
 .github/copilot-instructions.md
 README.md
-docs/architecture/README.md
+docs/archive/legacy/architecture/README.md
 lib/features/discovery/
 backend/cmd/server/main.go
 ```
@@ -780,7 +796,7 @@ Include these rules:
 Add:
 
 ```text
-docs/architecture/README.md
+docs/archive/legacy/architecture/README.md
 ```
 
 Document:
@@ -799,16 +815,16 @@ Document:
 Add ADR files:
 
 ```text
-docs/architecture/001-feature-first-architecture.md
-docs/architecture/002-state-management.md
-docs/architecture/003-adaptive-mobile-desktop-ui.md
-docs/architecture/004-agentic-development-workflow.md
+docs/archive/legacy/architecture/001-feature-first-architecture.md
+docs/archive/legacy/architecture/002-state-management.md
+docs/archive/legacy/architecture/003-adaptive-mobile-desktop-ui.md
+docs/archive/legacy/architecture/004-agentic-development-workflow.md
 ```
 
 Add an initial task backlog:
 
 ```text
-docs/tasks/README.md
+docs/tasks/mobile/README.md
 ```
 
 The task backlog should describe future vertical slices, including:
@@ -930,7 +946,7 @@ After the agent finishes, review the pull request and verify that it did not imp
 ```text
 .github/copilot-instructions.md
 README.md
-docs/architecture/README.md
+docs/archive/legacy/architecture/README.md
 lib/features/discovery/
 backend/cmd/server/main.go
 ```

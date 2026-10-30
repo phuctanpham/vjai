@@ -1,6 +1,7 @@
 # Garblo
 
-> Cross-platform discovery and social connection application built with Flutter and Python/FastAPI.
+> Cross-platform wardrobe and outfit application built with Flutter, with a
+> phase-limited FastAPI mock backend for early integration work.
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.24.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
@@ -11,19 +12,31 @@
 
 ## Product Overview
 
-**Garblo** is a modern cross-platform application designed for discovering people, shared interests, and social connections. Designed for a solo developer utilizing agentic coding workflows, Garblo emphasizes:
+**Garblo** is a wardrobe and outfit application. Flow A turns photos into
+structured wardrobe Pieces; Flow B creates Gu Match outfits from the user's
+own Pieces. Flow C (Impact) and Flow D (Community) are feature-flagged
+nice-to-have flows.
+
+The [Garblo Flow Spec](docs/tasks/mobile/Garblo%20Flow%20Spec.html) is the
+product authority: T7 governs UI, T2 data names, T4 the data platform, and T6
+the phase ladder. See [docs/README.md](docs/README.md) for documentation
+authority and precedence.
 
 - **Clean separation of concerns**: Feature-first MVVM architecture with clear dependency flow.
 - **Adaptive UI**: Responsive layouts tailored to mobile touch screens and widescreen desktop environments without platform fragmentation.
-- **Mock-driven velocity**: A lightweight Python / FastAPI mock server managed with `uv` for immediate prototyping and rapid integration.
+- **Phase-based delivery**: P1/P2 use in-memory or local persistence and fake
+  AI; the future backend platform is pending BE-001.
 
 ---
 
 ## Current Project Status
 
-- **Status**: Foundation & Discovery Scaffold (Initial Architecture Complete).
+- **Status**: Phase 2 persistent offline wardrobe app; legacy discovery code
+  remains unrouted.
 - **Frontend**: Flutter application structure with Riverpod, Material 3 theming, responsive mobile/desktop layouts, and fully tested Discovery vertical slice with mock repository.
-- **Backend**: FastAPI mock API managed with `uv`, exposing health checks (`/health`, `/api/v1/health`), sample discovery candidates (`/api/v1/discovery`), and swipe submission (`/api/v1/swipes`).
+- **Backend**: FastAPI remains a legacy dating mock for fixture and integration
+  tests only; its P3/P4 replacement is unresolved in
+  [BE-001](docs/tasks/backend/BE-001-platform-decision.md).
 
 ---
 
@@ -40,71 +53,16 @@
 
 ## Repository Structure
 
-```text
-.
-├── .github/
-│   └── copilot-instructions.md       # AI agent development rules & guidelines
-├── docs/
-│   ├── architecture/
-│   │   ├── README.md                 # Complete architecture guide
-│   │   ├── MAP.md                    # Codebase topology & agent context map
-│   │   ├── GLOSSARY.md               # Domain vocabulary & ubiquitous language
-│   │   ├── 001-feature-first-architecture.md
-│   │   ├── 002-state-management.md
-│   │   ├── 003-adaptive-mobile-desktop-ui.md
-│   │   ├── 004-agentic-development-workflow.md
-│   │   └── 005-agentic-product-management.md
-│   ├── specs/
-│   │   ├── APRD-001-discovery.md
-│   │   ├── APRD-002-authentication.md
-│   │   ├── APRD-003-profile-onboarding.md
-│   │   ├── APRD-005-swipe-persistence.md
-│   │   ├── APRD-006-backend-api-integration.md
-│   │   ├── APRD-007-mutual-matching.md
-│   │   └── APRD-008-matches-list.md
-│   ├── quality/
-│   │   └── DOD.md                    # Definition of Done & automated gates
-│   ├── agent/
-│   │   └── LESSONS_LEARNED.md        # Living memory of agent guardrails
-│   └── tasks/
-│       └── README.md                 # Vertical slice task backlog (Phases 1-6)
-├── backend/                          # Secondary Mock backend API (Python / FastAPI / uv)
-│   ├── pyproject.toml                # Dependencies & uv project configuration
-│   ├── README.md                     # Backend documentation & endpoints
-│   ├── app/
-│   │   ├── main.py                   # FastAPI server entrypoint & CORS
-│   │   ├── config.py                 # Environment settings
-│   │   ├── api/                      # Aggregated API routes & v1 endpoints
-│   │   ├── models/                   # Pydantic schemas (Profile, Swipe, Health)
-│   │   └── data/                     # Sample mock discovery profiles
-│   └── tests/                        # Backend test suite (pytest)
-├── lib/                              # Flutter client application
-│   ├── main.dart                     # Flutter application entrypoint
-│   ├── app/                          # App shell, routing, theme, providers
-│   ├── core/                         # Core abstractions (errors, widgets, storage)
-│   └── features/                     # Feature-first domain modules
-│       ├── discovery/                # Implemented: Discovery feature slice
-│       │   ├── data/                 # DiscoveryRepository & MockDiscoveryRepository
-│       │   ├── domain/               # Profile entity & SwipeType enum
-│       │   └── presentation/         # Views, ViewModels, and adaptive layouts
-│       ├── auth/                     # Placeholder: Authentication boundary
-│       ├── onboarding/               # Placeholder: Onboarding wizard
-│       ├── matching/                 # Placeholder: Match list & celebration
-│       ├── chat/                     # Placeholder: Realtime messaging
-│       ├── profile/                  # Placeholder: Self profile & settings
-│       ├── notifications/            # Placeholder: Push & alerts
-│       └── moderation/               # Placeholder: Block & report
-├── test/                             # Flutter test suites
-│   └── features/discovery/
-│       ├── data/discovery_repository_test.dart
-│       ├── domain/profile_test.dart
-│       └── presentation/
-│           ├── discovery_view_model_test.dart
-│           └── discovery_view_test.dart
-├── pubspec.yaml                      # Flutter dependencies & metadata
-├── analysis_options.yaml             # Dart static analysis configuration
-└── README.md                         # Project documentation
-```
+This is a two-package monorepo. The annotated file tree lives in one place,
+[`docs/policies/engineering/codebase-map.md`](docs/policies/engineering/codebase-map.md).
+
+| Path | Contents |
+|---|---|
+| `lib/`, `test/`, `pubspec.yaml` | Flutter app (`garblo`): `app/` shell and routing, `core/` storage, media and layout, `features/` wardrobe slices |
+| `backend/` | Legacy FastAPI mock API (`garblo-backend`, managed with `uv`) |
+| `docs/` | Every document; start at [`docs/README.md`](docs/README.md) |
+| `CLAUDE.md`, `.claude/` | Claude Code instructions, subagents and skills |
+| `.github/` | Copilot instructions and the Android APK workflow |
 
 ---
 
@@ -126,19 +84,19 @@ Data Source (Mock / FastAPI Backend / Local Storage)
 
 1. **Explicit States**: State is modeled with explicit status flags (`initial`, `loading`, `loaded`, `empty`, `error`) and immutable state classes.
 2. **Adaptive Responsive Layouts**: Uses `LayoutBuilder` with an `800px` breakpoint:
-   - **Mobile (< 800px)**: Focuses on touch cards and bottom action buttons (Pass, Superlike, Like).
-   - **Desktop (>= 800px)**: Multi-column view providing sidebar navigation, centered card preview, and a detailed profile metadata sidebar.
+   - **Mobile (< 800px)**: Full-width content and bottom pillar navigation.
+   - **Desktop (>= 800px)**: Multi-column layouts defined by T7.
 3. **No Platform Checks in Widgets**: Avoids scattering `Platform.isAndroid` or `Platform.isWindows` in presentation code; layout is strictly driven by constraints.
 
 ---
 
 ## Backend Architecture
 
-The backend is built with **FastAPI** and packaged using **`uv`**:
-
-- **Fast & Lightweight**: Zero heavy infrastructure required for local development.
-- **Realistic Mock Data**: Returns complete `Profile` models with realistic names, bios, interest tags, and photos.
-- **CORS Configured**: Ready for Flutter Web and desktop clients out of the box.
+The current FastAPI service is a phase-limited, deterministic mock. It exists
+for health checks and legacy fixture/integration tests; it is not the target
+P3/P4 wardrobe backend. MongoDB, PowerSync, identity and wire-contract
+decisions remain pending in
+[BE-001](docs/tasks/backend/BE-001-platform-decision.md).
 
 ---
 
@@ -160,7 +118,7 @@ flutter pub get
 flutter run
 
 # Run with custom backend host if needed
-flutter run --dart-define=API_URL=http://localhost:8080
+flutter run --dart-define=API_BASE_URL=http://localhost:8080
 ```
 
 ### 2. Backend Setup (with `uv`)
@@ -185,7 +143,7 @@ Once running:
 - API Root: [http://localhost:8080/](http://localhost:8080/)
 - Health Check: [http://localhost:8080/health](http://localhost:8080/health)
 - Swagger Documentation: [http://localhost:8080/docs](http://localhost:8080/docs)
-- Discovery Feed: [http://localhost:8080/api/v1/discovery](http://localhost:8080/api/v1/discovery)
+- Legacy discovery fixture: [http://localhost:8080/api/v1/discovery](http://localhost:8080/api/v1/discovery)
 
 ---
 
@@ -207,8 +165,8 @@ flutter test
 ### Download a sample Android APK
 
 Every push to `main` and every manually dispatched run of
-[`.github/workflows/android-apk.yml`](.github/workflows/android-apk.yml) builds the
-sample Discovery app and publishes an artifact named `garblo-android-apk`.
+[`.github/workflows/android-apk.yml`](.github/workflows/android-apk.yml) builds the current Flutter app and publishes an artifact named
+`garblo-android-apk`.
 
 To download it:
 
@@ -234,20 +192,15 @@ uv run pytest
 
 ---
 
-## Known Limitations
+## Known Limitations and phase status
 
-- **Mock Discovery Data**: Discovery profiles are currently generated from mock sample data; production database persistence is scheduled for Phase 3.
-- **Swipes**: Swipes are recorded in-memory without persistent user session tracking.
-- **Placeholders**: Feature modules for Auth, Matching, Chat, Notifications, and Moderation have established directory structures and interfaces, but business logic is deferred to upcoming vertical slices.
+- P1/P2 use fake analysis and local repositories; production AI and backend
+  services are later phases.
+- The legacy dating feature tree and FastAPI endpoints remain for historical
+  compatibility and are not routed by the wardrobe app.
+- P3/P4 platform and synchronization decisions are blocked by
+  [BE-001](docs/tasks/backend/BE-001-platform-decision.md).
 
----
-
-## Future Implementation Phases
-
-1. **Phase 2**: Authentication (Email/OAuth) & Multi-Step Profile Onboarding.
-2. **Phase 3**: Mutual Match Formation, Match Celebrations & Swipe Persistence.
-3. **Phase 4**: Realtime Chat via WebSockets & Message History.
-4. **Phase 5**: User Safety (Block/Report) & Push Notifications.
-5. **Phase 6**: Premium Subscriptions & Performance Optimizations.
-
-For full details, see [`docs/tasks/README.md`](file:///f:/github/vjai/docs/tasks/README.md).
+For the active phase ladder, see
+[Garblo Flow Spec T6](docs/tasks/mobile/Garblo%20Flow%20Spec.html#phases) and
+[mobile task status](docs/tasks/mobile/README.md).
