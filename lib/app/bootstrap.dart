@@ -8,14 +8,15 @@ import 'package:sqlite3/open.dart' as sqlite_open;
 
 import '../core/errors/failures.dart';
 import '../core/storage/attachment_store.dart';
-import '../core/storage/garblo_database.dart';
 import '../core/storage/install_identity.dart';
+import '../core/storage/local_data_store.dart';
 import '../core/storage/object_id.dart';
 import '../core/storage/secure_store.dart';
 import '../core/storage/storage_providers.dart';
 import '../core/time/clock.dart';
 import '../features/gu_match/data/gu_match_repository.dart';
 import '../features/gu_match/data/local_gu_match_repository.dart';
+import '../features/privacy/data/privacy_repository.dart';
 import '../features/studio/data/local_studio_repository.dart';
 import '../features/studio/data/studio_repository.dart';
 import '../features/wardrobe/data/demo_seed.dart';
@@ -34,13 +35,13 @@ void openSqlCipher() {
   }
 }
 
-/// The opened local store and the provider overrides that use it.
+/// The opened local store. [overridesFor] builds the provider overrides
+/// that use it; they read the database when a scope is created, so after
+/// "Delete all" a new scope runs on the fresh store (TASK-008-S05).
 class LocalStoreSession {
-  /// Closes the database (before a restart on a fresh store).
-  final Future<void> Function() close;
-  final List<Override> overrides;
+  final List<Override> Function(void Function() onReset) overridesFor;
 
-  const LocalStoreSession({required this.close, required this.overrides});
+  const LocalStoreSession({required this.overridesFor});
 }
 
 /// Opens the encrypted database before the app runs and swaps the in-memory
@@ -57,39 +58,46 @@ Future<LocalStoreSession> openLocalStore() async {
     root: Directory('${dir.path}${separator}attachments'),
     ids: ids,
   );
-  final db = await GarbloDatabase.open(
-    path: '${dir.path}${separator}garblo.db',
-    key: await identity.databaseKey(),
+  final store = LocalDataStore(
+    databasePath: '${dir.path}${separator}garblo.db',
+    attachments: attachments,
+    identity: identity,
     beforeOpen: openSqlCipher,
   );
+  await store.open();
   final owner = await identity.ownerId();
-  final wardrobe = LocalWardrobeRepository(db: db, ownerId: owner);
-  final wear = LocalWearRepository(db: db, ownerId: owner);
   if (demoSeedEnabled) {
-    await seedDemoArchive(wardrobe: wardrobe, today: clock.now());
+    await seedDemoArchive(
+      wardrobe: LocalWardrobeRepository(db: store.database, ownerId: owner),
+      today: clock.now(),
+    );
   }
 
   return LocalStoreSession(
-    close: db.close,
-    overrides: [
-      localDatabaseProvider.overrideWithValue(db),
+    overridesFor: (onReset) => [
+      localDatabaseProvider.overrideWith((ref) => store.database),
       ownerIdProvider.overrideWithValue(owner),
       attachmentStoreProvider.overrideWithValue(attachments),
       objectIdGeneratorProvider.overrideWithValue(ids),
-      wardrobeRepositoryProvider.overrideWithValue(wardrobe),
-      wearRepositoryProvider.overrideWithValue(wear),
+      dataResetProvider.overrideWithValue(onReset),
+      privacyRepositoryProvider.overrideWith((ref) => LocalPrivacyRepository(
+          store: store, clock: ref.watch(clockProvider))),
+      wardrobeRepositoryProvider.overrideWith((ref) => LocalWardrobeRepository(
+          db: ref.watch(localDatabaseProvider), ownerId: owner)),
+      wearRepositoryProvider.overrideWith((ref) => LocalWearRepository(
+          db: ref.watch(localDatabaseProvider), ownerId: owner)),
       studioRepositoryProvider.overrideWith((ref) => LocalStudioRepository(
-            db: db,
+            db: ref.watch(localDatabaseProvider),
             ownerId: owner,
             attachments: attachments,
             ids: ids,
             clock: ref.watch(clockProvider),
           )),
       guMatchRepositoryProvider.overrideWith((ref) => LocalGuMatchRepository(
-            db: db,
+            db: ref.watch(localDatabaseProvider),
             ownerId: owner,
-            wardrobeRepository: wardrobe,
-            wearRepository: wear,
+            wardrobeRepository: ref.watch(wardrobeRepositoryProvider),
+            wearRepository: ref.watch(wearRepositoryProvider),
             clock: ref.watch(clockProvider),
             ids: ids,
           )),
@@ -99,6 +107,7 @@ Future<LocalStoreSession> openLocalStore() async {
 
 /// Opens the local store, then runs [GarbloApp] on it. Shows an explicit
 /// error with "Try again" when storage cannot be opened (TASK-005-S09).
+/// After "Delete all" it restarts the app on the fresh store (TASK-008-S05).
 class GarbloBootstrap extends StatefulWidget {
   final Future<LocalStoreSession> Function() open;
 
@@ -111,6 +120,10 @@ class GarbloBootstrap extends StatefulWidget {
 class _GarbloBootstrapState extends State<GarbloBootstrap> {
   late Future<LocalStoreSession> _session = _open();
 
+  /// Each restart gets a new scope, so every provider starts fresh.
+  int _generation = 0;
+  List<Override>? _overrides;
+
   /// The FutureBuilder reports the error; `ignore` keeps an error that
   /// arrives before it subscribes from counting as unhandled.
   Future<LocalStoreSession> _open() => widget.open()..ignore();
@@ -118,6 +131,14 @@ class _GarbloBootstrapState extends State<GarbloBootstrap> {
   void _retry() {
     setState(() {
       _session = _open();
+    });
+  }
+
+  void _restart() {
+    if (!mounted) return;
+    setState(() {
+      _generation++;
+      _overrides = null;
     });
   }
 
@@ -129,7 +150,8 @@ class _GarbloBootstrapState extends State<GarbloBootstrap> {
         final session = snapshot.data;
         if (session != null) {
           return ProviderScope(
-            overrides: session.overrides,
+            key: ValueKey(_generation),
+            overrides: _overrides ??= session.overridesFor(_restart),
             child: const GarbloApp(),
           );
         }

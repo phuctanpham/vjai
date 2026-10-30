@@ -29,7 +29,15 @@ class PrivacyState {
     this.errorMessage,
   });
 
-  factory PrivacyState.initial() => throw UnimplementedError('TASK-008-S02');
+  factory PrivacyState.initial() => const PrivacyState(
+        status: PrivacyStatus.initial,
+        step: PrivacyStep.overview,
+        counts: ErasureCounts.none,
+      );
+
+  bool get isConfirming =>
+      step == PrivacyStep.confirmWithdraw ||
+      step == PrivacyStep.confirmDeleteAll;
 
   PrivacyState copyWith({
     PrivacyStatus? status,
@@ -38,11 +46,22 @@ class PrivacyState {
     String? errorMessage,
     bool clearError = false,
   }) =>
-      throw UnimplementedError('TASK-008-S02');
+      PrivacyState(
+        status: status ?? this.status,
+        step: step ?? this.step,
+        counts: counts ?? this.counts,
+        errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      );
 
   @override
-  bool operator ==(Object other) => throw UnimplementedError('TASK-008-S02');
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PrivacyState &&
+          status == other.status &&
+          step == other.step &&
+          counts == other.counts &&
+          errorMessage == other.errorMessage;
 
   @override
-  int get hashCode => throw UnimplementedError('TASK-008-S02');
+  int get hashCode => Object.hash(status, step, counts, errorMessage);
 }

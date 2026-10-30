@@ -84,6 +84,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
     try {
       final consent = await _studioRepository.activeConsent();
       final batch = await _studioRepository.loadOpenBatch();
+      if (!mounted) return;
       var next = StudioState.initial().copyWith(
         consent: consent,
         consentChecked: consent != null,
@@ -104,6 +105,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
       }
       state = next;
     } on Failure catch (failure) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: failure.message);
     }
   }
@@ -116,6 +118,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
 
     final picked =
         await _photoPicker.pick(maxCount: state.tray.remainingCapacity);
+    if (!mounted) return;
     final before = state.tray.count;
     final result = state.tray.add(picked, newAssetId: _ids.next);
     final added = result.tray.assets.sublist(before);
@@ -142,6 +145,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
           failedAssetIds: [for (final a in added) a.assetId],
         );
       }
+      if (!mounted) return;
       final stored = {for (final a in storage.stored) a.assetId: a};
       tray = PhotoTray(
         assets: List.unmodifiable([
@@ -187,6 +191,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
             grantedAt: _clock.now(),
             includesBodyProcessing: true,
           ));
+      if (!mounted) return;
       state = state.copyWith(
         batchStatus: BatchStatus.sanitizing,
         consent: consent,
@@ -194,6 +199,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
       );
       _persist();
     } on Failure catch (failure) {
+      if (!mounted) return;
       state = state.copyWith(errorMessage: failure.message);
     }
   }
@@ -274,10 +280,12 @@ class StudioViewModel extends StateNotifier<StudioState> {
     final items = [for (final item in review.items) _toWardrobeItem(item, now)];
     try {
       await _wardrobeRepository.saveItems(items);
+      if (!mounted) return;
       state =
           state.copyWith(batchStatus: BatchStatus.completed, isSaving: false);
       _persist();
     } on Failure {
+      if (!mounted) return;
       state = state.copyWith(isSaving: false, errorMessage: saveFailedMessage);
     }
   }
@@ -302,6 +310,8 @@ class StudioViewModel extends StateNotifier<StudioState> {
         assets: state.tray.assets,
         selection: state.selection,
       );
+      // After "Delete all" the ViewModel is gone: write nothing (S07).
+      if (!mounted) return;
       if (review.outcome == AnalysisOutcome.allFailed) {
         state = state.copyWith(
           batchStatus: BatchStatus.failed,
@@ -315,6 +325,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
         );
       }
     } on Failure {
+      if (!mounted) return;
       state = state.copyWith(
         batchStatus: BatchStatus.failed,
         errorMessage: analysisFailedMessage,

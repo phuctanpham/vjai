@@ -42,9 +42,11 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
   /// undecided Fits, reopens its deck at the first one (TASK-005-S03).
   Future<void> restore() async {
     await load();
+    if (!mounted) return;
     try {
       final draft = await _repository.loadContextDraft();
       final snapshot = await _repository.loadLatestSession();
+      if (!mounted) return;
       state = state.copyWith(context: draft);
       final fits = snapshot?.candidates ?? const <OutfitCandidate>[];
       final next =
@@ -77,6 +79,7 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
     state = state.copyWith(status: GuMatchStatus.loading, clearError: true);
     try {
       final count = await _repository.readyItemCount();
+      if (!mounted) return;
       state = state.copyWith(
         status: count == 0 ? GuMatchStatus.empty : GuMatchStatus.loaded,
         readyCount: count,
@@ -118,6 +121,7 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
 
     try {
       final session = await _repository.startSession(state.context);
+      if (!mounted) return;
       state = state.copyWith(
         session: session,
         phase: GuMatchPhase.analyzingContext,
@@ -149,6 +153,7 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
       );
 
       final deck = await _repository.buildDeck(session);
+      if (!mounted) return;
       _shownAt = _clock.now();
       state = state.copyWith(
         phase:
