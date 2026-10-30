@@ -47,6 +47,7 @@ JSON is `TEXT`. Every synced table also has `id TEXT PRIMARY KEY`.
 | `wear_events` | synced rw, append-only | `user_id`, `worn_date`, `candidate_id`, `source`, `signature`, `ambient_temp_c` INTEGER, `items` (JSON `[{item_id, gap_days, rescue_eligible}]`), `created_at` |
 | `upload_batches` | synced rw | `user_id`, `purpose`, `consent_id`, `status`, `req_outfit`, `req_pose`, `req_background` (INTEGER), `ambient_temp_c` INTEGER, `created_at`, `updated_at` |
 | `media_assets` | synced rw | `user_id`, `batch_id`, `slot_index` INTEGER, `mime_type`, `attachment_id`, `orientation` INTEGER, `exif_gps_stripped`, `bystanders_blurred`, `contains_person`, `removed` (INTEGER), `created_at` |
+| `ai_processing_jobs` | synced rw (server-written from P4), added by [CHG-006](CHG-006-phase-2-green-decisions.md) G-03 | `user_id`, `batch_id`, `asset_id`, `task_type`, `status`, `created_at`, `updated_at` — one job per photo × task, deterministic ID |
 | `extracted_items` | synced rw (server-written from P4) | `user_id`, `batch_id`, `asset_id`, `item_index` INTEGER, `name`, `confidence` REAL, `ai` JSON, `value` JSON, `last_worn_input` JSON, `cutout_attachment_id`, `created_at` |
 | `consents` | synced rw, insert-only | `user_id`, `version`, `includes_body` INTEGER, `granted_at`, `revoked_at` |
 | `interactions` | synced rw | `user_id`, `session_id`, `candidate_id`, `action`, `dwell_ms` INTEGER, `from_item_id`, `to_item_id`, `created_at` |
@@ -57,7 +58,8 @@ JSON is `TEXT`. Every synced table also has `id TEXT PRIMARY KEY`.
 
 Indexes: `wardrobe_items(user_id, archived, created_at)`,
 `wear_events(user_id, worn_date)`, `upload_batches(user_id, status)`,
-`media_assets(batch_id, slot_index)`, `extracted_items(batch_id, item_index)`,
+`media_assets(batch_id, slot_index)`, `ai_processing_jobs(batch_id, asset_id)`,
+`extracted_items(batch_id, item_index)`,
 `gu_match_sessions(user_id, recent)`, `outfit_candidates(session_id, deck_order)`,
 `interactions(session_id)`.
 

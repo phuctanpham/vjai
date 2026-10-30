@@ -81,16 +81,15 @@ Device checks (not in `flutter test`, reported as skipped until run): the
 database file is unreadable without the key on a phone (SQLCipher); a real
 restart on Android and iOS.
 
-Open questions found while writing the red tests (decide before green):
+Questions from the red run, decided in
+[CHG-006](../../changes/CHG-006-phase-2-green-decisions.md):
 
-- The fake analysis finds Pieces by photo URI (preset fixtures). Real photos
-  from `image_picker` match no fixture, so Flow A on a device yields "no
-  clothes found" until AI-001 lands. Options: keep the sample photos as a
-  picker choice, or let the fake return fixture Pieces by slot for photos
-  without a fixture.
-- A partial result's "N photos couldn't be read" note is not restored after a
-  restart: schema v1 has no per-photo analysis status. Add a column (BE-006
-  change) or accept the loss.
+- The fake analysis works on any photo: a URI fixture wins (an empty one is
+  the "no clothes found" path), otherwise the sample set comes from a stable
+  hash of the sanitized bytes (G-01). The sample-photo picker is dropped
+  (G-02).
+- `ai_processing_jobs` (spec T2, C6) joins schema v1, one job per photo ×
+  task, so the "N photos couldn't be read" note survives a restart (G-03).
 
 ## File confinement
 
@@ -135,3 +134,4 @@ Open questions found while writing the red tests (decide before green):
 |---|---|---|
 | 2026-10-29 | — | Created from T6 P2-01, P2-02, and P2-05. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Must-have scope only (no rewards, check-ins, Community, notifications); PowerSync table rules; deterministic IDs; install identity; S08 reworded (ViewModels restore through repositories); S09–S11 added; test plan and file list. |
+| 2026-10-30 | [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md) | Red-run questions decided: fake analysis on any photo; `ai_processing_jobs` added. |
