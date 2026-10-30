@@ -65,6 +65,25 @@ class TestDatabase {
     return db;
   }
 
+  /// What a killed app leaves on disk at this moment: the database file and
+  /// its WAL, copied while this connection stays open (even mid-transaction),
+  /// then opened as the restarted app would open them. The shared-memory
+  /// index is left out; SQLite rebuilds it from the WAL, as after a crash.
+  Future<TestDatabase> crashImage() async {
+    final dir = await Directory.systemTemp.createTemp('garblo_crash_');
+    final copy = '${dir.path}${Platform.pathSeparator}garblo.db';
+    for (final suffix in ['', '-wal']) {
+      final file = File('$path$suffix');
+      if (await file.exists()) await file.copy('$copy$suffix');
+    }
+    final db = await GarbloDatabase.open(
+      path: copy,
+      key: testKey,
+      beforeOpen: useHostSqlite,
+    );
+    return TestDatabase._(dir, copy, db);
+  }
+
   Future<void> dispose() async {
     try {
       await db.close();
