@@ -2,7 +2,7 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Approved | Human request · review of the Phase 2 plan · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7 T4, T6 › P2 | 2026-10-30 |
+| Done | Human request · review of the Phase 2 plan · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7 T4, T6 › P2 | 2026-10-30 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
@@ -86,5 +86,5 @@ Community tables, `feed_cache`.
 ## Code follow-up
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | TASK-005…008 file lists; TASK-009 after | Test plans in the cards | [ ] |
+| App Developer | TASK-005…008 file lists; TASK-009 after | Test plans in the cards | [x] TASK-005…008 |
 | Backend Developer | None in Phase 2. See BE-006, BE-007 | — | — |

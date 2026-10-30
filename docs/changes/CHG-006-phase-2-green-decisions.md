@@ -2,7 +2,7 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Approved | Review of the Phase 2 red run (PR 4) · [CHG-005](CHG-005-phase-2-local-persistence.md) · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7 T2, C6 | 2026-10-30 |
+| Done | Review of the Phase 2 red run (PR 4) · [CHG-005](CHG-005-phase-2-local-persistence.md) · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7 T2, C6 | 2026-10-30 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
@@ -51,5 +51,5 @@ changed while going green, so no test is edited silently.
 ## Code follow-up
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | TASK-005…008 file lists | Test plans in the cards, plus the rows above | [ ] |
+| App Developer | TASK-005…008 file lists | Test plans in the cards, plus the rows above | [x] |
 | Backend Developer | None in Phase 2. BE-006 updated | — | — |

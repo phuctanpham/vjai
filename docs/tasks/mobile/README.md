@@ -2,7 +2,7 @@
 
 > **Product:** Garblo  
 > **Phase:** 1 · P1 Clickable offline app and Phase 2 · P2 Persistent offline app  
-> **Status:** Phase 1 green and merged (PR 2, [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)); Phase 2 tests written (red) on `phase-2/persistence-tdd` ([CHG-005](../../changes/CHG-005-phase-2-local-persistence.md))  
+> **Status:** Phase 1 green and merged (PR 2, [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)); Phase 2 (TASK-005 to 008) green and merged (PR 4, [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md), [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md)); TASK-009 next  
 > **Source:** [Garblo Flow Spec.html](Garblo%20Flow%20Spec.html) v2.7
 
 ## Purpose
@@ -48,11 +48,11 @@ keeping the UI and domain contracts stable.
 
 | ID | Task | Dependency | Status |
 |---|---|---|---|
-| [TASK-005](TASK-005-local-persistence-foundation.md) | SQLite/SQLCipher, PowerSync-shaped phone schema v1, local repositories, restore | Phase 1 merged | Tests written (red) |
-| [TASK-006](TASK-006-derived-queries-and-rules.md) | Derived wear values in SQL (dormancy, rescue eligibility), benchmark | TASK-005 | Tests written (red) |
-| [TASK-007](TASK-007-photo-privacy-pipeline.md) | Real photos, lossless metadata stripping, private attachments | TASK-005 | Tests written (red) |
-| [TASK-008](TASK-008-device-integrations-and-data-rights.md) | UC-09 local erasure: Avatar › Privacy & data (calendar, reminders, export and poster deferred) | TASK-005, TASK-007 | Tests written (red) |
-| [TASK-009](TASK-009-offline-reliability-validation.md) | Restart, app-kill, offline, and migration verification | TASK-005 through TASK-008 green | Tests after 005–008 |
+| [TASK-005](TASK-005-local-persistence-foundation.md) | SQLite/SQLCipher, PowerSync-shaped phone schema v1, local repositories, restore | Phase 1 merged | Green (PR 4) |
+| [TASK-006](TASK-006-derived-queries-and-rules.md) | Derived wear values in SQL (dormancy, rescue eligibility), benchmark | TASK-005 | Green (PR 4) |
+| [TASK-007](TASK-007-photo-privacy-pipeline.md) | Real photos, lossless metadata stripping, private attachments | TASK-005 | Green (PR 4) |
+| [TASK-008](TASK-008-device-integrations-and-data-rights.md) | UC-09 local erasure: Avatar › Privacy & data (calendar, reminders, export and poster deferred) | TASK-005, TASK-007 | Green (PR 4) |
+| [TASK-009](TASK-009-offline-reliability-validation.md) | Restart, app-kill, offline, and migration verification | TASK-005 through TASK-008 green | Ready: tests next |
 
 ### Phase 2 constraints
 

@@ -1,7 +1,7 @@
 # TASK-007: Private photo storage and metadata stripping
 
 > **Phase:** 2 · P2 Persistent offline app  
-> **Status:** Tests written (red) on `phase-2/persistence-tdd`  
+> **Status:** Green on `phase-2/persistence-tdd`, merged with PR 4 ([report](../../reports/TASK-005-008-app-developer.md))  
 > **Dependencies:** [TASK-005](TASK-005-local-persistence-foundation.md) · [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)  
 > **Source tasks:** P2-04 · spec UC-01 AC-01.9, I3, I5, TAC-01.2 · R9
 

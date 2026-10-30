@@ -1,7 +1,7 @@
 # TASK-009: Offline reliability and migration validation
 
 > **Phase:** 2 · P2 Persistent offline app  
-> **Status:** Pending TASK-005 through TASK-008 green; tests are written after them (CHG-005 P2-D6)  
+> **Status:** Ready: TASK-005 to TASK-008 are green; its tests are written next (CHG-005 P2-D6)  
 > **Dependencies:** [TASK-005](TASK-005-local-persistence-foundation.md), [TASK-006](TASK-006-derived-queries-and-rules.md), [TASK-007](TASK-007-photo-privacy-pipeline.md), [TASK-008](TASK-008-device-integrations-and-data-rights.md)  
 > **Source tasks:** P2-09
 

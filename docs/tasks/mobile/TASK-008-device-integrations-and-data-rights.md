@@ -1,7 +1,7 @@
 # TASK-008: Local data erasure (UC-09 "Delete my data")
 
 > **Phase:** 2 · P2 Persistent offline app  
-> **Status:** Tests written (red) on `phase-2/persistence-tdd`  
+> **Status:** Green on `phase-2/persistence-tdd`, merged with PR 4 ([report](../../reports/TASK-005-008-app-developer.md))  
 > **Dependencies:** [TASK-005](TASK-005-local-persistence-foundation.md), [TASK-007](TASK-007-photo-privacy-pipeline.md) · [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)  
 > **Source:** UC-09 AC-09.1–09.4, AC-09.6 · TAC-09.1 · T7 › G3 1a ("Avatar › Privacy & data") · spec P2-07 (wipe part)
 

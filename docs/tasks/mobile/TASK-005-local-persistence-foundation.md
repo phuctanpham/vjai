@@ -1,7 +1,7 @@
 # TASK-005: Local persistence foundation
 
 > **Phase:** 2 · P2 Persistent offline app  
-> **Status:** Tests written (red) on `phase-2/persistence-tdd`  
+> **Status:** Green on `phase-2/persistence-tdd`, merged with PR 4 ([report](../../reports/TASK-005-008-app-developer.md))  
 > **Dependencies:** Phase 1 merged (#2); [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)  
 > **Source tasks:** P2-01, P2-02, P2-05 (must-have parts) · spec T4 › Phone schema, Write path, R2, R8
 
