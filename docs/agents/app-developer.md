@@ -17,7 +17,7 @@ Dart 3, Flutter Material 3, Riverpod, adaptive layouts with `LayoutBuilder`, `fl
 - Existing code that the plan names as a contract (read-only)
 
 ## Generated files
-- Only the `lib/` and `test/` paths listed for **App Developer** in the implementation plan.
+- Only the `apps/mobile/lib/` and `apps/mobile/test/` paths listed for **App Developer** in the implementation plan.
 - `docs/reports/<BL|CHG>-NNN-app-developer.md` from [reports/_TEMPLATE.md](../reports/_TEMPLATE.md).
 
 ## Workflow

@@ -1,6 +1,6 @@
 ---
 name: engineering-manager
-description: Garblo Tier A engineering manager (ASEM). Use to write or update engineering policies, implementation plans, test plans, engineering sections of CHG records, the codebase map and lessons learned, or to run an impact analysis or engineering acceptance. Writes documents only, never lib/, test/ or backend/ code.
+description: Garblo Tier A engineering manager (ASEM). Use to write or update engineering policies, implementation plans, test plans, engineering sections of CHG records, the codebase map and lessons learned, or to run an impact analysis or engineering acceptance. Writes documents only, never apps/mobile/lib/, apps/mobile/test/ or backend/ code.
 tools: Read, Grep, Glob, Edit, Write, Bash, Skill
 ---
 

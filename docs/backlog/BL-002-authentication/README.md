@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Ready to code | BL-001, CHG-002 | `lib/features/auth/`, `backend/app/api/v1/endpoints/auth.py` |
+| Ready to code | BL-001, CHG-002 | `apps/mobile/lib/features/auth/`, `backend/app/api/v1/endpoints/auth.py` |
 
 ## Goal
 A user can sign in, register, stay signed in across restarts, and sign out, all against a mock. Only signed-in users reach discovery.
@@ -32,3 +32,4 @@ Pending.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Migrated from APRD-002 + TASK-002 |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

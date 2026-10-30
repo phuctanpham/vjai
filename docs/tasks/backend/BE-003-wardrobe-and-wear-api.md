@@ -45,7 +45,7 @@ cannot duplicate. Names and types: [BE-006](BE-006-phone-schema-sync-parity.md).
 - Server dormancy computed from the shared golden fixtures; a parity test
   that runs the Dart fixtures' expected values.
 - Seed script for the 9 demo items, matching `MockWardrobeRepository.seeded`
-  in `lib/features/wardrobe/data/wardrobe_repository.dart` (White T-shirt
+  in `apps/mobile/lib/features/wardrobe/data/wardrobe_repository.dart` (White T-shirt
   benched 41 days, Short-sleeve shirt, Black jeans, Pleated skirt, Black
   loafers, White sneakers, Canvas tote, Bucket hat, Silk tie).
 
@@ -61,3 +61,4 @@ No rewards or rescue XP (Flow C).
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Wardrobe contract. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: Last-worn estimate, rescue rule parity (N6/I12), client-generated IDs, save atomicity, seed list. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Phase 2: local deterministic wear IDs, provisional gap_days/rescue_eligible, draft-hashed item IDs. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

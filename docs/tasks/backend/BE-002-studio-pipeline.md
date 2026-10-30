@@ -15,7 +15,7 @@ deterministic stub extractor, without changing the mobile contract.
 
 | Mobile type | Fields / rule | Test that pins it |
 |---|---|---|
-| `BatchStatus` | `draft → sanitizing → queuedForAi → aiProcessing → awaitingReview → completed`; `aiProcessing → failed`; `failed → draft` / `queuedForAi` (A-02); erasure → `deletedByUser` | `test/features/studio/domain/batch_status_test.dart` |
+| `BatchStatus` | `draft → sanitizing → queuedForAi → aiProcessing → awaitingReview → completed`; `aiProcessing → failed`; `failed → draft` / `queuedForAi` (A-02); erasure → `deletedByUser` | `apps/mobile/test/features/studio/domain/batch_status_test.dart` |
 | `PhotoTray` | 1–10 photos, MIME `image/jpeg` or `image/png` only (I1, I2) | `photo_tray_test.dart` |
 | `AnalysisSelection` | Outfit on by default; at least one task (I4) | `analysis_selection_test.dart` |
 | `PrivacyConsent` | `version = v1.0_studio_body_ai`, `grantedAt`, **`includesBodyProcessing = true`** (the 1a box reads "Process my photos, including body photos if any"; UC-01 submit sends `includes_body_processing: true`); insert-only (TAC-01.8); one record reused by later batches (D3) | `studio_view_model_test.dart`, `studio_repository_test.dart` |
@@ -50,3 +50,4 @@ what BE-001 approves.
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Studio contract. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: consent includes body processing; draft IDs; Pose/Background output in Phase 1. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

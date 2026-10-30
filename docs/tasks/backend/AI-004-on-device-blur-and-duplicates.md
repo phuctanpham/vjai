@@ -13,7 +13,7 @@ spec requires both on the phone before anything is analysed or uploaded.
 
 ## Plug point fixed by Phase 2
 
-`PhotoSanitizer` in `lib/core/media/photo_sanitizer.dart` turns picked bytes
+`PhotoSanitizer` in `apps/mobile/lib/core/media/photo_sanitizer.dart` turns picked bytes
 into a `SanitizedPhoto` (bytes, MIME type, orientation) and fails explicitly
 with `SanitizationFailure`. Blur runs as an extra step **after** metadata
 stripping and before `AttachmentStore.save`; it must:
@@ -37,3 +37,4 @@ Duplicate detection compares against the compact `item_embeddings`
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Created; Phase 2 strips metadata only. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

@@ -12,12 +12,13 @@ says how to run and report them.
 1. **Find the toolchain.** Flutter must be 3.24.5 (`.fvmrc`). Use `fvm flutter`/`fvm dart` if FVM is
    installed, else `flutter`/`dart` on PATH, else the SDK path in `CLAUDE.local.md`. Check
    `flutter --version` once. A different version is a finding to report, not something to fix.
-2. **Run only the gates the change touches**, from the repository root, in this order. Stop at the
-   first failure and report it.
+2. **Run only the gates the change touches**, in this order. Flutter gates run from `apps/mobile/`,
+   the backend gate from `backend/` (CHG-010). Stop at the first failure and report it.
 
    | Change touches | Gates |
    |---|---|
-   | `lib/`, `test/`, `pubspec.*`, `analysis_options.yaml` | `dart format --output=none --set-exit-if-changed .` → `flutter analyze` → `flutter test` |
+   | `apps/mobile/lib/`, `apps/mobile/test/`, `apps/mobile/pubspec.*`, `apps/mobile/analysis_options.yaml` | `cd apps/mobile` → `dart format --output=none --set-exit-if-changed .` → `flutter analyze` → `flutter test` |
+   | `.github/workflows/` | the Flutter gates above, then a manual `workflow_dispatch` run |
    | `backend/` | `cd backend && uv run pytest` |
    | docs only | none; say so |
 

@@ -5,11 +5,11 @@ Standard: [tdd.md](../../../policies/engineering/tdd.md).
 ## Scenario tests
 | Scenario | Level | Test file | Test name |
 |---|---|---|---|
-| BL-002-S01 | ViewModel unit + widget | `test/features/auth/presentation/auth_view_model_test.dart`, `auth_view_test.dart` | [BL-002-S01] valid sign-in authenticates and stores session |
+| BL-002-S01 | ViewModel unit + widget | `apps/mobile/test/features/auth/presentation/auth_view_model_test.dart`, `auth_view_test.dart` | [BL-002-S01] valid sign-in authenticates and stores session |
 | BL-002-S02 | Widget | `auth_view_test.dart` | [BL-002-S02] invalid email blocks submit |
 | BL-002-S03 | Widget | same | [BL-002-S03] short password blocks submit |
 | BL-002-S04 | ViewModel unit + widget | both | [BL-002-S04] wrong password shows error and re-enables submit |
-| BL-002-S05 | Widget (app + router) | `test/features/auth/presentation/auth_routing_test.dart` | [BL-002-S05] stored session starts on discovery |
+| BL-002-S05 | Widget (app + router) | `apps/mobile/test/features/auth/presentation/auth_routing_test.dart` | [BL-002-S05] stored session starts on discovery |
 | BL-002-S06 | Widget (app + router) | same | [BL-002-S06] no session starts on sign-in |
 | BL-002-S07 | ViewModel unit | `auth_view_model_test.dart` | [BL-002-S07] sign out clears session |
 | BL-002-S08 | Widget | `auth_view_test.dart` | [BL-002-S08] google button signs in through mock |
@@ -27,3 +27,4 @@ Standard: [tdd.md](../../../policies/engineering/tdd.md).
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../../changes/CHG-001-agentic-documentation-system.md) | Created |
+| 2026-10-30 | [CHG-010](../../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

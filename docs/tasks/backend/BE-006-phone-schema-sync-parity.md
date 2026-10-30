@@ -21,7 +21,7 @@ holds people or matches between people (see
 
 | Rule | Detail | Pinned by |
 |---|---|---|
-| Table and column names | Exactly as listed in CHG-005 › Phone schema v1, defined in `lib/core/storage/phone_schema.dart`, including `ai_processing_jobs` (spec T2 `AI_JOBS`, CHG-006 G-03) | `[TASK-005-S02]` |
+| Table and column names | Exactly as listed in CHG-005 › Phone schema v1, defined in `apps/mobile/lib/core/storage/phone_schema.dart`, including `ai_processing_jobs` (spec T2 `AI_JOBS`, CHG-006 G-03) | `[TASK-005-S02]` |
 | Job IDs | One `ai_processing_jobs` row per photo × task; its ID is `deterministicObjectId([batch_id, asset_id, task_type])`, so the spec's unique (batch, photo, task) holds without a UNIQUE constraint | `[TASK-005-S03]` |
 | IDs | Every row has `id`: 24 lowercase hex characters (ObjectId), generated **on the phone** (R8). Sync queries map `_id AS id` | `[TASK-005-S06]` |
 | Types | `TEXT`, `INTEGER`, `REAL` only. Dates are ISO-8601 text; booleans 0/1; JSON columns are text (`items`, `ai`, `value`, `last_worn_input`, `occasions`) | `[TASK-005-S02]` |
@@ -54,3 +54,4 @@ change to the phone schema without a mobile CHG.
 |---|---|---|
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Created from the Phase 2 phone schema v1 contract. |
 | 2026-10-30 | [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md) | `ai_processing_jobs` added to the table list; deterministic job IDs. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

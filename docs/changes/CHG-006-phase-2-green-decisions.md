@@ -27,14 +27,14 @@ changed while going green, so no test is edited silently.
 ## Test changes while going green
 | Test | Change | Why |
 |---|---|---|
-| `test/core/storage/phone_schema_test.dart` `[TASK-005-S02]` | Contract adds `ai_processing_jobs` and its index | G-03 |
-| `test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | New: a partial result's failure note survives closing and reopening; analysis writes one job per photo × task, and a retry does not add jobs | G-03, G-04 |
-| `test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | New: a photo without a fixture gets sample Pieces chosen from its bytes, the same every time; an empty fixture gives zero items | G-01 |
-| `test/helpers/local_db.dart` | On Linux, falls back from `libsqlite3.so` to `libsqlite3.so.0` | CI image may lack the dev symlink |
-| `test/features/studio/presentation/studio_erasure_test.dart` `[TASK-008-S07]` | The held fake uses the Mock's own `savedBatches` instead of shadowing it | The Mock now records saved batches itself |
-| `test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | The second test photo is a PNG without `eXIf`, so the restored orientations are 6 and 1 as the test expects | The default PNG fixture carries orientation 6; the expectation was wrong |
-| `test/app/bootstrap_test.dart` `[TASK-005-S09]` | New: a store that cannot be opened shows the error with "Try again", never the app | Covers the bootstrap error screen |
-| `test/app/bootstrap_test.dart` `[TASK-008-S05]` | New: "Delete all" restarts the app on a fresh provider scope | Covers the restart wiring in the bootstrap |
+| `apps/mobile/test/core/storage/phone_schema_test.dart` `[TASK-005-S02]` | Contract adds `ai_processing_jobs` and its index | G-03 |
+| `apps/mobile/test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | New: a partial result's failure note survives closing and reopening; analysis writes one job per photo × task, and a retry does not add jobs | G-03, G-04 |
+| `apps/mobile/test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | New: a photo without a fixture gets sample Pieces chosen from its bytes, the same every time; an empty fixture gives zero items | G-01 |
+| `apps/mobile/test/helpers/local_db.dart` | On Linux, falls back from `libsqlite3.so` to `libsqlite3.so.0` | CI image may lack the dev symlink |
+| `apps/mobile/test/features/studio/presentation/studio_erasure_test.dart` `[TASK-008-S07]` | The held fake uses the Mock's own `savedBatches` instead of shadowing it | The Mock now records saved batches itself |
+| `apps/mobile/test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | The second test photo is a PNG without `eXIf`, so the restored orientations are 6 and 1 as the test expects | The default PNG fixture carries orientation 6; the expectation was wrong |
+| `apps/mobile/test/app/bootstrap_test.dart` `[TASK-005-S09]` | New: a store that cannot be opened shows the error with "Try again", never the app | Covers the bootstrap error screen |
+| `apps/mobile/test/app/bootstrap_test.dart` `[TASK-008-S05]` | New: "Delete all" restarts the app on a fresh provider scope | Covers the restart wiring in the bootstrap |
 
 ## Product impact (APM)
 | Affected | Change needed |

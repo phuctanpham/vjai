@@ -106,21 +106,21 @@ graph TD
 
 | Task ID | Phase | Feature Title | Target Directory | Status | Specification Card |
 |---|---|---|---|---|---|
-| **TASK-001** | Phase 1 | App Shell & Multi-Platform Scaffold | `lib/app/` | `COMPLETED` | Architecture baseline |
-| **TASK-004** | Phase 1 | Discovery Feed & Adaptive Layout | `lib/features/discovery/` | `COMPLETED` | [APRD-001](../../archive/legacy/specs/APRD-001-discovery.md) |
-| **TASK-002** | Phase 2 | Authentication & Mock Session | `lib/features/auth/` | `READY TO CODE` | [Task](TASK-002-authentication.md) · [APRD](../../archive/legacy/specs/APRD-002-authentication.md) |
-| **TASK-003** | Phase 2 | Multi-Step Profile Onboarding Wizard | `lib/features/onboarding/` | `READY TO CODE` | [Task](TASK-003-profile-onboarding.md) · [APRD](../../archive/legacy/specs/APRD-003-profile-onboarding.md) |
-| **TASK-005** | Phase 3 | Local Swipe Persistence & Filtering | `lib/features/discovery/` | `READY TO CODE` | [Task](TASK-005-swipe-persistence.md) · [APRD](../../archive/legacy/specs/APRD-005-swipe-persistence.md) |
-| **TASK-006** | Phase 3 | Backend FastAPI API Integration | `lib/core/networking/` | `READY TO CODE` | [Task](TASK-006-backend-api-integration.md) · [APRD](../../archive/legacy/specs/APRD-006-backend-api-integration.md) |
-| **TASK-007** | Phase 3 | Mutual Match Formation & Celebration | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-007-mutual-matching.md) · [APRD](../../archive/legacy/specs/APRD-007-mutual-matching.md) |
-| **TASK-008** | Phase 3 | Matches Carousel & Connections View | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-008-matches-list.md) · [APRD](../../archive/legacy/specs/APRD-008-matches-list.md) |
-| **TASK-009** | Phase 4 | Chat History & Message Bubbles | `lib/features/chat/` | `PLANNED` | [Task](TASK-009-chat-history.md) |
-| **TASK-010** | Phase 4 | Realtime Chat via WebSockets | `lib/features/chat/` | `PLANNED` | [Task](TASK-010-realtime-chat.md) |
-| **TASK-011** | Phase 5 | Push & In-App Notifications | `lib/features/notifications/` | `PLANNED` | [Task](TASK-011-push-notifications.md) |
-| **TASK-012** | Phase 5 | User Blocking & Content Reporting | `lib/features/moderation/` | `PLANNED` | [Task](TASK-012-blocking-reporting.md) |
+| **TASK-001** | Phase 1 | App Shell & Multi-Platform Scaffold | `apps/mobile/lib/app/` | `COMPLETED` | Architecture baseline |
+| **TASK-004** | Phase 1 | Discovery Feed & Adaptive Layout | `apps/mobile/lib/features/discovery/` | `COMPLETED` | [APRD-001](../../archive/legacy/specs/APRD-001-discovery.md) |
+| **TASK-002** | Phase 2 | Authentication & Mock Session | `apps/mobile/lib/features/auth/` | `READY TO CODE` | [Task](TASK-002-authentication.md) · [APRD](../../archive/legacy/specs/APRD-002-authentication.md) |
+| **TASK-003** | Phase 2 | Multi-Step Profile Onboarding Wizard | `apps/mobile/lib/features/onboarding/` | `READY TO CODE` | [Task](TASK-003-profile-onboarding.md) · [APRD](../../archive/legacy/specs/APRD-003-profile-onboarding.md) |
+| **TASK-005** | Phase 3 | Local Swipe Persistence & Filtering | `apps/mobile/lib/features/discovery/` | `READY TO CODE` | [Task](TASK-005-swipe-persistence.md) · [APRD](../../archive/legacy/specs/APRD-005-swipe-persistence.md) |
+| **TASK-006** | Phase 3 | Backend FastAPI API Integration | `apps/mobile/lib/core/networking/` | `READY TO CODE` | [Task](TASK-006-backend-api-integration.md) · [APRD](../../archive/legacy/specs/APRD-006-backend-api-integration.md) |
+| **TASK-007** | Phase 3 | Mutual Match Formation & Celebration | `apps/mobile/lib/features/matching/` | `READY TO CODE` | [Task](TASK-007-mutual-matching.md) · [APRD](../../archive/legacy/specs/APRD-007-mutual-matching.md) |
+| **TASK-008** | Phase 3 | Matches Carousel & Connections View | `apps/mobile/lib/features/matching/` | `READY TO CODE` | [Task](TASK-008-matches-list.md) · [APRD](../../archive/legacy/specs/APRD-008-matches-list.md) |
+| **TASK-009** | Phase 4 | Chat History & Message Bubbles | `apps/mobile/lib/features/chat/` | `PLANNED` | [Task](TASK-009-chat-history.md) |
+| **TASK-010** | Phase 4 | Realtime Chat via WebSockets | `apps/mobile/lib/features/chat/` | `PLANNED` | [Task](TASK-010-realtime-chat.md) |
+| **TASK-011** | Phase 5 | Push & In-App Notifications | `apps/mobile/lib/features/notifications/` | `PLANNED` | [Task](TASK-011-push-notifications.md) |
+| **TASK-012** | Phase 5 | User Blocking & Content Reporting | `apps/mobile/lib/features/moderation/` | `PLANNED` | [Task](TASK-012-blocking-reporting.md) |
 | **TASK-013** | Phase 5 | Automated Content Moderation | `backend/app/api/v1/` | `PLANNED` | [Task](TASK-013-automated-moderation.md) |
-| **TASK-014** | Phase 6 | Premium Subscriptions & Paywall | `lib/features/profile/` | `PLANNED` | [Task](TASK-014-premium-subscriptions.md) |
-| **TASK-015** | Phase 6 | Performance & Accessibility Polish | `lib/` | `PLANNED` | [Task](TASK-015-performance-accessibility.md) |
+| **TASK-014** | Phase 6 | Premium Subscriptions & Paywall | `apps/mobile/lib/features/profile/` | `PLANNED` | [Task](TASK-014-premium-subscriptions.md) |
+| **TASK-015** | Phase 6 | Performance & Accessibility Polish | `apps/mobile/lib/` | `PLANNED` | [Task](TASK-015-performance-accessibility.md) |
 
 ---
 
@@ -130,9 +130,9 @@ This table is the manager's implementation handoff. A task is not ready for codi
 
 | Task | Primary contract | State/behavior to verify | Required test surface | Boundary |
 |---|---|---|---|---|
-| TASK-001 / TASK-004 | App shell, `Profile`, `DiscoveryRepository` | `initial`, `loading`, `loaded`, `empty`, `error` | Domain, repository, ViewModel, widget, mobile/desktop | `lib/app/`, `lib/features/discovery/` |
-| TASK-002 | `AuthSession`, auth repository, `LocalStorage` token key | `unauthenticated`, `authenticating`, `authenticated`, `error` | Session, repository, ViewModel, form | `lib/features/auth/`, auth endpoints |
-| TASK-003 | `OnboardingDraft`, step validation, profile conversion | Editing steps, `submitting`, `completed` | Draft/validation, ViewModel, wizard widgets | `lib/features/onboarding/` |
+| TASK-001 / TASK-004 | App shell, `Profile`, `DiscoveryRepository` | `initial`, `loading`, `loaded`, `empty`, `error` | Domain, repository, ViewModel, widget, mobile/desktop | `apps/mobile/lib/app/`, `apps/mobile/lib/features/discovery/` |
+| TASK-002 | `AuthSession`, auth repository, `LocalStorage` token key | `unauthenticated`, `authenticating`, `authenticated`, `error` | Session, repository, ViewModel, form | `apps/mobile/lib/features/auth/`, auth endpoints |
+| TASK-003 | `OnboardingDraft`, step validation, profile conversion | Editing steps, `submitting`, `completed` | Draft/validation, ViewModel, wizard widgets | `apps/mobile/lib/features/onboarding/` |
 | TASK-005 | `LocalStorage` swipe-ID contract | Filtered loaded feed, empty after exhaustion, reset | Storage/repository filtering, ViewModel, reset action | Discovery and core storage only |
 | TASK-006 | `ApiClient`, HTTP repository, Pydantic JSON shape | Remote success, server error, network fallback | Client, repository mapping, backend endpoint | Networking and discovery data |
 | TASK-007 | `Match`, matching repository, swipe outcome event | Match event versus ordinary swipe | Entity, repository, ViewModel event, dialog | Matching plus declared Discovery integration |

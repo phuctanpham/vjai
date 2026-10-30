@@ -38,7 +38,7 @@ app-kill during writes, restart, migration, and repeated user actions.
 
 Expected areas:
 
-- `test/integration/`, `test/helpers/`, and CI test configuration.
+- `apps/mobile/test/integration/`, `apps/mobile/test/helpers/`, and CI test configuration.
 - Minimal production hooks only when required to make lifecycle behavior
   injectable and testable.
 - `docs/reports/` delivery report after implementation.
@@ -65,3 +65,4 @@ Expected areas:
 | 2026-10-29 | — | Created from T6 P2-09 as the Phase 2 verification gate. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Tests after TASK-005…008; calendar, export, rewards and check-ins removed with the P2 deferrals; replay uses deterministic IDs. |
 | 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | Green: 20 tests on the local stack; consent replay, orphan sweep and Wear today error fixed (V-01…V-03). |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

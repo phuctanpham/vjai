@@ -1,7 +1,7 @@
 # APRD-002: Authentication & Session Management
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/features/auth/`  
+> **Target bounded context:** `apps/mobile/lib/features/auth/`  
 > **Companion API:** `backend/app/api/v1/endpoints/auth.py`
 
 ## 1. Goal

@@ -16,7 +16,7 @@ into the shell; this task builds none of them.
 ## Scope
 
 - `Pillar` enum and a `pillarProvider` that any feature may use to switch
-  pillars (cross-feature navigation goes through `lib/core/`, never `lib/app/`).
+  pillars (cross-feature navigation goes through `apps/mobile/lib/core/`, never `apps/mobile/lib/app/`).
 - `AppShell`: header (Z0: `garblo` wordmark, static `29°`, bell) and pillar
   navigation labelled `ADD · ARCHIVE · GU MATCH · IMPACT · COMMUNITY`
   (T7 › G4). `< 800 px`: bottom `NavigationBar`, 64 high (T7 › G1/G2).
@@ -51,27 +51,27 @@ into the shell; this task builds none of them.
 
 | Scenario | Level | Test file | Test name |
 |---|---|---|---|
-| TASK-002-S01 | Widget | test/app/app_shell_test.dart | [TASK-002-S01] app starts on the Add pillar |
-| TASK-002-S01 | Widget | test/app/app_shell_test.dart | [TASK-002-S01] tapping a pillar switches the page |
-| TASK-002-S02 | Widget | test/app/router_test.dart | [TASK-002-S02] unknown route renders the not-found destination |
-| TASK-002-S02 | Widget | test/app/router_test.dart | [TASK-002-S02] not-found destination returns to Add |
-| TASK-002-S03 | Widget | test/app/app_shell_test.dart | [TASK-002-S03] mobile shell uses a bottom navigation bar with 5 pillars |
-| TASK-002-S04 | Widget | test/app/app_shell_test.dart | [TASK-002-S04] desktop shell uses a navigation rail with 5 pillars |
-| TASK-002-S05 | Widget | test/core/widgets/state_views_test.dart | [TASK-002-S05] loading view shows progress and no error copy |
-| TASK-002-S05 | Widget | test/core/widgets/state_views_test.dart | [TASK-002-S05] empty and error views are distinguishable |
-| TASK-002-S06 | Architecture | test/architecture/layering_test.dart | [TASK-002-S06] … (one test per rule) |
-| TASK-002-S07 | Widget | test/app/app_shell_test.dart | [TASK-002-S07] Impact shows its coming-soon state |
-| TASK-002-S07 | Widget | test/app/app_shell_test.dart | [TASK-002-S07] Community shows its coming-soon state |
-| TASK-002-S08 | Unit | test/core/time/clock_test.dart | [TASK-002-S08] default clock is the system clock |
-| TASK-002-S08 | Unit | test/core/time/clock_test.dart | [TASK-002-S08] clockProvider can be overridden |
-| TASK-002-S09 | Unit | test/app/theme/app_theme_test.dart | [TASK-002-S09] light primary is forest green with white text |
-| TASK-002-S09 | Unit | test/app/theme/app_theme_test.dart | [TASK-002-S09] dark primary is light forest green with black text |
+| TASK-002-S01 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S01] app starts on the Add pillar |
+| TASK-002-S01 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S01] tapping a pillar switches the page |
+| TASK-002-S02 | Widget | apps/mobile/test/app/router_test.dart | [TASK-002-S02] unknown route renders the not-found destination |
+| TASK-002-S02 | Widget | apps/mobile/test/app/router_test.dart | [TASK-002-S02] not-found destination returns to Add |
+| TASK-002-S03 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S03] mobile shell uses a bottom navigation bar with 5 pillars |
+| TASK-002-S04 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S04] desktop shell uses a navigation rail with 5 pillars |
+| TASK-002-S05 | Widget | apps/mobile/test/core/widgets/state_views_test.dart | [TASK-002-S05] loading view shows progress and no error copy |
+| TASK-002-S05 | Widget | apps/mobile/test/core/widgets/state_views_test.dart | [TASK-002-S05] empty and error views are distinguishable |
+| TASK-002-S06 | Architecture | apps/mobile/test/architecture/layering_test.dart | [TASK-002-S06] … (one test per rule) |
+| TASK-002-S07 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S07] Impact shows its coming-soon state |
+| TASK-002-S07 | Widget | apps/mobile/test/app/app_shell_test.dart | [TASK-002-S07] Community shows its coming-soon state |
+| TASK-002-S08 | Unit | apps/mobile/test/core/time/clock_test.dart | [TASK-002-S08] default clock is the system clock |
+| TASK-002-S08 | Unit | apps/mobile/test/core/time/clock_test.dart | [TASK-002-S08] clockProvider can be overridden |
+| TASK-002-S09 | Unit | apps/mobile/test/app/theme/app_theme_test.dart | [TASK-002-S09] light primary is forest green with white text |
+| TASK-002-S09 | Unit | apps/mobile/test/app/theme/app_theme_test.dart | [TASK-002-S09] dark primary is light forest green with black text |
 
 Required non-scenario tests: the header shows the wordmark, temperature and
 bell on both layouts.
 
-Shared helpers: `test/helpers/layout.dart` (mobile 400 × 800, desktop
-1280 × 800), `test/helpers/fixed_clock.dart`.
+Shared helpers: `apps/mobile/test/helpers/layout.dart` (mobile 400 × 800, desktop
+1280 × 800), `apps/mobile/test/helpers/fixed_clock.dart`.
 
 S06 is a guardrail: it scans source files, so it can pass against contract
 stubs. It is still listed in the red-run report.
@@ -80,18 +80,18 @@ stubs. It is still listed in the red-run report.
 
 **App Developer may create or modify:**
 
-- `lib/app/router.dart`, `lib/app/app.dart`, `lib/app/theme/app_theme.dart`
-- `lib/app/shell/app_shell.dart`, `lib/app/shell/coming_soon_view.dart`,
-  `lib/app/shell/unknown_route_view.dart`, `lib/app/shell/pillar_pages.dart`
+- `apps/mobile/lib/app/router.dart`, `apps/mobile/lib/app/app.dart`, `apps/mobile/lib/app/theme/app_theme.dart`
+- `apps/mobile/lib/app/shell/app_shell.dart`, `apps/mobile/lib/app/shell/coming_soon_view.dart`,
+  `apps/mobile/lib/app/shell/unknown_route_view.dart`, `apps/mobile/lib/app/shell/pillar_pages.dart`
   (`pillarPagesProvider`: maps each pillar to its page; tests override it so
   shell tests do not depend on feature screens)
-- `lib/core/navigation/pillar.dart`, `lib/core/time/clock.dart`,
-  `lib/core/widgets/loading_view.dart`, `lib/core/layout/breakpoints.dart`
+- `apps/mobile/lib/core/navigation/pillar.dart`, `apps/mobile/lib/core/time/clock.dart`,
+  `apps/mobile/lib/core/widgets/loading_view.dart`, `apps/mobile/lib/core/layout/breakpoints.dart`
   (`Breakpoints.desktop = 800`, shared so features do not hard-code it)
-- `test/app/**`, `test/core/**`, `test/architecture/**`, `test/helpers/**`
+- `apps/mobile/test/app/**`, `apps/mobile/test/core/**`, `apps/mobile/test/architecture/**`, `apps/mobile/test/helpers/**`
 
-**Locked:** `lib/features/discovery/**` and the other dating features,
-`backend/**`, `pubspec.yaml` dependencies.
+**Locked:** `apps/mobile/lib/features/discovery/**` and the other dating features,
+`backend/**`, `apps/mobile/pubspec.yaml` dependencies.
 
 ## Anti-scope
 
@@ -119,3 +119,4 @@ stubs. It is still listed in the red-run report.
 | 2026-10-29 | — | Created foundation task, gated by product-domain alignment. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Entry route = Add; 5-pillar shell with Impact/Community off states; Clock; D1 primary; test plan and file list added. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Review: G4 nav labels, 64 nav height, G0 dark primary `#7BC88A`. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

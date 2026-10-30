@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 3 (Core Social Mechanics)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/matching/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/matching/`  
 > **Dependencies**: TASK-007 (Mutual Match Formation)  
 > **Estimated Agent Prompts**: 1 bounded session  
 
@@ -16,18 +16,18 @@ Build the dedicated **Matches & Connections** tab in the application. Users can 
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/features/matching/presentation/matches_state.dart` (MatchesState with explicit loading/loaded/empty/error status)
-- `lib/features/matching/presentation/matches_view_model.dart` (StateNotifier fetching matches list)
-- `lib/features/matching/presentation/matches_view.dart` (Primary screen displaying matches)
-- `lib/features/matching/presentation/widgets/new_matches_carousel.dart` (Horizontal avatar story bubbles)
-- `lib/features/matching/presentation/widgets/match_list_item.dart` (Tile with avatar, name, last interaction, unread dot)
-- `lib/app/router.dart` (Add `/matches` route)
-- `test/features/matching/presentation/matches_view_model_test.dart`
-- `test/features/matching/presentation/matches_view_test.dart`
+- `apps/mobile/lib/features/matching/presentation/matches_state.dart` (MatchesState with explicit loading/loaded/empty/error status)
+- `apps/mobile/lib/features/matching/presentation/matches_view_model.dart` (StateNotifier fetching matches list)
+- `apps/mobile/lib/features/matching/presentation/matches_view.dart` (Primary screen displaying matches)
+- `apps/mobile/lib/features/matching/presentation/widgets/new_matches_carousel.dart` (Horizontal avatar story bubbles)
+- `apps/mobile/lib/features/matching/presentation/widgets/match_list_item.dart` (Tile with avatar, name, last interaction, unread dot)
+- `apps/mobile/lib/app/router.dart` (Add `/matches` route)
+- `apps/mobile/test/features/matching/presentation/matches_view_model_test.dart`
+- `apps/mobile/test/features/matching/presentation/matches_view_test.dart`
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/auth/*`
-- `lib/features/onboarding/*`
+- `apps/mobile/lib/features/auth/*`
+- `apps/mobile/lib/features/onboarding/*`
 
 ---
 

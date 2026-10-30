@@ -39,16 +39,16 @@ are deferred with Flow C (CHG-005 P2-D2).
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S01–S04 | SQL/unit | test/features/wardrobe/data/local_wear_queries_test.dart | [TASK-006-S0x] |
-| S08 | Benchmark | test/features/wardrobe/data/wear_benchmark_test.dart | [TASK-006-S08] (tag `benchmark`) |
+| S01–S04 | SQL/unit | apps/mobile/test/features/wardrobe/data/local_wear_queries_test.dart | [TASK-006-S0x] |
+| S08 | Benchmark | apps/mobile/test/features/wardrobe/data/wear_benchmark_test.dart | [TASK-006-S08] (tag `benchmark`) |
 
 ## File confinement
 
-- `lib/features/wardrobe/data/local_wear_repository.dart`,
-  `lib/features/wardrobe/data/local_wardrobe_repository.dart`
-- `lib/features/wardrobe/domain/dormancy.dart` (only if a shared rule needs a
+- `apps/mobile/lib/features/wardrobe/data/local_wear_repository.dart`,
+  `apps/mobile/lib/features/wardrobe/data/local_wardrobe_repository.dart`
+- `apps/mobile/lib/features/wardrobe/domain/dormancy.dart` (only if a shared rule needs a
   date-string helper)
-- `test/features/wardrobe/data/**`, `dart_test.yaml` (benchmark tag)
+- `apps/mobile/test/features/wardrobe/data/**`, `apps/mobile/dart_test.yaml` (benchmark tag)
 
 ## Anti-scope
 
@@ -69,3 +69,4 @@ are deferred with Flow C (CHG-005 P2-D2).
 |---|---|---|
 | 2026-10-29 | — | Created from T6 P2-03 and the T2+ derived metric definitions. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Must-have only: Impact metrics deferred; provisional gap_days/rescue_eligible; benchmark tag; test plan. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

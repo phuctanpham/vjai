@@ -6,25 +6,27 @@ The only repository tree in the docs. Use it to find files instead of crawling. 
 
 | Path | Package | Role |
 |---|---|---|
-| `/` (`pubspec.yaml`, `lib/`, `test/`) | `garblo` (Flutter) | **Primary product.** One app for Android, iOS, Windows, macOS |
+| `apps/mobile/` (`pubspec.yaml`, `analysis_options.yaml`, `dart_test.yaml`, `lib/`, `test/`) | `garblo` (Flutter) | **Primary product.** One app for Android, iOS, Windows, macOS. Run Flutter commands from here ([CHG-010](../../changes/CHG-010-monorepo-mobile-move.md)) |
 | `backend/` | `garblo-backend` (uv) | **Secondary.** Legacy dating mock API; not the wardrobe contract ([BE-001](../../tasks/backend/BE-001-platform-decision.md)) |
 | `docs/` | — | Every document; start at [docs/README.md](../../README.md) |
 | `.github/` | — | Copilot adapter and the APK workflow |
 | `CLAUDE.md`, `.claude/` | — | Claude Code adapter: entry instructions, subagents, skills, settings |
+| `.fvmrc` | — | Flutter SDK pin (3.24.5) for the whole repo; FVM finds it from `apps/mobile/` |
 
 Platform folders (`android/ ios/ windows/ macos/`) are not committed; CI generates `android/` ([CHG-002](../../changes/CHG-002-restore-green-build.md)).
 
-## Flutter app (`lib/`)
+## Flutter app (`apps/mobile/lib/`)
 
 Wardrobe features (`studio`, `wardrobe`, `gu_match`, `privacy`) are routed. Dating features are legacy and unrouted ([CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)).
 
 ```text
-lib/
+apps/mobile/lib/
 ├── main.dart                          runApp(GarbloBootstrap)
 ├── app/
 │   ├── bootstrap.dart                 opens SQLCipher store, builds provider overrides, StorageErrorApp
 │   ├── app.dart                       GarbloApp: MaterialApp, themes
-│   ├── router.dart                    AppRouter: '/' → AppShell; anything else → UnknownRouteView
+│   ├── router.dart                    AppRouter: '/' → AppShell; '/privacy' → PrivacyView;
+│   │                                  anything else → UnknownRouteView
 │   ├── providers.dart                 apiClientProvider, localStorageProvider (legacy, unused)
 │   ├── shell/                         AppShell (header + 5-pillar nav), pillarPagesProvider,
 │   │                                  ComingSoonView (impact, community), UnknownRouteView
@@ -75,12 +77,12 @@ lib/
                                        LEGACY placeholders, one *_placeholder.dart each
 ```
 
-## Tests (`test/`)
+## Tests (`apps/mobile/test/`)
 
-Mirror `lib/` paths with a `_test.dart` suffix. Beyond the mirror:
+Mirror `apps/mobile/lib/` paths with a `_test.dart` suffix. Beyond the mirror:
 
 ```text
-test/
+apps/mobile/test/
 ├── app/                               shell, router, bootstrap, theme, and journeys:
 │                                      flow_a_journey, flow_b_journey, persistence_restore, privacy_entry
 ├── architecture/                      layering_test (import rules), storage_boundary_test
@@ -126,4 +128,5 @@ The folder contract is in [docs/README.md](../../README.md) §2. Two locations m
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Moved from `docs/archive/legacy/architecture/MAP.md`; now the only tree in the docs |
 | 2026-10-30 | [CHG-008](../../changes/CHG-008-claude-code-adapter.md) | Rebuilt for the Phase 1–2 wardrobe tree (studio, wardrobe, gu_match, privacy, core storage and media); added monorepo layout, test helpers and docs navigation |
-| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | Added `test/integration/` and the reliability helpers |
+| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | Added `apps/mobile/test/integration/` and the reliability helpers |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Flutter app moved to `apps/mobile/`; `.fvmrc` row; `/privacy` route |

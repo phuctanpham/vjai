@@ -6,7 +6,7 @@ Welcome to the **Garblo** codebase (`phuctanpham/vjai`). This project is designe
 
 ## 1. Fundamental Architectural Mandate
 
-- **PRIMARY FOCUS — Flutter Multi-Native Framework (`lib/`)**:
+- **PRIMARY FOCUS — Flutter Multi-Native Framework (`apps/mobile/lib/`)**:
   - The core of this codebase is a maintainable, reactive Flutter framework targeting **Android, iOS, Windows, and macOS**.
   - All feature logic, state management, adaptive presentation, and domain modeling live here.
 - **SECONDARY UTILITY — Python Mock Backend (`backend/`)**:
@@ -29,7 +29,7 @@ Welcome to the **Garblo** codebase (`phuctanpham/vjai`). This project is designe
 4. **Bounded Vertical Slices**: Work on one bounded vertical slice at a time (e.g. from presentation down to data source). Do not mix unrelated domains.
 5. **Locked Files (Do NOT Touch)**: Do not modify files outside the assigned feature slice. Never touch unrelated features.
 6. **Justify New Dependencies**: Do not introduce new third-party packages or libraries without explicit architectural justification.
-7. **Feature-First Organization**: Group code by business capability under `lib/features/<feature_name>/` containing `domain/`, `data/`, and `presentation/` subdirectories.
+7. **Feature-First Organization**: Group code by business capability under `apps/mobile/lib/features/<feature_name>/` containing `domain/`, `data/`, and `presentation/` subdirectories.
 8. **Clean Separation of Concerns**: Keep widgets completely free of direct API, database, or domain business logic. Widgets communicate exclusively via ViewModels / Notifiers.
 9. **Platform Agnosticism**: Keep platform-specific behavior behind abstract interfaces or services. **Do NOT** scatter `Platform.isAndroid`, `Platform.isIOS`, or desktop checks inside UI widgets.
 10. **Adaptive Layouts**: Design UI to adapt fluidly across mobile (< 800px touch cards) and desktop ($\ge$ 800px multi-column layout) based on available layout width using `LayoutBuilder` and `MediaQuery`.
@@ -75,12 +75,13 @@ Data Source / API Client / Storage (Concrete implementation)
 Before completing any task, run the appropriate verification suite:
 
 ```bash
-# Flutter
+# Flutter (from apps/mobile/)
+cd apps/mobile
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test
 
-# Backend (uv)
-cd backend
+# Backend (uv, from the repository root)
+cd ../../backend
 uv run pytest
 ```

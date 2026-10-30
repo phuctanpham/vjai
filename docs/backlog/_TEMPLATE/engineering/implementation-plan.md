@@ -3,7 +3,7 @@
 ## Generated files
 | Role | Path | Change |
 |---|---|---|
-| App Developer | `lib/...` | <create / modify: what> |
+| App Developer | `apps/mobile/lib/...` | <create / modify: what> |
 | Backend Developer | `backend/...` | <create / modify: what> |
 
 **Order:** <which role goes first, if both>. **Locked:** every path not listed above.
@@ -30,3 +30,4 @@
 
 | Date | CHG | Change |
 |---|---|---|
+| 2026-10-30 | [CHG-010](../../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

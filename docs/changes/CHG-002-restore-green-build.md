@@ -16,7 +16,7 @@ Found by reading the code; no toolchain was available to confirm.
 6. `DiscoveryViewModel.swipe` swallows repository errors with an empty `catch`; neither `swipe` nor `retry` blocks duplicate calls.
 7. Analyzer warnings: unused `theme` locals in `discovery_layout.dart`; `isCompact` is always false.
 8. `ThemeData.cardTheme: CardTheme(...)` breaks on Flutter ≥ 3.27 (`CardThemeData`); `withOpacity` is deprecated there. Flutter version not pinned.
-9. `.gitignore` ignores `*.lock`, dropping `pubspec.lock` and `uv.lock`.
+9. `.gitignore` ignores `*.lock`, dropping `apps/mobile/pubspec.lock` and `uv.lock`.
 10. Backend: Pydantic v1-style `class Config`; `cors_origins` typed as list but set to a tuple; `allow_credentials=True` with origin `*`.
 11. Fixture drift: `usr_01` has 2 images in Python, 1 in Dart.
 12. Existing discovery tests do not carry BL-004 scenario IDs.
@@ -37,5 +37,5 @@ Found by reading the code; no toolchain was available to confirm.
 ## Code follow-up
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | `lib/features/discovery/**`, `lib/app/theme/app_theme.dart`, `test/features/discovery/**`, platform folders (`flutter create --platforms=android,ios,windows,macos .`), `.gitignore` | Rename tests with `[BL-004-Sxx]`; add mobile-layout and hashCode tests | [ ] |
+| App Developer | `apps/mobile/lib/features/discovery/**`, `apps/mobile/lib/app/theme/app_theme.dart`, `apps/mobile/test/features/discovery/**`, platform folders (`flutter create --platforms=android,ios,windows,macos .`), `.gitignore` | Rename tests with `[BL-004-Sxx]`; add mobile-layout and hashCode tests | [ ] |
 | Backend Developer | `backend/app/models/*.py`, `backend/app/config.py`, `backend/app/main.py`, `backend/app/data/sample_data.py` | Existing pytest suite stays green | [ ] |

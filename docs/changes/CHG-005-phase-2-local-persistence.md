@@ -33,11 +33,11 @@ data.
 | P2-D10 | In-house metadata stripping, no image re-encoding. JPEG: remove every APP1 (EXIF and XMP) and APP13; keep APP0 and APP2 (ICC). PNG: remove `tEXt`, `zTXt`, `iTXt`, `eXIf`; keep `iCCP`. Read the EXIF orientation first and store it on `media_assets.orientation` | Lossless; GPS can live in XMP; orientation lives in EXIF |
 | P2-D11 | ObjectIds generated in-house: 4-byte seconds + 5-byte install random + 3-byte counter, as 24 lowercase hex characters | No dependency |
 | P2-D12 | "Delete all" = close the database → delete the database files and the attachments folder → delete the database key → reopen fresh. The owner ID is kept ("Delete my data" is not "Delete account") | Simple to verify |
-| P2-D13 | `pubspec.lock` is committed; `.gitignore` stops ignoring `*.lock` | ci-cd.md already requires it (CHG-002 item 9); native dependencies need a pinned lock |
+| P2-D13 | `apps/mobile/pubspec.lock` is committed; `.gitignore` stops ignoring `*.lock` | ci-cd.md already requires it (CHG-002 item 9); native dependencies need a pinned lock |
 | P2-D14 | Host tests use plain SQLite (`F:\tools\sqlite\sqlite3.dll` on Windows, kept out of the repo; the system library on Linux CI). SQLCipher encryption, the real picker, real app-kill and device timing are **device checks**, reported as skipped until run | They cannot run in `flutter test` |
 
 ## Phone schema v1 (contract)
-Defined declaratively in `lib/core/storage/phone_schema.dart` and pinned by
+Defined declaratively in `apps/mobile/lib/core/storage/phone_schema.dart` and pinned by
 `[TASK-005-S02]`. All dates are ISO-8601 text; booleans are `INTEGER` 0/1;
 JSON is `TEXT`. Every synced table also has `id TEXT PRIMARY KEY`.
 

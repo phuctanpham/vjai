@@ -6,7 +6,7 @@
 > **Source use cases:** UC-05, UC-06, UC-07, UC-08 (AC-08.1–08.4 only) · spec T2 (I6, I9, enums) · T6 P1-09
 
 "Style a new look" is the Wardrobe FAB label. The pillar and the feature are
-**Gu Match** (`lib/features/gu_match/`).
+**Gu Match** (`apps/mobile/lib/features/gu_match/`).
 
 ## Objective
 
@@ -79,29 +79,29 @@ emoji. Strings derived from G4 are listed in CHG-003.
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S01 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S01] |
-| S01 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S01] |
-| S01 | Journey | test/app/flow_b_journey_test.dart | [TASK-004-S01] (I9 across pillars; added at green) |
-| S02 | Domain | test/features/gu_match/domain/styling_context_test.dart | [TASK-004-S02] |
-| S02 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S02] |
-| S03 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S03] |
-| S03 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S03] |
-| S04 | Fake generator | test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S04][fake-generator] |
-| S05 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S05] |
-| S05 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S05] |
-| S06 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S06] |
-| S06 | Repository | test/features/wardrobe/data/wear_repository_test.dart | [TASK-004-S06] |
-| S06 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S06] |
-| S07 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S07] |
-| S08 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S08] |
-| S08 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S08] |
-| S09 | Fake generator | test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S09][fake-generator] |
-| S09 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S09] |
-| S10 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S10] |
-| S11 | Fake generator | test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S11][fake-generator] |
-| S12 | Fake generator | test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S12][fake-generator] |
-| S12 | ViewModel | test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S12] |
-| S12 | Widget | test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S12] |
+| S01 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S01] |
+| S01 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S01] |
+| S01 | Journey | apps/mobile/test/app/flow_b_journey_test.dart | [TASK-004-S01] (I9 across pillars; added at green) |
+| S02 | Domain | apps/mobile/test/features/gu_match/domain/styling_context_test.dart | [TASK-004-S02] |
+| S02 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S02] |
+| S03 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S03] |
+| S03 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S03] |
+| S04 | Fake generator | apps/mobile/test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S04][fake-generator] |
+| S05 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S05] |
+| S05 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S05] |
+| S06 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S06] |
+| S06 | Repository | apps/mobile/test/features/wardrobe/data/wear_repository_test.dart | [TASK-004-S06] |
+| S06 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S06] |
+| S07 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S07] |
+| S08 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S08] |
+| S08 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S08] |
+| S09 | Fake generator | apps/mobile/test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S09][fake-generator] |
+| S09 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S09] |
+| S10 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S10] |
+| S11 | Fake generator | apps/mobile/test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S11][fake-generator] |
+| S12 | Fake generator | apps/mobile/test/features/gu_match/data/fake_candidate_generator_test.dart | [TASK-004-S12][fake-generator] |
+| S12 | ViewModel | apps/mobile/test/features/gu_match/presentation/gu_match_view_model_test.dart | [TASK-004-S12] |
+| S12 | Widget | apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart | [TASK-004-S12] |
 
 Required non-scenario tests: `OutfitCandidate` and `StylingContext` value
 equality and list-content `hashCode`; `WearEvent` signature is independent of
@@ -113,14 +113,14 @@ presentation code (covered by TASK-002-S06); both layouts for the widget file.
 
 **App Developer may create or modify:**
 
-- `lib/features/gu_match/{domain,data,presentation}/**`
-- `lib/features/wardrobe/domain/wear_event.dart`,
-  `lib/features/wardrobe/data/wear_repository.dart` (wear events are owned by
+- `apps/mobile/lib/features/gu_match/{domain,data,presentation}/**`
+- `apps/mobile/lib/features/wardrobe/domain/wear_event.dart`,
+  `apps/mobile/lib/features/wardrobe/data/wear_repository.dart` (wear events are owned by
   the Wardrobe pillar; Gu Match writes them through the repository interface)
-- No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
+- No shell change: `apps/mobile/lib/app/shell/pillar_pages.dart` (TASK-002) already maps
   the Gu Match pillar to `GuMatchView`
-- `test/features/gu_match/**`, `test/features/wardrobe/data/wear_repository_test.dart`,
-  `test/app/flow_b_journey_test.dart`, `test/helpers/**`
+- `apps/mobile/test/features/gu_match/**`, `apps/mobile/test/features/wardrobe/data/wear_repository_test.dart`,
+  `apps/mobile/test/app/flow_b_journey_test.dart`, `apps/mobile/test/helpers/**`
 
 Cross-feature reads must use the Wardrobe domain/repository contract, never
 Wardrobe presentation widgets.
@@ -154,3 +154,4 @@ Wardrobe presentation widgets.
 | 2026-10-29 | — | Created Flow B task from the must-have mobile specification. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Renamed to Gu Match; split Adjust (swap) from Change context; Like → wear prompt; try-on → coming soon; wear events clarified; added S09–S12; test plan and file list added. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Review: T7 G3/G4 copy (Fit, Add to Rotation, Wear today); A-03 match % = 70 + round(0.3 × days); generator moved to `data/` as `FakeCandidateGenerator`, tests tagged `[fake-generator]`; no-Fits state. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

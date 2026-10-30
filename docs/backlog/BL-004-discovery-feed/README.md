@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Done | BL-001 (app shell) | `lib/features/discovery/` |
+| Done | BL-001 (app shell) | `apps/mobile/lib/features/discovery/` |
 
 ## Goal
 On mobile and desktop, users browse candidate profiles and record a swipe (`like`, `pass`, `superlike`) with immediate feedback.
@@ -27,3 +27,4 @@ Accepted before this system existed. Re-check after [CHG-002](../../changes/CHG-
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Migrated from APRD-001 |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

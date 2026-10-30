@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 2 (Identity & Onboarding)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/auth/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/auth/`  
 > **Companion Mock API**: `backend/app/api/v1/endpoints/auth.py`  
 > **Estimated Agent Prompts**: 1 bounded session  
 
@@ -16,24 +16,24 @@ Implement a lightweight, self-contained authentication slice in Flutter using Ri
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/features/auth/domain/auth_session.dart` (Session model with userId, token, expiry)
-- `lib/features/auth/domain/auth_failure.dart` (InvalidCredentialsFailure, NetworkFailure)
-- `lib/features/auth/data/auth_repository.dart` (Abstract contract & MockAuthRepository)
-- `lib/features/auth/presentation/auth_state.dart` (AuthStatus: unauthenticated, authenticating, authenticated, error)
-- `lib/features/auth/presentation/auth_view_model.dart` (StateNotifier managing login/logout)
-- `lib/features/auth/presentation/auth_view.dart` (Responsive login/signup screen with form validation)
-- `lib/features/auth/presentation/widgets/auth_text_field.dart` (Reusable styled input)
-- `lib/app/router.dart` (Add `/login` route and auth check)
-- `test/features/auth/domain/auth_session_test.dart`
-- `test/features/auth/data/auth_repository_test.dart`
-- `test/features/auth/presentation/auth_view_model_test.dart`
-- `test/features/auth/presentation/auth_view_test.dart`
+- `apps/mobile/lib/features/auth/domain/auth_session.dart` (Session model with userId, token, expiry)
+- `apps/mobile/lib/features/auth/domain/auth_failure.dart` (InvalidCredentialsFailure, NetworkFailure)
+- `apps/mobile/lib/features/auth/data/auth_repository.dart` (Abstract contract & MockAuthRepository)
+- `apps/mobile/lib/features/auth/presentation/auth_state.dart` (AuthStatus: unauthenticated, authenticating, authenticated, error)
+- `apps/mobile/lib/features/auth/presentation/auth_view_model.dart` (StateNotifier managing login/logout)
+- `apps/mobile/lib/features/auth/presentation/auth_view.dart` (Responsive login/signup screen with form validation)
+- `apps/mobile/lib/features/auth/presentation/widgets/auth_text_field.dart` (Reusable styled input)
+- `apps/mobile/lib/app/router.dart` (Add `/login` route and auth check)
+- `apps/mobile/test/features/auth/domain/auth_session_test.dart`
+- `apps/mobile/test/features/auth/data/auth_repository_test.dart`
+- `apps/mobile/test/features/auth/presentation/auth_view_model_test.dart`
+- `apps/mobile/test/features/auth/presentation/auth_view_test.dart`
 - `backend/app/api/v1/endpoints/auth.py` (Mock login/logout FastAPI endpoints)
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/discovery/*` (Do NOT touch discovery logic)
-- `lib/features/matching/*`
-- `lib/features/chat/*`
+- `apps/mobile/lib/features/discovery/*` (Do NOT touch discovery logic)
+- `apps/mobile/lib/features/matching/*`
+- `apps/mobile/lib/features/chat/*`
 
 ---
 

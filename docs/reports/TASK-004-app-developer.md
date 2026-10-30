@@ -11,12 +11,12 @@ Gu Match drafts **Fits** (outfits) from the user's own Pieces for the day ahead.
 ## Changed files
 | Path | Purpose |
 |---|---|
-| `lib/features/gu_match/domain/*` | Occasion, StylingContext (≤ 5 chips, ≤ 280 chars, path), GuMatchSession, ContextCard (+ missing card), SlotRole, VisualMode labels, Interaction, OutfitCandidate (+ wire JSON, no commerce fields), GeneratedDeck (+ missing-group hint) |
-| `lib/features/gu_match/data/fake_candidate_generator.dart` | Phase 1 fake: Fit = top + bottom + shoes, owned and non-archived; dormant first; ≤ 8; match % = 70 + round(0.3 × days), cap 95; "Benched {d} days · {Piece}"; swap rules |
-| `lib/features/gu_match/data/gu_match_repository.dart` | `MockGuMatchRepository`: ready count = Archive total, `NoEligibleItemsFailure`, fixture context cards per path, deck from Archive + wear log, interactions, swaps, wear once per Fit per day |
-| `lib/features/gu_match/presentation/*` | `GuMatchState`, `GuMatchViewModel` (studio → context → deck → end / no Fits; busy guard; wear prompt; Change context pre-fill; Adjust swap; Try-on coming soon), `GuMatchView` + 1b/2b/3b widgets |
-| `test/features/gu_match/presentation/gu_match_view_test.dart` | Test fix: one more `pump()` after a streamed context card (see Deviations) |
-| `test/app/flow_b_journey_test.dart` | New: the ready count follows the Archive across pillars (I9), then a short deck of 4 Fits |
+| `apps/mobile/lib/features/gu_match/domain/*` | Occasion, StylingContext (≤ 5 chips, ≤ 280 chars, path), GuMatchSession, ContextCard (+ missing card), SlotRole, VisualMode labels, Interaction, OutfitCandidate (+ wire JSON, no commerce fields), GeneratedDeck (+ missing-group hint) |
+| `apps/mobile/lib/features/gu_match/data/fake_candidate_generator.dart` | Phase 1 fake: Fit = top + bottom + shoes, owned and non-archived; dormant first; ≤ 8; match % = 70 + round(0.3 × days), cap 95; "Benched {d} days · {Piece}"; swap rules |
+| `apps/mobile/lib/features/gu_match/data/gu_match_repository.dart` | `MockGuMatchRepository`: ready count = Archive total, `NoEligibleItemsFailure`, fixture context cards per path, deck from Archive + wear log, interactions, swaps, wear once per Fit per day |
+| `apps/mobile/lib/features/gu_match/presentation/*` | `GuMatchState`, `GuMatchViewModel` (studio → context → deck → end / no Fits; busy guard; wear prompt; Change context pre-fill; Adjust swap; Try-on coming soon), `GuMatchView` + 1b/2b/3b widgets |
+| `apps/mobile/test/features/gu_match/presentation/gu_match_view_test.dart` | Test fix: one more `pump()` after a streamed context card (see Deviations) |
+| `apps/mobile/test/app/flow_b_journey_test.dart` | New: the ready count follows the Archive across pillars (I9), then a short deck of 4 Fits |
 
 ## Scenario coverage
 | Scenario | Tests | Result |
@@ -50,7 +50,7 @@ Toolchain: Flutter 3.24.5, Dart 3.5.4.
 
 ## Deviations from plan
 - **Test fix (S03 widget).** A streamed context card reaches the ViewModel in a microtask that runs after the frame of a single `pump()`, so the card shows only on the next frame. The test already pumped twice after "Draft Fits" for this reason; it now does the same after the weather card.
-- **Added test** `test/app/flow_b_journey_test.dart` (both layouts). The Gu Match ViewModel is kept alive so Change context can pre-fill, which means its ready count could go stale after indexing new Pieces. `GuMatchView` refreshes the count each time the pillar is shown; this journey proves "N PIECES READY" equals the Archive total across pillars (I9).
+- **Added test** `apps/mobile/test/app/flow_b_journey_test.dart` (both layouts). The Gu Match ViewModel is kept alive so Change context can pre-fill, which means its ready count could go stale after indexing new Pieces. `GuMatchView` refreshes the count each time the pillar is shown; this journey proves "N PIECES READY" equals the Archive total across pillars (I9).
 - **No-Fits state** shows "No Fits to draft yet" with the missing-group hint, "Change context" and "Index Pieces" (derived from G4; listed with the other derived strings in CHG-003).
 - **Phase 1 visuals.** Fit cards show a flat-lay list of the Pieces (label WARDROBE PHOTO) instead of images; there are no cutouts until the extraction pipeline (AI-001).
 - Swipe gestures map left → Pass and right → Add to Rotation; the rail buttons are the tested path and the accessible alternative.
@@ -62,11 +62,11 @@ The Gu Match vocabulary ("match", "swipe", `LIKE_SAVE`) and the backend code its
 - New [BE-005](../tasks/backend/BE-005-retire-dating-mock-api.md): retire the dating mock API (`discovery.py`, `matches.py`, `chat.py`, `auth.py` placeholder, `models/profile.py`, sample people) and rewrite `backend/README.md`, before BE-002. Needs a CHG.
 - [BE-001](../tasks/backend/BE-001-platform-decision.md): the current FastAPI code is not a starting point for the wardrobe API.
 - [AI-003](../tasks/backend/AI-003-agent-context-and-styling.md): "like rate" → Add to Rotation rate, a decision on a Fit.
-- CHG-003 product impact: the root `README.md` and `pubspec.yaml` still describe a social discovery app.
+- CHG-003 product impact: the root `README.md` and `apps/mobile/pubspec.yaml` still describe a social discovery app.
 
 ## Doc issues
 - The root `README.md` describes "discovery and social connection", swipe cards and profile panels. It is a product document, so I did not rewrite it; it is listed in CHG-003 for the APM.
-- The mobile dating tree (`lib/features/discovery` and the placeholders) is unrouted but still in the codebase; removing it needs its own mobile CHG.
+- The mobile dating tree (`apps/mobile/lib/features/discovery` and the placeholders) is unrouted but still in the codebase; removing it needs its own mobile CHG.
 - Still open from CHG-003: Q-01, Q-02, the strings derived from G4.
 
 ## Lesson candidates

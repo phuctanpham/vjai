@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Ready to code | BL-007 | `lib/features/matching/presentation/` |
+| Ready to code | BL-007 | `apps/mobile/lib/features/matching/presentation/` |
 
 ## Goal
 Users see their matches in one screen: a "New Matches" carousel, a list of connections, and a name search.
@@ -30,3 +30,4 @@ Pending.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Migrated from APRD-008 + TASK-008; loading uses the standard progress indicator (TASK-008 also mentioned shimmer) |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

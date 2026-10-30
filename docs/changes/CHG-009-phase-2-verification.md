@@ -44,7 +44,7 @@ The TASK-009 red run (`a021130`) found three gaps in the green Phase 2 stack:
 | Affected | Change needed |
 |---|---|
 | [ci-cd.md](../policies/engineering/ci-cd.md) | CI runs the benchmark |
-| [codebase-map.md](../policies/engineering/codebase-map.md) | `test/integration/`, `test/helpers/reliability.dart`, crash images |
+| [codebase-map.md](../policies/engineering/codebase-map.md) | `apps/mobile/test/integration/`, `apps/mobile/test/helpers/reliability.dart`, crash images |
 | [CHG-005](CHG-005-phase-2-local-persistence.md) | TASK-009 code follow-up done |
 
 ## Test changes while going green
@@ -56,7 +56,7 @@ and the green commit `1589db7`; no existing test was edited.
 
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | `lib/features/studio/data/local_studio_repository.dart`, `lib/core/storage/local_data_store.dart`, `lib/features/gu_match/presentation/gu_match_view_model.dart`, `lib/features/gu_match/presentation/widgets/outfit_deck_panel.dart`, `.github/workflows/android-apk.yml` | `test/integration/`, `test/helpers/{local_db,reliability}.dart` | [x] |
+| App Developer | `apps/mobile/lib/features/studio/data/local_studio_repository.dart`, `apps/mobile/lib/core/storage/local_data_store.dart`, `apps/mobile/lib/features/gu_match/presentation/gu_match_view_model.dart`, `apps/mobile/lib/features/gu_match/presentation/widgets/outfit_deck_panel.dart`, `.github/workflows/android-apk.yml` | `apps/mobile/test/integration/`, `apps/mobile/test/helpers/{local_db,reliability}.dart` | [x] |
 | Backend Developer | None | None | — |
 
 ## Change history
@@ -65,3 +65,4 @@ and the green commit `1589db7`; no existing test was edited.
 |---|---|---|
 | 2026-10-30 | — | Created from the TASK-009 red run; approved by the human with the Phase 2 completion request |
 | 2026-10-30 | — | Done: merged to `main` with Phase 2 (PR 4) |
+| 2026-10-30 | [CHG-010](CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

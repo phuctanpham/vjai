@@ -27,13 +27,13 @@ None. Formatting does not change behaviour.
 ## Engineering impact (ASEM)
 | Affected | Change |
 |---|---|
-| 29 Dart files under `lib/` and `test/` (dating features, app shell, core) | Format-only commit with Flutter 3.24.5 / Dart 3.5.4 |
+| 29 Dart files under `apps/mobile/lib/` and `apps/mobile/test/` (dating features, app shell, core) | Format-only commit with Flutter 3.24.5 / Dart 3.5.4 |
 | [android-apk.yml](../../.github/workflows/android-apk.yml) | Step "Check Dart formatting": `dart format --output=none --set-exit-if-changed .` |
 | [`.fvmrc`](../../.fvmrc) | New: `{"flutter": "3.24.5"}` |
 | [README.md](../../README.md) | Prerequisites and badge state Flutter 3.24.5 |
 | [ci-cd.md](../policies/engineering/ci-cd.md) | Toolchain row pinned; existing APK workflow documented |
 
-Not changed: `pubspec.yaml` keeps `flutter: ">=3.10.0"` as the minimum SDK.
+Not changed: `apps/mobile/pubspec.yaml` keeps `flutter: ">=3.10.0"` as the minimum SDK.
 
 ## Code follow-up
 | Role | Paths | Tests | Done |

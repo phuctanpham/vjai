@@ -2,7 +2,7 @@
 
 > **Phase:** 5 — Safety and engagement  
 > **Status:** Planned  
-> **Target:** `lib/features/moderation/`, `backend/app/api/v1/endpoints/`  
+> **Target:** `apps/mobile/lib/features/moderation/`, `backend/app/api/v1/endpoints/`  
 > **Dependency:** TASK-007
 
 ## Objective
@@ -11,7 +11,7 @@ Allow a user to block a profile or submit a structured mock report from Discover
 
 ## Allowed files
 
-- `lib/features/moderation/`
+- `apps/mobile/lib/features/moderation/`
 - Explicit integration files in feature presentation layers.
 - `backend/app/api/v1/endpoints/moderation.py`
 - `backend/tests/test_moderation.py`

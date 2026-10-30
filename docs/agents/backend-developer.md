@@ -30,4 +30,4 @@ Python 3.10+, FastAPI, Pydantic v2, pytest with `TestClient`, `uv`, TDD.
 ## Role rules
 - The backend is a deterministic mock. No databases, real auth, external services, randomness or wall-clock behaviour.
 - Request and response shapes must match `data-schema.md` exactly. If they cannot, stop and report it.
-- Never edit `lib/`, `test/` or any file under `docs/` except your report.
+- Never edit `apps/mobile/lib/`, `apps/mobile/test/` or any file under `docs/` except your report.

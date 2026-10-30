@@ -1,7 +1,7 @@
 # APRD-001: Discovery Feed & Swiping Feature
 
 > **Status**: Accepted & Implemented  
-> **Target Bounded Context**: `lib/features/discovery/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/discovery/`  
 > **Companion Mock API**: `backend/app/api/v1/endpoints/discovery.py`
 
 ---

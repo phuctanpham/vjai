@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 3 (Core Social Mechanics)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/discovery/` & `lib/core/storage/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/discovery/` & `apps/mobile/lib/core/storage/`  
 > **Dependencies**: TASK-004 (Discovery Feed Scaffold)  
 > **Estimated Agent Prompts**: 1 bounded session  
 
@@ -16,16 +16,16 @@ Currently, `DiscoveryViewModel` advances cards in memory, but reloading the feed
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/features/discovery/data/discovery_repository.dart` (Add `getSwipedProfileIds()`, `clearSwipeHistory()`, inject `LocalStorage`)
-- `lib/features/discovery/presentation/discovery_view_model.dart` (Persist swipe immediately on action; provide `resetFeed()` method)
-- `lib/features/discovery/presentation/discovery_view.dart` (Add "Reset Swipes" action menu item)
-- `test/features/discovery/data/discovery_repository_test.dart` (Test persistence & filtering)
-- `test/features/discovery/presentation/discovery_view_model_test.dart` (Test feed without already swiped profiles)
+- `apps/mobile/lib/features/discovery/data/discovery_repository.dart` (Add `getSwipedProfileIds()`, `clearSwipeHistory()`, inject `LocalStorage`)
+- `apps/mobile/lib/features/discovery/presentation/discovery_view_model.dart` (Persist swipe immediately on action; provide `resetFeed()` method)
+- `apps/mobile/lib/features/discovery/presentation/discovery_view.dart` (Add "Reset Swipes" action menu item)
+- `apps/mobile/test/features/discovery/data/discovery_repository_test.dart` (Test persistence & filtering)
+- `apps/mobile/test/features/discovery/presentation/discovery_view_model_test.dart` (Test feed without already swiped profiles)
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/auth/*`
-- `lib/features/chat/*`
-- `lib/features/matching/*`
+- `apps/mobile/lib/features/auth/*`
+- `apps/mobile/lib/features/chat/*`
+- `apps/mobile/lib/features/matching/*`
 
 ---
 

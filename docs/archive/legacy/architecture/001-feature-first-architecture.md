@@ -5,9 +5,9 @@ When organizing a Flutter codebase, developers typically choose between layer-fi
 
 ## Decision
 We adopt a **feature-first** organization:
-- `lib/features/<feature>/` holds `data/`, `domain/`, and `presentation/` for that vertical slice.
-- `lib/core/` houses common infrastructure, shared error types, and reusable UI components.
-- `lib/app/` manages app bootstrap, global theming, and routing.
+- `apps/mobile/lib/features/<feature>/` holds `data/`, `domain/`, and `presentation/` for that vertical slice.
+- `apps/mobile/lib/core/` houses common infrastructure, shared error types, and reusable UI components.
+- `apps/mobile/lib/app/` manages app bootstrap, global theming, and routing.
 
 ## Consequences
 ### Positive

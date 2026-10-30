@@ -50,27 +50,27 @@ this phone, after an on-page confirmation with counts.
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S04, S05, S06 | Integration | test/core/storage/local_data_store_test.dart | [TASK-008-S0x] |
-| S02, S03 | Repository | test/features/privacy/data/privacy_repository_test.dart | [TASK-008-S0x] |
-| S02, S05 | ViewModel | test/features/privacy/presentation/privacy_view_model_test.dart | [TASK-008-S0x] |
-| S01, S02 | Widget | test/features/privacy/presentation/privacy_view_test.dart | [TASK-008-S0x] |
-| S07 | ViewModel | test/features/studio/presentation/studio_erasure_test.dart | [TASK-008-S07] |
-| S08 | Widget | test/app/privacy_entry_test.dart | [TASK-008-S08] |
+| S04, S05, S06 | Integration | apps/mobile/test/core/storage/local_data_store_test.dart | [TASK-008-S0x] |
+| S02, S03 | Repository | apps/mobile/test/features/privacy/data/privacy_repository_test.dart | [TASK-008-S0x] |
+| S02, S05 | ViewModel | apps/mobile/test/features/privacy/presentation/privacy_view_model_test.dart | [TASK-008-S0x] |
+| S01, S02 | Widget | apps/mobile/test/features/privacy/presentation/privacy_view_test.dart | [TASK-008-S0x] |
+| S07 | ViewModel | apps/mobile/test/features/studio/presentation/studio_erasure_test.dart | [TASK-008-S07] |
+| S08 | Widget | apps/mobile/test/app/privacy_entry_test.dart | [TASK-008-S08] |
 
 Device check: the wipe of the encrypted database and attachments on Android
 and iOS within 5 s (TAC-09.1).
 
 ## File confinement
 
-- `lib/core/storage/local_data_store.dart`
-- `lib/features/privacy/{domain,data,presentation}/**` (new feature)
-- `lib/features/studio/presentation/studio_view_model.dart` (ignore results
+- `apps/mobile/lib/core/storage/local_data_store.dart`
+- `apps/mobile/lib/features/privacy/{domain,data,presentation}/**` (new feature)
+- `apps/mobile/lib/features/studio/presentation/studio_view_model.dart` (ignore results
   after dispose)
-- `lib/app/shell/app_shell.dart` (avatar), `lib/app/router.dart`
-  (`/privacy`), `lib/app/bootstrap.dart` (restart after delete all)
-- `test/core/storage/**`, `test/features/privacy/**`,
-  `test/features/studio/presentation/studio_erasure_test.dart`,
-  `test/app/privacy_entry_test.dart`
+- `apps/mobile/lib/app/shell/app_shell.dart` (avatar), `apps/mobile/lib/app/router.dart`
+  (`/privacy`), `apps/mobile/lib/app/bootstrap.dart` (restart after delete all)
+- `apps/mobile/test/core/storage/**`, `apps/mobile/test/features/privacy/**`,
+  `apps/mobile/test/features/studio/presentation/studio_erasure_test.dart`,
+  `apps/mobile/test/app/privacy_entry_test.dart`
 
 ## Deferred (not Phase 2)
 
@@ -102,3 +102,4 @@ and iOS within 5 s (TAC-09.1).
 |---|---|---|
 | 2026-10-29 | — | Created from T6 P2-06, P2-07, and P2-08; gated on unresolved product gaps. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Re-scoped to UC-09 local erasure; Avatar › Privacy & data entry; wipe by deleting files; calendar, reminders, export and poster deferred; test plan. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

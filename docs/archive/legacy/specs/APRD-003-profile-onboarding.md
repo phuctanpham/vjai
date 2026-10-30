@@ -1,7 +1,7 @@
 # APRD-003: Profile Onboarding Wizard
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/features/onboarding/`
+> **Target bounded context:** `apps/mobile/lib/features/onboarding/`
 
 ## 1. Goal
 

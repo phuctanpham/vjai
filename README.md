@@ -58,7 +58,7 @@ This is a two-package monorepo. The annotated file tree lives in one place,
 
 | Path | Contents |
 |---|---|
-| `lib/`, `test/`, `pubspec.yaml` | Flutter app (`garblo`): `app/` shell and routing, `core/` storage, media and layout, `features/` wardrobe slices |
+| `apps/mobile/lib/`, `apps/mobile/test/`, `apps/mobile/pubspec.yaml` | Flutter app (`garblo`): `app/` shell and routing, `core/` storage, media and layout, `features/` wardrobe slices |
 | `backend/` | Legacy FastAPI mock API (`garblo-backend`, managed with `uv`) |
 | `docs/` | Every document; start at [`docs/README.md`](docs/README.md) |
 | `CLAUDE.md`, `.claude/` | Claude Code instructions, subagents and skills |
@@ -111,6 +111,9 @@ decisions remain pending in
 #### Commands
 
 ```bash
+# The Flutter app lives in apps/mobile/
+cd apps/mobile
+
 # Get dependencies
 flutter pub get
 
@@ -152,6 +155,8 @@ Once running:
 ### Flutter Tests & Quality Checks
 
 ```bash
+cd apps/mobile
+
 # Format code
 dart format .
 

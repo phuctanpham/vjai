@@ -1,7 +1,7 @@
 # APRD-008: Matches & Connections View
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/features/matching/`
+> **Target bounded context:** `apps/mobile/lib/features/matching/`
 
 ## 1. Goal
 

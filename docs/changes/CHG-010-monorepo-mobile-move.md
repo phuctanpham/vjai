@@ -2,7 +2,7 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Approved | [CHG-008](CHG-008-claude-code-adapter.md) D8-04 (deferred until PR 4 merged; it merged on 2026-10-30) · human approval 2026-10-30 (commit straight to `main`; rewrite historical docs too) | 2026-10-30 |
+| Done | [CHG-008](CHG-008-claude-code-adapter.md) D8-04 (deferred until PR 4 merged; it merged on 2026-10-30) · human approval 2026-10-30 (commit straight to `main`; rewrite historical docs too) | 2026-10-30 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
@@ -44,7 +44,14 @@ no behaviour, vocabulary or scope changes.
 ## Code follow-up
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | `git mv` per M-01; the workflow and owner docs per the table above | Gates from `apps/mobile/`: format, analyze, full `flutter test` (461 + TASK-009 tests, same counts as before the move); `git log --follow` on one moved file; a manual `workflow_dispatch` CI run including the APK | [ ] |
-| Backend Developer | None (M-02) | `cd backend && uv run pytest` unchanged | — |
+| App Developer | `git mv` per M-01; the workflow and owner docs per the table above | Gates from `apps/mobile/`: format (175 files, 0 changed), analyze (0 issues), `flutter test` **481 passed, 1 skipped**, same as before the move; benchmark 92 ms; `git log --follow` on a moved file; CI on the push to `main` including the APK | [x] |
+| Backend Developer | None (M-02) | `cd backend && uv run pytest` | — |
+
+**Found while verifying (not caused by this move):** `uv run pytest` fails to build
+`garblo-backend`: hatchling cannot tell which files to ship, because the package folder is
+`app/`, not `garblo_backend/`, and `pyproject.toml` (unchanged since the first commit) has no
+`[tool.hatch.build.targets.wheel] packages = ["app"]`. CI does not run the backend gate, so it has
+been unnoticed. Fix belongs to the Backend Developer (one line in `backend/pyproject.toml`);
+`backend/uv.lock` is also not committed although [ci-cd.md](../policies/engineering/ci-cd.md) §2 says it is.
 
 When the change does not need a full backlog item, this table serves as the implementation plan. Only the listed paths may change.

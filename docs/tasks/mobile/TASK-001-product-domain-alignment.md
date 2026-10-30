@@ -14,8 +14,8 @@ decision for this plan is **wardrobe and outfit**.
 
 ## Evidence reviewed
 
-- Existing product identity in [pubspec.yaml](../../../pubspec.yaml).
-- Existing bounded contexts in [lib/](../../../lib/) and the codebase map
+- Existing product identity in [apps/mobile/pubspec.yaml](../../../apps/mobile/pubspec.yaml).
+- Existing bounded contexts in [apps/mobile/lib/](../../../apps/mobile/lib/) and the codebase map
   [codebase-map.md](../../policies/engineering/codebase-map.md).
 - Existing terminology in [terminology.md](../../policies/product/terminology.md).
 - Wardrobe journeys, screens, use cases and the phase ladder (T6) in
@@ -35,10 +35,10 @@ must not be reused for wardrobe implementation.
 
 | Context | Path | Pillar | Owns |
 |---|---|---|---|
-| Studio | `lib/features/studio/` | Add (1a–4a) | Upload batch, photo tray, consent, analysis scope, review drafts |
-| Wardrobe | `lib/features/wardrobe/` | Wardrobe (5a) | Wardrobe items, item types and groups, wear events, dormancy |
-| Gu Match | `lib/features/gu_match/` | Gu Match (1b–3b) | Styling context, session, context cards, outfit candidates, interactions |
-| Shell | `lib/app/shell/`, `lib/core/navigation/` | all | Pillar navigation, header, Impact/Community off states |
+| Studio | `apps/mobile/lib/features/studio/` | Add (1a–4a) | Upload batch, photo tray, consent, analysis scope, review drafts |
+| Wardrobe | `apps/mobile/lib/features/wardrobe/` | Wardrobe (5a) | Wardrobe items, item types and groups, wear events, dormancy |
+| Gu Match | `apps/mobile/lib/features/gu_match/` | Gu Match (1b–3b) | Styling context, session, context cards, outfit candidates, interactions |
+| Shell | `apps/mobile/lib/app/shell/`, `apps/mobile/lib/core/navigation/` | all | Pillar navigation, header, Impact/Community off states |
 
 The dating tree (`discovery`, `auth`, `onboarding`, `matching`, `chat`,
 `profile`, `notifications`, `moderation`) stays in place, unchanged and
@@ -129,3 +129,4 @@ direction does not leave conflicting canonical terms.
 |---|---|---|
 | 2026-10-29 | — | Created to block implementation until the dating-versus-wardrobe conflict is resolved. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Recorded the decision, feature tree, canonical terms, Phase 1 exclusions; links moved to `docs/policies/`. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

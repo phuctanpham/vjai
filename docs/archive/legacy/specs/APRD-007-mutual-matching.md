@@ -1,7 +1,7 @@
 # APRD-007: Mutual Match Formation & Celebration
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/features/matching/` and the Discovery swipe integration
+> **Target bounded context:** `apps/mobile/lib/features/matching/` and the Discovery swipe integration
 
 ## 1. Goal
 

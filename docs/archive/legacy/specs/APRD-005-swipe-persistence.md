@@ -1,7 +1,7 @@
 # APRD-005: Local Swipe Persistence & Feed Filtering
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/features/discovery/` and `lib/core/storage/`
+> **Target bounded context:** `apps/mobile/lib/features/discovery/` and `apps/mobile/lib/core/storage/`
 
 ## 1. Goal
 

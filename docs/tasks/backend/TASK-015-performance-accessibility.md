@@ -2,7 +2,7 @@
 
 > **Phase:** 6 — Quality  
 > **Status:** Planned  
-> **Target:** `lib/` and `test/`  
+> **Target:** `apps/mobile/lib/` and `apps/mobile/test/`  
 > **Dependencies:** TASK-008, TASK-009, and TASK-011
 
 ## Objective

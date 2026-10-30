@@ -31,12 +31,12 @@ historical examples below.
 
 ### Product architecture
 
-- Flutter/Dart under [`lib/`](../../../lib/) is the primary product.
+- Flutter/Dart under [`apps/mobile/lib/`](../../../apps/mobile/lib/) is the primary product.
 - Python/FastAPI under [`backend/`](../../../backend/) is currently a phase-limited
   legacy mock API managed with `uv`; BE-001 controls any future backend
   platform decision.
-- Use feature-first bounded vertical slices under `lib/features/<feature>/`.
-- Keep shared infrastructure in `lib/core/` and app shell concerns in `lib/app/`.
+- Use feature-first bounded vertical slices under `apps/mobile/lib/features/<feature>/`.
+- Keep shared infrastructure in `apps/mobile/lib/core/` and app shell concerns in `apps/mobile/lib/app/`.
 - Use Riverpod for dependency injection and immutable ViewModel state.
 - Preserve the dependency direction:
 
@@ -200,7 +200,7 @@ Avoid strict Clean Architecture boilerplate unless it is clearly useful.
 Create or organize the Flutter code approximately like this:
 
 ```text
-lib/
+apps/mobile/lib/
 ├── main.dart
 ├── app/
 │ ├── app.dart
@@ -466,7 +466,7 @@ Go tests should cover:
 Use appropriate test directories, for example:
 
 ```text
-test/features/discovery/
+apps/mobile/test/features/discovery/
 backend/internal/httpserver/
 ```
 
@@ -543,7 +543,7 @@ After the agent finishes, review the pull request and verify that it did not imp
 .github/copilot-instructions.md
 README.md
 docs/archive/legacy/architecture/README.md
-lib/features/discovery/
+apps/mobile/lib/features/discovery/
 backend/cmd/server/main.go
 ```
 
@@ -610,7 +610,7 @@ Avoid strict Clean Architecture boilerplate unless it is clearly useful.
 Create or organize the Flutter code approximately like this:
 
 ```text
-lib/
+apps/mobile/lib/
 ├── main.dart
 ├── app/
 │ ├── app.dart
@@ -870,7 +870,7 @@ Go tests should cover:
 Use appropriate test directories, for example:
 
 ```text
-test/features/discovery/
+apps/mobile/test/features/discovery/
 backend/internal/httpserver/
 ```
 
@@ -947,7 +947,7 @@ After the agent finishes, review the pull request and verify that it did not imp
 .github/copilot-instructions.md
 README.md
 docs/archive/legacy/architecture/README.md
-lib/features/discovery/
+apps/mobile/lib/features/discovery/
 backend/cmd/server/main.go
 ```
 

@@ -60,21 +60,21 @@ PowerSync table rules, so P3 swaps the database object, not the repositories.
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S01, S09 | Integration | test/core/storage/garblo_database_test.dart | [TASK-005-S01] / [TASK-005-S09] |
-| S02 | Schema | test/core/storage/phone_schema_test.dart | [TASK-005-S02] |
-| S03, S04, S05, S08 | Repository/contract | test/features/wardrobe/data/local_wardrobe_repository_test.dart | [TASK-005-S0x] |
-| S03, S07 | Repository | test/features/wardrobe/data/local_wear_repository_test.dart | [TASK-005-S03] / [TASK-005-S07] |
-| S03 | Repository | test/features/studio/data/local_studio_repository_test.dart | [TASK-005-S03] |
-| S03 | Repository | test/features/gu_match/data/local_gu_match_repository_test.dart | [TASK-005-S03] |
-| S03 | ViewModel | test/app/persistence_restore_test.dart | [TASK-005-S03] |
-| S06 | Unit | test/core/storage/object_id_test.dart | [TASK-005-S06] |
-| S08 | Architecture | test/architecture/storage_boundary_test.dart | [TASK-005-S08] |
-| S10 | Unit | test/core/storage/install_identity_test.dart | [TASK-005-S10] |
-| S11 | Integration | test/features/wardrobe/data/demo_seed_test.dart | [TASK-005-S11] |
+| S01, S09 | Integration | apps/mobile/test/core/storage/garblo_database_test.dart | [TASK-005-S01] / [TASK-005-S09] |
+| S02 | Schema | apps/mobile/test/core/storage/phone_schema_test.dart | [TASK-005-S02] |
+| S03, S04, S05, S08 | Repository/contract | apps/mobile/test/features/wardrobe/data/local_wardrobe_repository_test.dart | [TASK-005-S0x] |
+| S03, S07 | Repository | apps/mobile/test/features/wardrobe/data/local_wear_repository_test.dart | [TASK-005-S03] / [TASK-005-S07] |
+| S03 | Repository | apps/mobile/test/features/studio/data/local_studio_repository_test.dart | [TASK-005-S03] |
+| S03 | Repository | apps/mobile/test/features/gu_match/data/local_gu_match_repository_test.dart | [TASK-005-S03] |
+| S03 | ViewModel | apps/mobile/test/app/persistence_restore_test.dart | [TASK-005-S03] |
+| S06 | Unit | apps/mobile/test/core/storage/object_id_test.dart | [TASK-005-S06] |
+| S08 | Architecture | apps/mobile/test/architecture/storage_boundary_test.dart | [TASK-005-S08] |
+| S10 | Unit | apps/mobile/test/core/storage/install_identity_test.dart | [TASK-005-S10] |
+| S11 | Integration | apps/mobile/test/features/wardrobe/data/demo_seed_test.dart | [TASK-005-S11] |
 
-Contract suites (S08) live in `test/helpers/contracts/` and run against both
+Contract suites (S08) live in `apps/mobile/test/helpers/contracts/` and run against both
 the in-memory and the SQLite implementations. Shared helper:
-`test/helpers/local_db.dart` (temporary database files; on Windows it loads
+`apps/mobile/test/helpers/local_db.dart` (temporary database files; on Windows it loads
 the host `sqlite3.dll`, see ci-cd.md).
 
 Device checks (not in `flutter test`, reported as skipped until run): the
@@ -95,19 +95,19 @@ Questions from the red run, decided in
 
 **App Developer may create or modify:**
 
-- `lib/core/storage/**` (open factory, migrations, phone schema, ObjectIds,
+- `apps/mobile/lib/core/storage/**` (open factory, migrations, phone schema, ObjectIds,
   secure store, install identity, providers)
-- `lib/features/wardrobe/data/**`, `lib/features/studio/data/**`,
-  `lib/features/gu_match/data/**` (local repositories; new interface methods
+- `apps/mobile/lib/features/wardrobe/data/**`, `apps/mobile/lib/features/studio/data/**`,
+  `apps/mobile/lib/features/gu_match/data/**` (local repositories; new interface methods
   with in-memory versions in the Mock classes)
-- `lib/features/studio/domain/**`, `lib/features/gu_match/domain/**` (persisted
+- `apps/mobile/lib/features/studio/domain/**`, `apps/mobile/lib/features/gu_match/domain/**` (persisted
   snapshots; IDs on `PrivacyConsent`)
-- `lib/features/*/presentation/*_view_model.dart` (restore on start only)
-- `lib/main.dart`, `lib/app/bootstrap.dart` (open the database before `runApp`;
+- `apps/mobile/lib/features/*/presentation/*_view_model.dart` (restore on start only)
+- `apps/mobile/lib/main.dart`, `apps/mobile/lib/app/bootstrap.dart` (open the database before `runApp`;
   explicit storage error screen)
-- `pubspec.yaml`, `pubspec.lock`, `.gitignore` (approved dependencies, D-006)
-- `test/core/storage/**`, `test/features/*/data/**`, `test/helpers/**`,
-  `test/app/persistence_restore_test.dart`, `test/architecture/**`
+- `apps/mobile/pubspec.yaml`, `apps/mobile/pubspec.lock`, `.gitignore` (approved dependencies, D-006)
+- `apps/mobile/test/core/storage/**`, `apps/mobile/test/features/*/data/**`, `apps/mobile/test/helpers/**`,
+  `apps/mobile/test/app/persistence_restore_test.dart`, `apps/mobile/test/architecture/**`
 
 **Locked:** widgets (`*_view.dart`, `widgets/**`), the dating feature tree,
 `backend/**`.
@@ -135,3 +135,4 @@ Questions from the red run, decided in
 | 2026-10-29 | — | Created from T6 P2-01, P2-02, and P2-05. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Must-have scope only (no rewards, check-ins, Community, notifications); PowerSync table rules; deterministic IDs; install identity; S08 reworded (ViewModels restore through repositories); S09–S11 added; test plan and file list. |
 | 2026-10-30 | [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md) | Red-run questions decided: fake analysis on any photo; `ai_processing_jobs` added. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

@@ -25,7 +25,7 @@ Windows-1252 (`—` became `â€”`, and tree lines became `â”œâ”€â�
 | D8-01 | `CLAUDE.md` is a thin Type 1 adapter: reading order, current vs legacy, commands, guardrails. Rules stay in their owner files | One fact, one place (`docs/README.md` §3) |
 | D8-02 | `.claude/agents/*.md` wrap `docs/agents/*.md` and add only tool lists and a return format | Role specs remain the single source |
 | D8-03 | Two project skills: `flow-spec` prints one Flow Spec section by anchor; `gates` runs and reports the ci-cd.md gates | Keeps agent context small; makes the "never claim an unrun gate" rule routine |
-| D8-04 | The Flutter package stays at the repository root for now. Moving it to `apps/mobile/` is deferred to a separate CHG after PR 4 merges | A tree-wide rename would turn the Draft Phase 2 review into a rename diff and break `.github/workflows/android-apk.yml` and every `lib/` path in the docs |
+| D8-04 | The Flutter package stays at the repository root for now. Moving it to `apps/mobile/` is deferred to a separate CHG after PR 4 merges | A tree-wide rename would turn the Draft Phase 2 review into a rename diff and break `.github/workflows/android-apk.yml` and every `apps/mobile/lib/` path in the docs |
 | D8-05 | `README.md`, `backend/README.md` and `.github/copilot-instructions.md` stay where they are | GitHub, `pyproject.toml` (`readme = "README.md"`) and Copilot need those paths |
 | D8-06 | `.claude/settings.json` (permission allowlist) is approved by the human but installed by the human: the agent may not write its own permission settings | Claude Code blocks self-modification of permissions |
 
@@ -61,7 +61,7 @@ Windows-1252 (`—` became `â€”`, and tree lines became `â”œâ”€â�
 
 - **Monorepo move (D8-04):** after PR 4 merges, open a CHG to move the Flutter
   package to `apps/mobile/`, update the APK workflow's working directory, the
-  codebase map, `tdd.md` paths and the architecture tests' `lib/` roots.
+  codebase map, `tdd.md` paths and the architecture tests' `apps/mobile/lib/` roots.
 - `.github/copilot-instructions.md` still repeats architecture rules. CHG-001
   intended a thin adapter like `CLAUDE.md`.
 - Resolved: `docs/tasks/mobile/README.md` said Phase 2 was "merged (PR 4)" while
@@ -81,3 +81,4 @@ Windows-1252 (`—` became `â€”`, and tree lines became `â”œâ”€â�
 | 2026-10-30 | — | Created |
 | 2026-10-30 | — | Approved by the human |
 | 2026-10-30 | — | Done: merged to `main` with Phase 2 (PR 4) |
+| 2026-10-30 | [CHG-010](CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

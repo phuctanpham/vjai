@@ -9,13 +9,13 @@ Item: [TASK-009](../tasks/mobile/TASK-009-offline-reliability-validation.md), th
 ## Changed files
 | Path | Purpose |
 |---|---|
-| `test/integration/offline_reliability_test.dart` | S01–S08 on the full local stack: network-off journey, crash images, replay, restart, migrations, file/row consistency, retryable errors |
-| `test/integration/offline_error_view_test.dart` | S08 widget test: a failed "Wear today" is shown on the prompt, both layouts |
-| `test/helpers/local_db.dart` | `TestDatabase.crashImage()`: database + WAL copied as a kill leaves them |
-| `test/helpers/reliability.dart` | `withoutNetwork` (refuses sockets and HTTP, counts attempts), `FlakyWardrobeRepository`, `FlakyWearRepository` |
-| `lib/features/studio/data/local_studio_repository.dart` | Deterministic, insert-if-absent consent (V-01) |
-| `lib/core/storage/local_data_store.dart` | Orphan attachment sweep on open (V-02) |
-| `lib/features/gu_match/presentation/gu_match_view_model.dart`, `widgets/outfit_deck_panel.dart` | "Wear today" error shown on the prompt and cleared on retry (V-03) |
+| `apps/mobile/test/integration/offline_reliability_test.dart` | S01–S08 on the full local stack: network-off journey, crash images, replay, restart, migrations, file/row consistency, retryable errors |
+| `apps/mobile/test/integration/offline_error_view_test.dart` | S08 widget test: a failed "Wear today" is shown on the prompt, both layouts |
+| `apps/mobile/test/helpers/local_db.dart` | `TestDatabase.crashImage()`: database + WAL copied as a kill leaves them |
+| `apps/mobile/test/helpers/reliability.dart` | `withoutNetwork` (refuses sockets and HTTP, counts attempts), `FlakyWardrobeRepository`, `FlakyWearRepository` |
+| `apps/mobile/lib/features/studio/data/local_studio_repository.dart` | Deterministic, insert-if-absent consent (V-01) |
+| `apps/mobile/lib/core/storage/local_data_store.dart` | Orphan attachment sweep on open (V-02) |
+| `apps/mobile/lib/features/gu_match/presentation/gu_match_view_model.dart`, `widgets/outfit_deck_panel.dart` | "Wear today" error shown on the prompt and cleared on retry (V-03) |
 | `.github/workflows/android-apk.yml` | Benchmark step (V-07) |
 
 ## Scenario coverage

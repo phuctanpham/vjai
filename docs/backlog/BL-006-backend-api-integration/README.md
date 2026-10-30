@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Ready to code | BL-005 | `lib/core/networking/`, `lib/features/discovery/data/` |
+| Ready to code | BL-005 | `apps/mobile/lib/core/networking/`, `apps/mobile/lib/features/discovery/data/` |
 
 ## Goal
 The discovery feed comes from the FastAPI mock server, and the app stays usable when the server is offline.
@@ -29,3 +29,4 @@ Pending.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Migrated from APRD-006 + TASK-006 |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

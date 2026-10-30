@@ -21,7 +21,7 @@ derived from G4 are listed in CHG-003.
   order ("3 PHOTOS SELECTED"), × removes one photo, consent card "Private by
   default" with "Process my photos, including body photos if any", gated
   **Analyze with Garblo** (I1, 48 high). Picking goes through `PhotoPicker`
-  (`lib/core/media/`), backed in Phase 1 by preset fixture photos. Only
+  (`apps/mobile/lib/core/media/`), backed in Phase 1 by preset fixture photos. Only
   JPG/PNG, at most 10 per batch (I2), with notices for skipped and
   over-limit files. The EXIF/blur line is CHG-003 Q-01.
 - **Consent** recorded with version `v1.0_studio_body_ai` and time from `Clock`;
@@ -76,39 +76,39 @@ derived from G4 are listed in CHG-003.
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S01 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S01] |
-| S01 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S01] |
-| S02 | Domain | test/features/studio/domain/photo_tray_test.dart | [TASK-003-S02] |
-| S02 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S02] |
-| S03 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S03] |
-| S03 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S03] |
-| S04 | Domain | test/features/studio/domain/extracted_item_test.dart | [TASK-003-S04] |
-| S04 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S04] |
-| S04 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S04] |
-| S05 | Repository | test/features/wardrobe/data/wardrobe_repository_test.dart | [TASK-003-S05] |
-| S05 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S05] |
-| S05 | Journey | test/app/flow_a_journey_test.dart | [TASK-003-S05] |
-| S06 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S06] |
-| S06 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S06] |
-| S07 | Repository | test/features/wardrobe/data/wardrobe_repository_test.dart | [TASK-003-S07] |
-| S07 | ViewModel | test/features/wardrobe/presentation/wardrobe_view_model_test.dart | [TASK-003-S07] |
-| S07 | Widget | test/features/wardrobe/presentation/wardrobe_view_test.dart | [TASK-003-S07] |
-| S08 | Boundary | test/features/studio/studio_boundary_test.dart | [TASK-003-S08] |
-| S08 | Repository | test/features/studio/data/studio_repository_test.dart | [TASK-003-S08] |
-| S09 | Domain | test/features/studio/domain/photo_tray_test.dart | [TASK-003-S09] |
-| S09 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S09] |
-| S10 | Domain | test/features/studio/domain/analysis_selection_test.dart | [TASK-003-S10] |
-| S10 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S10] |
-| S11 | Domain | test/features/studio/domain/review_draft_test.dart | [TASK-003-S11] |
-| S11 | Widget | test/features/studio/presentation/studio_view_test.dart | [TASK-003-S11] |
-| S11 | Repository | test/features/studio/data/studio_repository_test.dart | [TASK-003-S11] |
-| S11 | ViewModel | test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S11] |
-| S12 | Domain | test/features/studio/domain/batch_status_test.dart | [TASK-003-S12] |
-| S13 | Domain | test/features/studio/domain/last_worn_test.dart | [TASK-003-S13] |
-| S13 | Domain | test/features/wardrobe/domain/dormancy_test.dart | [TASK-003-S13] |
-| S13 | ViewModel | test/features/wardrobe/presentation/wardrobe_view_model_test.dart | [TASK-003-S13] |
-| S13 | Widget | test/features/wardrobe/presentation/wardrobe_view_test.dart | [TASK-003-S13] |
-| S14 | Domain | test/features/wardrobe/domain/dormancy_test.dart | [TASK-003-S14] |
+| S01 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S01] |
+| S01 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S01] |
+| S02 | Domain | apps/mobile/test/features/studio/domain/photo_tray_test.dart | [TASK-003-S02] |
+| S02 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S02] |
+| S03 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S03] |
+| S03 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S03] |
+| S04 | Domain | apps/mobile/test/features/studio/domain/extracted_item_test.dart | [TASK-003-S04] |
+| S04 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S04] |
+| S04 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S04] |
+| S05 | Repository | apps/mobile/test/features/wardrobe/data/wardrobe_repository_test.dart | [TASK-003-S05] |
+| S05 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S05] |
+| S05 | Journey | apps/mobile/test/app/flow_a_journey_test.dart | [TASK-003-S05] |
+| S06 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S06] |
+| S06 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S06] |
+| S07 | Repository | apps/mobile/test/features/wardrobe/data/wardrobe_repository_test.dart | [TASK-003-S07] |
+| S07 | ViewModel | apps/mobile/test/features/wardrobe/presentation/wardrobe_view_model_test.dart | [TASK-003-S07] |
+| S07 | Widget | apps/mobile/test/features/wardrobe/presentation/wardrobe_view_test.dart | [TASK-003-S07] |
+| S08 | Boundary | apps/mobile/test/features/studio/studio_boundary_test.dart | [TASK-003-S08] |
+| S08 | Repository | apps/mobile/test/features/studio/data/studio_repository_test.dart | [TASK-003-S08] |
+| S09 | Domain | apps/mobile/test/features/studio/domain/photo_tray_test.dart | [TASK-003-S09] |
+| S09 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S09] |
+| S10 | Domain | apps/mobile/test/features/studio/domain/analysis_selection_test.dart | [TASK-003-S10] |
+| S10 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S10] |
+| S11 | Domain | apps/mobile/test/features/studio/domain/review_draft_test.dart | [TASK-003-S11] |
+| S11 | Widget | apps/mobile/test/features/studio/presentation/studio_view_test.dart | [TASK-003-S11] |
+| S11 | Repository | apps/mobile/test/features/studio/data/studio_repository_test.dart | [TASK-003-S11] |
+| S11 | ViewModel | apps/mobile/test/features/studio/presentation/studio_view_model_test.dart | [TASK-003-S11] |
+| S12 | Domain | apps/mobile/test/features/studio/domain/batch_status_test.dart | [TASK-003-S12] |
+| S13 | Domain | apps/mobile/test/features/studio/domain/last_worn_test.dart | [TASK-003-S13] |
+| S13 | Domain | apps/mobile/test/features/wardrobe/domain/dormancy_test.dart | [TASK-003-S13] |
+| S13 | ViewModel | apps/mobile/test/features/wardrobe/presentation/wardrobe_view_model_test.dart | [TASK-003-S13] |
+| S13 | Widget | apps/mobile/test/features/wardrobe/presentation/wardrobe_view_test.dart | [TASK-003-S13] |
+| S14 | Domain | apps/mobile/test/features/wardrobe/domain/dormancy_test.dart | [TASK-003-S14] |
 
 Required non-scenario tests: `WardrobeItem`, `ExtractedItem`, `PhotoTray`
 value equality and list-content `hashCode`; `ItemTypeCatalog` covers all six
@@ -119,16 +119,16 @@ state with retry; both layouts for every widget test file.
 
 **App Developer may create or modify:**
 
-- `lib/core/media/photo_picker.dart`, `lib/core/widgets/primary_button.dart`
+- `apps/mobile/lib/core/media/photo_picker.dart`, `apps/mobile/lib/core/widgets/primary_button.dart`
   (the 48-high primary action of T7 › G2, shared with TASK-004)
-- `lib/features/studio/{domain,data,presentation}/**`
-- `lib/features/wardrobe/{domain,data,presentation}/**`
-- No shell change: `lib/app/shell/pillar_pages.dart` (TASK-002) already maps
+- `apps/mobile/lib/features/studio/{domain,data,presentation}/**`
+- `apps/mobile/lib/features/wardrobe/{domain,data,presentation}/**`
+- No shell change: `apps/mobile/lib/app/shell/pillar_pages.dart` (TASK-002) already maps
   the Add and Archive pillars to `StudioView` and `WardrobeView`
-- `test/features/studio/**`, `test/features/wardrobe/**`,
-  `test/app/flow_a_journey_test.dart`, `test/helpers/**`
+- `apps/mobile/test/features/studio/**`, `apps/mobile/test/features/wardrobe/**`,
+  `apps/mobile/test/app/flow_a_journey_test.dart`, `apps/mobile/test/helpers/**`
 
-**Locked:** dating features, `backend/**`, `pubspec.yaml` dependencies.
+**Locked:** dating features, `backend/**`, `apps/mobile/pubspec.yaml` dependencies.
 
 Photo access must use the `PhotoPicker` abstraction. Native camera, picker,
 and cloud upload integrations are not part of this task.
@@ -160,3 +160,4 @@ and cloud upload integrations are not part of this task.
 | 2026-10-29 | — | Created Flow A task from the must-have mobile specification. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Split into `studio` + `wardrobe`; "category" → item group; added S09–S13 (picker limits, scope defaults, outcomes, state machine, dormancy); test plan and file list added. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Review: T7 G3/G4 copy, Archive grid 2/3 columns (G1), A-01 conditions, partial-batch widget test, S14 (N6/I12). |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

@@ -8,7 +8,7 @@ The single entry point for the human and every coding agent. Rules stated here a
 |---|---|---|---|
 | **Product Manager (APM)** | A · documents | Product policies; per backlog item: item card, BDD scenarios, UI/UX, user flow, information layout, interactions | [agents/product-manager.md](agents/product-manager.md) |
 | **Engineering Manager (ASEM)** | A · documents | Engineering policies; per backlog item: implementation plan, test plan, dataflow, functionality, event stream | [agents/engineering-manager.md](agents/engineering-manager.md) |
-| **App Developer** | B · code | Flutter code lines in `lib/`, `test/` | [agents/app-developer.md](agents/app-developer.md) |
+| **App Developer** | B · code | Flutter code lines in `apps/mobile/lib/`, `apps/mobile/test/` | [agents/app-developer.md](agents/app-developer.md) |
 | **Backend Developer** | B · code | Python code lines in `backend/` | [agents/backend-developer.md](agents/backend-developer.md) |
 
 The **human** approves documents, edits agent specs, and merges code.
@@ -19,7 +19,7 @@ The **human** approves documents, edits agent specs, and merges code.
 |---|---|---|---|
 | **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.github/copilot-instructions.md`) |
 | **2 · Followed files** | Policies, backlog documents, change records, lessons | Tier A, one owner per file | `docs/policies/`, `docs/backlog/`, `docs/changes/`, `docs/memory/` |
-| **3 · Generated files** | Code lines and delivery reports | Tier B | `lib/`, `test/`, `backend/`, `docs/reports/` |
+| **3 · Generated files** | Code lines and delivery reports | Tier B | `apps/mobile/lib/`, `apps/mobile/test/`, `backend/`, `docs/reports/` |
 
 ```text
 docs/
@@ -94,3 +94,4 @@ A delivery is "in review" when its report exists in `docs/reports/`.
 | 2026-10-16 | [CHG-001](changes/CHG-001-agentic-documentation-system.md) | System created; replaces the former root-level architecture, specs and quality sets |
 | 2026-10-30 | [CHG-007](changes/CHG-007-documentation-authority-migration.md) | Centralized superseded documents under `archive/legacy/`; active paths remain under policies, backlog, changes, tasks, memory and reports |
 | 2026-10-30 | [CHG-008](changes/CHG-008-claude-code-adapter.md) | Claude Code adapter: `CLAUDE.md`, `.claude/agents/` and `.claude/skills/` (flow-spec, gates); `GUIDE.MD` archived |
+| 2026-10-30 | [CHG-010](changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

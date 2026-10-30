@@ -17,7 +17,7 @@ maintaining a second dating API contract.
 ## 2. Phone schema v1
 
 The declarative implementation is
-`lib/core/storage/phone_schema.dart`. Every synced table has an
+`apps/mobile/lib/core/storage/phone_schema.dart`. Every synced table has an
 `id TEXT PRIMARY KEY`; other columns use only `TEXT`, `INTEGER` or `REAL`.
 Dates are ISO-8601 text, booleans are integer `0`/`1`, and structured values
 are JSON stored as text.
@@ -74,3 +74,4 @@ REST, sync and authentication contracts remain blocked on
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the previous implementation contract |
 | 2026-10-30 | [CHG-007](../../changes/CHG-007-documentation-authority-migration.md) | Replaced the dating API contract with the Flow Spec and Phase 2 phone schema authorities |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

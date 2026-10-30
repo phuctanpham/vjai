@@ -45,12 +45,12 @@ app-private storage and are referenced by attachment IDs.
 
 | Scenario | Level | Test file | Test name prefix |
 |---|---|---|---|
-| S01, S02, S04 | Unit | test/core/media/photo_sanitizer_test.dart | [TASK-007-S0x] |
-| S04 | Unit | test/core/media/image_mime_test.dart | [TASK-007-S04] |
-| S03, S06 | Boundary | test/core/storage/attachment_store_test.dart | [TASK-007-S03] / [TASK-007-S06] |
-| S03, S05, S07 | Integration | test/features/studio/data/photo_storage_test.dart | [TASK-007-S0x] |
+| S01, S02, S04 | Unit | apps/mobile/test/core/media/photo_sanitizer_test.dart | [TASK-007-S0x] |
+| S04 | Unit | apps/mobile/test/core/media/image_mime_test.dart | [TASK-007-S04] |
+| S03, S06 | Boundary | apps/mobile/test/core/storage/attachment_store_test.dart | [TASK-007-S03] / [TASK-007-S06] |
+| S03, S05, S07 | Integration | apps/mobile/test/features/studio/data/photo_storage_test.dart | [TASK-007-S0x] |
 
-Fixtures are built byte by byte in `test/helpers/image_fixtures.dart`, with
+Fixtures are built byte by byte in `apps/mobile/test/helpers/image_fixtures.dart`, with
 one fixture per stripping rule.
 
 Device checks: picking from the gallery on Android, iOS, Windows and macOS;
@@ -58,15 +58,15 @@ HEIC from an iPhone shows the rejected notice.
 
 ## File confinement
 
-- `lib/core/media/**` (`PickedPhoto` bytes, MIME sniffing, sanitizer,
+- `apps/mobile/lib/core/media/**` (`PickedPhoto` bytes, MIME sniffing, sanitizer,
   `ImagePickerPhotoPicker`)
-- `lib/core/storage/attachment_store.dart`
-- `lib/features/studio/data/**`, `lib/features/studio/domain/media_asset.dart`,
-  `lib/features/studio/domain/photo_storage.dart`
-- `lib/features/studio/presentation/studio_view_model.dart` (store staged
+- `apps/mobile/lib/core/storage/attachment_store.dart`
+- `apps/mobile/lib/features/studio/data/**`, `apps/mobile/lib/features/studio/domain/media_asset.dart`,
+  `apps/mobile/lib/features/studio/domain/photo_storage.dart`
+- `apps/mobile/lib/features/studio/presentation/studio_view_model.dart` (store staged
   photos; failure notice)
-- `test/core/media/**`, `test/core/storage/**`, `test/features/studio/data/**`,
-  `test/helpers/image_fixtures.dart`
+- `apps/mobile/test/core/media/**`, `apps/mobile/test/core/storage/**`, `apps/mobile/test/features/studio/data/**`,
+  `apps/mobile/test/helpers/image_fixtures.dart`
 
 ## Anti-scope
 
@@ -88,3 +88,4 @@ HEIC from an iPhone shows the rejected notice.
 |---|---|---|
 | 2026-10-29 | — | Created from T6 P2-04 and privacy invariant R9. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | image_picker behind PhotoPicker; HEIC rejected; exact JPEG/PNG stripping rules incl. XMP and kept ICC; orientation stored; test plan. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

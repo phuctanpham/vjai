@@ -2,7 +2,7 @@
 
 > **Phase:** 4 — Messaging  
 > **Status:** Planned  
-> **Target:** `lib/features/chat/`  
+> **Target:** `apps/mobile/lib/features/chat/`  
 > **Dependency:** TASK-008
 
 ## Objective
@@ -11,15 +11,15 @@ Add a read-only mock conversation list and conversation thread UI for an existin
 
 ## Allowed files
 
-- `lib/features/chat/domain/`
-- `lib/features/chat/data/`
-- `lib/features/chat/presentation/`
-- `lib/app/router.dart`
-- `test/features/chat/`
+- `apps/mobile/lib/features/chat/domain/`
+- `apps/mobile/lib/features/chat/data/`
+- `apps/mobile/lib/features/chat/presentation/`
+- `apps/mobile/lib/app/router.dart`
+- `apps/mobile/test/features/chat/`
 
 ## Locked files
 
-`lib/features/auth/*`, `lib/features/onboarding/*`, `lib/features/discovery/*`, and `lib/features/matching/*`.
+`apps/mobile/lib/features/auth/*`, `apps/mobile/lib/features/onboarding/*`, `apps/mobile/lib/features/discovery/*`, and `apps/mobile/lib/features/matching/*`.
 
 ## In scope
 

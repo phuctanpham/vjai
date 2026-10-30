@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 3 (Core Social Mechanics)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/discovery/data/` & `lib/core/networking/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/discovery/data/` & `apps/mobile/lib/core/networking/`  
 > **Companion Backend API**: `backend/app/api/v1/endpoints/discovery.py`  
 > **Dependencies**: TASK-004 (Discovery Scaffold), TASK-005 (Swipe Persistence)  
 > **Estimated Agent Prompts**: 1 bounded session  
@@ -17,17 +17,17 @@ Connect the Flutter client to the secondary Python/FastAPI mock server. Implemen
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/core/networking/http_api_client.dart` (Implementation of `ApiClient` using `http` or `dart:io` standard library / package)
-- `lib/app/providers.dart` (Configure baseUrl via String environment `API_BASE_URL` with default `http://localhost:8080`)
-- `lib/features/discovery/data/http_discovery_repository.dart` (`DiscoveryRepository` implementation consuming FastAPI)
-- `lib/features/discovery/data/discovery_repository.dart` (Switchable provider based on environment flag or fallback)
-- `test/features/discovery/data/http_discovery_repository_test.dart`
-- `test/core/networking/http_api_client_test.dart`
+- `apps/mobile/lib/core/networking/http_api_client.dart` (Implementation of `ApiClient` using `http` or `dart:io` standard library / package)
+- `apps/mobile/lib/app/providers.dart` (Configure baseUrl via String environment `API_BASE_URL` with default `http://localhost:8080`)
+- `apps/mobile/lib/features/discovery/data/http_discovery_repository.dart` (`DiscoveryRepository` implementation consuming FastAPI)
+- `apps/mobile/lib/features/discovery/data/discovery_repository.dart` (Switchable provider based on environment flag or fallback)
+- `apps/mobile/test/features/discovery/data/http_discovery_repository_test.dart`
+- `apps/mobile/test/core/networking/http_api_client_test.dart`
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/discovery/presentation/*` (UI widgets should NOT need any modification!)
-- `lib/features/auth/*`
-- `lib/features/chat/*`
+- `apps/mobile/lib/features/discovery/presentation/*` (UI widgets should NOT need any modification!)
+- `apps/mobile/lib/features/auth/*`
+- `apps/mobile/lib/features/chat/*`
 
 ---
 

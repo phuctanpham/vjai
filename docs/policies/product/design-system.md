@@ -8,7 +8,7 @@ it must not recreate T7 or reintroduce the retired dating design.
 ## 1. Authority and implementation
 
 - T7 G0–G4 defines the visual contract and wins over older prose.
-- `lib/app/theme/` implements the tokens and themes.
+- `apps/mobile/lib/app/theme/` implements the tokens and themes.
 - Widgets use theme tokens and localized product copy; they do not hard-code
   product colours or strings.
 - Layout is selected from available width with `LayoutBuilder` or
@@ -68,3 +68,4 @@ Trust statements describe only behavior implemented in the current phase:
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the implemented theme, layouts and backlog item constraints |
 | 2026-10-30 | [CHG-007](../../changes/CHG-007-documentation-authority-migration.md) | Aligned active UI policy with Flow Spec T7 and CHG-003 |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

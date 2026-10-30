@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 2 (Identity & Onboarding)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/onboarding/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/onboarding/`  
 > **Dependencies**: TASK-002 (Auth Session)  
 > **Estimated Agent Prompts**: 1 bounded session  
 
@@ -16,22 +16,22 @@ Build an interactive multi-step profile onboarding wizard that guides the user t
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/features/onboarding/domain/onboarding_step.dart` (Step enum: basicInfo, interests, bio, photos)
-- `lib/features/onboarding/domain/onboarding_draft.dart` (Draft model holding incomplete fields)
-- `lib/features/onboarding/data/onboarding_repository.dart` (Submit draft profile contract & mock)
-- `lib/features/onboarding/presentation/onboarding_state.dart` (Step tracker, draft, validation status)
-- `lib/features/onboarding/presentation/onboarding_view_model.dart` (Step navigation & draft field setters)
-- `lib/features/onboarding/presentation/onboarding_view.dart` (Progress indicator + multi-step page container)
-- `lib/features/onboarding/presentation/steps/basic_info_step.dart`
-- `lib/features/onboarding/presentation/steps/interests_step.dart` (Selectable interest chips)
-- `lib/features/onboarding/presentation/steps/bio_photo_step.dart`
-- `test/features/onboarding/presentation/onboarding_view_model_test.dart`
-- `test/features/onboarding/presentation/onboarding_view_test.dart`
+- `apps/mobile/lib/features/onboarding/domain/onboarding_step.dart` (Step enum: basicInfo, interests, bio, photos)
+- `apps/mobile/lib/features/onboarding/domain/onboarding_draft.dart` (Draft model holding incomplete fields)
+- `apps/mobile/lib/features/onboarding/data/onboarding_repository.dart` (Submit draft profile contract & mock)
+- `apps/mobile/lib/features/onboarding/presentation/onboarding_state.dart` (Step tracker, draft, validation status)
+- `apps/mobile/lib/features/onboarding/presentation/onboarding_view_model.dart` (Step navigation & draft field setters)
+- `apps/mobile/lib/features/onboarding/presentation/onboarding_view.dart` (Progress indicator + multi-step page container)
+- `apps/mobile/lib/features/onboarding/presentation/steps/basic_info_step.dart`
+- `apps/mobile/lib/features/onboarding/presentation/steps/interests_step.dart` (Selectable interest chips)
+- `apps/mobile/lib/features/onboarding/presentation/steps/bio_photo_step.dart`
+- `apps/mobile/test/features/onboarding/presentation/onboarding_view_model_test.dart`
+- `apps/mobile/test/features/onboarding/presentation/onboarding_view_test.dart`
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/discovery/*` (Do NOT touch discovery feed)
-- `lib/features/matching/*`
-- `lib/features/chat/*`
+- `apps/mobile/lib/features/discovery/*` (Do NOT touch discovery feed)
+- `apps/mobile/lib/features/matching/*`
+- `apps/mobile/lib/features/chat/*`
 
 ---
 

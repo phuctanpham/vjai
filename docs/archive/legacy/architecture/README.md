@@ -39,7 +39,7 @@ Widgets never reference repositories, API clients, or disk storage directly.
 The client codebase is structured around business capabilities rather than technical layers:
 
 ```text
-lib/
+apps/mobile/lib/
 ├── app/                      # Application shell, router, themes, top-level providers
 ├── core/                     # Cross-cutting concerns (errors, shared widgets, contracts)
 └── features/                 # Vertical business slices

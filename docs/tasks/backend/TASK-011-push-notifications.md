@@ -2,7 +2,7 @@
 
 > **Phase:** 5 — Safety and engagement  
 > **Status:** Planned  
-> **Target:** `lib/features/notifications/`  
+> **Target:** `apps/mobile/lib/features/notifications/`  
 > **Dependencies:** TASK-008 and TASK-010
 
 ## Objective
@@ -11,9 +11,9 @@ Represent notification items and provide an in-app notification center with unre
 
 ## Allowed files
 
-- `lib/features/notifications/`
-- `lib/app/router.dart`
-- `test/features/notifications/`
+- `apps/mobile/lib/features/notifications/`
+- `apps/mobile/lib/app/router.dart`
+- `apps/mobile/test/features/notifications/`
 
 ## Locked files
 

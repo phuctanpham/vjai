@@ -5,7 +5,7 @@ Why each rule exists is recorded in [decisions.md](decisions.md).
 ## 1. System
 | Part | Role | Stack |
 |---|---|---|
-| `lib/` | **Primary product.** One Flutter app for Android, iOS, Windows, macOS | Flutter, Dart 3, Riverpod |
+| `apps/mobile/lib/` | **Primary product.** One Flutter app for Android, iOS, Windows, macOS | Flutter, Dart 3, Riverpod |
 | `backend/` | **Secondary.** Deterministic mock API for fixtures and HTTP integration | Python 3.10+, FastAPI, Pydantic v2, uv |
 
 ## 2. Flutter layering
@@ -17,19 +17,19 @@ ViewModel (Riverpod notifier)    owns state transitions and business flow
   ↓
 Repository (abstract class)      the only data boundary; returns domain entities
   ↓
-ApiClient / LocalStorage / mock  data sources in lib/core/
+ApiClient / LocalStorage / mock  data sources in apps/mobile/lib/core/
 ```
 
-- **Feature-first:** `lib/features/<feature>/{domain,data,presentation}`. Shared infrastructure in `lib/core/`; app shell, routing, theme and global providers in `lib/app/`.
+- **Feature-first:** `apps/mobile/lib/features/<feature>/{domain,data,presentation}`. Shared infrastructure in `apps/mobile/lib/core/`; app shell, routing, theme and global providers in `apps/mobile/lib/app/`.
 - **Widgets** never call repositories, parse JSON, touch storage or hold business rules.
 - **ViewModels** expose an immutable state with an explicit status enum, block duplicate actions while busy, and never import `dart:io`, `dart:html` or widgets.
-- **Repositories** return domain entities, never raw JSON. Errors are `Failure` subclasses from `lib/core/errors/`.
+- **Repositories** return domain entities, never raw JSON. Errors are `Failure` subclasses from `apps/mobile/lib/core/errors/`.
 - **No extra layers.** Add a use case only when a flow coordinates several repositories or has non-trivial domain computation. No mappers or DTOs that duplicate entities.
 - **Cross-feature use** goes through another feature's `domain/` types or repository interface, never its presentation code.
 
 ## 3. Adaptive UI
 - One widget tree per screen; `LayoutBuilder` picks the mobile (`< 800`) or desktop (`≥ 800`) structure (see [design-system.md](../product/design-system.md)).
-- No `Platform.isX` checks in widgets. Native capabilities (notifications, window control, storage) sit behind interfaces in `lib/core/`.
+- No `Platform.isX` checks in widgets. Native capabilities (notifications, window control, storage) sit behind interfaces in `apps/mobile/lib/core/`.
 
 ## 4. Backend mock
 - Routers per feature in `backend/app/api/v1/endpoints/`, aggregated in `backend/app/api/router.py`.
@@ -49,3 +49,4 @@ ApiClient / LocalStorage / mock  data sources in lib/core/
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Merged from `docs/archive/legacy/architecture/README.md`, ADR 001–003 and glossary technical terms |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

@@ -43,7 +43,7 @@ Keep: `health.py` (`/health`, `/api/v1/health`), `config.py`, `main.py`.
 ## Anti-scope
 
 - No wardrobe endpoints here (BE-002 … BE-004).
-- No change to `lib/`. The mobile dating feature tree (`lib/features/discovery`
+- No change to `apps/mobile/lib/`. The mobile dating feature tree (`apps/mobile/lib/features/discovery`
   and the placeholders) is unrouted and needs its own mobile CHG.
 
 ## Change history
@@ -51,3 +51,4 @@ Keep: `health.py` (`/health`, `/api/v1/health`), `config.py`, `main.py`.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the TASK-004 dating-confusion audit. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Draft | BL-NNN | `lib/features/<feature>/` |
+| Draft | BL-NNN | `apps/mobile/lib/features/<feature>/` |
 
 ## Goal
 <One or two sentences: the user outcome.>
@@ -27,3 +27,4 @@
 
 | Date | CHG | Change |
 |---|---|---|
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

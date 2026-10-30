@@ -13,10 +13,10 @@ The developer report records the red run and the green run (command and pass/fai
 
 | Level | Location | Covers |
 |---|---|---|
-| Domain unit | `test/features/<f>/domain/` | Equality, `hashCode`, `copyWith`, JSON round trip, validation |
-| Repository unit | `test/features/<f>/data/` | Success, empty, failure, mutations, filtering |
-| ViewModel unit | `test/features/<f>/presentation/` | Every status transition, duplicate-action blocking, retry |
-| Widget | `test/features/<f>/presentation/` | Every status rendered; user actions; **both layouts** |
+| Domain unit | `apps/mobile/test/features/<f>/domain/` | Equality, `hashCode`, `copyWith`, JSON round trip, validation |
+| Repository unit | `apps/mobile/test/features/<f>/data/` | Success, empty, failure, mutations, filtering |
+| ViewModel unit | `apps/mobile/test/features/<f>/presentation/` | Every status transition, duplicate-action blocking, retry |
+| Widget | `apps/mobile/test/features/<f>/presentation/` | Every status rendered; user actions; **both layouts** |
 | Endpoint | `backend/tests/test_<feature>.py` | Status codes, body shape per data-schema, validation errors |
 
 ## 3. Rules
@@ -31,7 +31,7 @@ The developer report records the red run and the green run (command and pass/fai
 ```markdown
 | Scenario | Level | Test file | Test name |
 |---|---|---|---|
-| BL-005-S02 | ViewModel unit | test/features/discovery/presentation/discovery_view_model_test.dart | [BL-005-S02] swiped profiles are filtered on reload |
+| BL-005-S02 | ViewModel unit | apps/mobile/test/features/discovery/presentation/discovery_view_model_test.dart | [BL-005-S02] swiped profiles are filtered on reload |
 ```
 followed by a list of required non-scenario tests (edge cases, failures).
 
@@ -40,3 +40,4 @@ followed by a list of required non-scenario tests (edge cases, failures).
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created; merges test coverage rules from `docs/archive/legacy/quality/DOD.md` |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

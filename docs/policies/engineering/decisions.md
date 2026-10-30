@@ -4,7 +4,7 @@ One entry per architecture, dependency or workflow decision. Newest last. Agents
 
 | ID | Date | Decision | Reason | Consequence |
 |---|---|---|---|---|
-| D-001 | 2026-10-15 | Feature-first folders (`lib/features/<f>/{domain,data,presentation}`) | Keeps a backlog item's files together; lets an agent work on one slice | Shared types must be moved deliberately into `lib/core/` |
+| D-001 | 2026-10-15 | Feature-first folders (`apps/mobile/lib/features/<f>/{domain,data,presentation}`) | Keeps a backlog item's files together; lets an agent work on one slice | Shared types must be moved deliberately into `apps/mobile/lib/core/` |
 | D-002 | 2026-10-15 | Riverpod with the ViewModel pattern | Compile-time-safe dependency injection; providers can be overridden in tests without code generation | Team must know Riverpod |
 | D-003 | 2026-10-15 | Adaptive UI by width (800 px), not by operating system | One codebase for four platforms; resizing a window switches layout | Widgets are tested in both layouts |
 | D-004 | 2026-10-15 | Python/FastAPI mock backend managed with uv, replacing the planned Go skeleton | Flutter is the product; the backend only serves fixtures, and compiled infrastructure added cost without value | Backend stays mock-only; no databases or real auth |
@@ -23,3 +23,4 @@ One entry per architecture, dependency or workflow decision. Newest last. Agents
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Replaces ADR 001–005 and lesson #001 |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | D-006 storage, D-007 photo picker, D-008 in-house ObjectId and metadata stripping |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

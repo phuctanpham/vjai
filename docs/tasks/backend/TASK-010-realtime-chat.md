@@ -2,7 +2,7 @@
 
 > **Phase:** 4 — Messaging  
 > **Status:** Planned  
-> **Target:** `lib/features/chat/`, `backend/app/api/v1/endpoints/chat.py`  
+> **Target:** `apps/mobile/lib/features/chat/`, `backend/app/api/v1/endpoints/chat.py`  
 > **Dependency:** TASK-009
 
 ## Objective
@@ -11,11 +11,11 @@ Add a minimal mock WebSocket transport for live message updates while keeping co
 
 ## Allowed files
 
-- `lib/features/chat/data/`
-- `lib/features/chat/presentation/`
-- `lib/core/networking/`
+- `apps/mobile/lib/features/chat/data/`
+- `apps/mobile/lib/features/chat/presentation/`
+- `apps/mobile/lib/core/networking/`
 - `backend/app/api/v1/endpoints/chat.py`
-- `test/features/chat/`
+- `apps/mobile/test/features/chat/`
 - `backend/tests/test_chat.py`
 
 ## Locked files

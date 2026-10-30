@@ -25,7 +25,7 @@ Found while building Phase 1 (TASK-003):
   Phase 1. The real pipeline must produce `name`, from the extractor
   (colour + type label) or from LLM naming (AI-003).
 - **Type codes** must be one of the Phase 1 catalog codes
-  (`ItemTypeCatalog` in `lib/features/wardrobe/domain/item_type.dart`) or a
+  (`ItemTypeCatalog` in `apps/mobile/lib/features/wardrobe/domain/item_type.dart`) or a
   code added to the catalog first (BE-003). An unknown code is rejected on
   the phone.
 - **Low confidence.** The review shows every Piece's confidence. The
@@ -48,3 +48,4 @@ Found while building Phase 1 (TASK-003):
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created; Phase 1 uses fixture extraction. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: Piece names, catalog type codes, low-confidence pill, Pose/Background in Phase 1. |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

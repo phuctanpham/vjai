@@ -8,17 +8,17 @@ Use this map to navigate the repository efficiently. Do not crawl directories ou
 
 | Partition | Role | Priority | Tech Stack | Root Directory |
 |---|---|---|---|---|
-| **Client Frontend** | Primary multi-native application (Android, iOS, Windows, macOS) | **Primary** | Flutter 3.10+, Dart, Riverpod | [`lib/`](../../../../lib/) |
+| **Client Frontend** | Primary multi-native application (Android, iOS, Windows, macOS) | **Primary** | Flutter 3.10+, Dart, Riverpod | [`apps/mobile/lib/`](../../../../apps/mobile/lib/) |
 | **Mock Backend** | Lightweight mock API & fixture generator | **Secondary** | Python 3.10+, FastAPI, uv | [`backend/`](../../../../backend/) |
-| **Test Suites** | Automated verification gates | **Critical** | flutter_test, pytest | [`test/`](../../../../test/), [`backend/tests/`](../../../../backend/tests/) |
+| **Test Suites** | Automated verification gates | **Critical** | flutter_test, pytest | [`apps/mobile/test/`](../../../../apps/mobile/test/), [`backend/tests/`](../../../../backend/tests/) |
 | **Documentation & Control**| System governance, ADRs, APRDs, DoD | **Control Plane**| Markdown | [`docs/`](../../..), [`.github/`](../../../../.github/) |
 
 ---
 
-## 2. Flutter Client Directory Map (`lib/`)
+## 2. Flutter Client Directory Map (`apps/mobile/lib/`)
 
 ```text
-lib/
+apps/mobile/lib/
 ├── main.dart                      # Bootstrap & ProviderScope wrapper
 ├── app/                           # App-wide shell
 │   ├── app.dart                   # Root MaterialApp with theme config
@@ -81,10 +81,10 @@ backend/
 
 ---
 
-## 4. Test Directory Map (`test/`)
+## 4. Test Directory Map (`apps/mobile/test/`)
 
 ```text
-test/
+apps/mobile/test/
 └── features/
     └── discovery/
         ├── domain/

@@ -2,7 +2,7 @@
 
 | Status | Depends on | Feature area |
 |---|---|---|
-| Ready to code | BL-004, CHG-002 | `lib/features/discovery/`, `lib/core/storage/` |
+| Ready to code | BL-004, CHG-002 | `apps/mobile/lib/features/discovery/`, `apps/mobile/lib/core/storage/` |
 
 ## Goal
 Profiles the user has already swiped do not reappear after a reload. A reset action restores the full feed for testing.
@@ -30,3 +30,4 @@ Pending.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Migrated from APRD-005 + TASK-005 |
+| 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

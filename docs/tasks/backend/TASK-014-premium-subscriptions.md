@@ -2,7 +2,7 @@
 
 > **Phase:** 6 — Commercialization  
 > **Status:** Planned  
-> **Target:** `lib/features/profile/`  
+> **Target:** `apps/mobile/lib/features/profile/`  
 > **Dependency:** TASK-008
 
 ## Objective
@@ -11,10 +11,10 @@ Model subscription status and display a mock premium feature explanation without
 
 ## Allowed files
 
-- `lib/features/profile/`
-- `lib/features/subscriptions/`
-- `test/features/profile/`
-- `test/features/subscriptions/`
+- `apps/mobile/lib/features/profile/`
+- `apps/mobile/lib/features/subscriptions/`
+- `apps/mobile/test/features/profile/`
+- `apps/mobile/test/features/subscriptions/`
 
 ## Locked files
 

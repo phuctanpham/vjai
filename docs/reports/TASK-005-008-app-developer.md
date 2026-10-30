@@ -11,14 +11,14 @@ Garblo is a lookbook generating and matching app. Phase 2 persists the user's ow
 ## Changed files
 | Path | Purpose |
 |---|---|
-| `lib/core/storage/*` | Phone schema v1 (PowerSync rules, incl. `ai_processing_jobs`), PRAGMA-key open factory and v0→v1 migration, `StorageFailure`, ObjectIds and deterministic IDs, install identity in secure storage, file attachment store, `LocalDataStore` (open, wipe), providers |
-| `lib/core/media/*` | MIME sniffing, lossless JPEG/PNG metadata stripping with orientation, `image_picker` picker (default) |
-| `lib/features/wardrobe/data/local_*`, `demo_seed.dart` | SQLite Archive and wear log; `json_each` last worn and wear counts; provisional `gap_days`/`rescue_eligible`; demo seed behind `GARBLO_DEMO_SEED` |
-| `lib/features/studio/data/local_studio_repository.dart` | Consent, open batch, tray, review edits, analysis jobs, photo storage, discard; fake analysis on any photo (byte hash) |
-| `lib/features/gu_match/data/local_gu_match_repository.dart` | Sessions, Fits, decisions, swaps, interactions, studio draft |
-| `lib/features/*/presentation/*_view_model.dart` | Restore on start; save every change; ignore results after dispose |
-| `lib/features/privacy/**` | Privacy & data: counts, on-page confirmation, withdraw consent, delete all |
-| `lib/app/bootstrap.dart`, `lib/main.dart`, `lib/app/router.dart`, `lib/app/shell/app_shell.dart` | Open the store before `runApp`, storage error screen, restart on a fresh scope after delete all, `/privacy`, header avatar |
+| `apps/mobile/lib/core/storage/*` | Phone schema v1 (PowerSync rules, incl. `ai_processing_jobs`), PRAGMA-key open factory and v0→v1 migration, `StorageFailure`, ObjectIds and deterministic IDs, install identity in secure storage, file attachment store, `LocalDataStore` (open, wipe), providers |
+| `apps/mobile/lib/core/media/*` | MIME sniffing, lossless JPEG/PNG metadata stripping with orientation, `image_picker` picker (default) |
+| `apps/mobile/lib/features/wardrobe/data/local_*`, `demo_seed.dart` | SQLite Archive and wear log; `json_each` last worn and wear counts; provisional `gap_days`/`rescue_eligible`; demo seed behind `GARBLO_DEMO_SEED` |
+| `apps/mobile/lib/features/studio/data/local_studio_repository.dart` | Consent, open batch, tray, review edits, analysis jobs, photo storage, discard; fake analysis on any photo (byte hash) |
+| `apps/mobile/lib/features/gu_match/data/local_gu_match_repository.dart` | Sessions, Fits, decisions, swaps, interactions, studio draft |
+| `apps/mobile/lib/features/*/presentation/*_view_model.dart` | Restore on start; save every change; ignore results after dispose |
+| `apps/mobile/lib/features/privacy/**` | Privacy & data: counts, on-page confirmation, withdraw consent, delete all |
+| `apps/mobile/lib/app/bootstrap.dart`, `apps/mobile/lib/main.dart`, `apps/mobile/lib/app/router.dart`, `apps/mobile/lib/app/shell/app_shell.dart` | Open the store before `runApp`, storage error screen, restart on a fresh scope after delete all, `/privacy`, header avatar |
 | `.github/workflows/android-apk.yml` | `minSdk 23` for `flutter_secure_storage` 10 |
 
 ## Scenario coverage

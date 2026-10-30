@@ -1,7 +1,7 @@
 # APRD-006: Backend Discovery API Integration
 
 > **Status:** Accepted for implementation  
-> **Target bounded context:** `lib/core/networking/` and `lib/features/discovery/data/`  
+> **Target bounded context:** `apps/mobile/lib/core/networking/` and `apps/mobile/lib/features/discovery/data/`  
 > **Companion API:** `backend/app/api/v1/endpoints/discovery.py`
 
 ## 1. Goal

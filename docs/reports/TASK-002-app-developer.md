@@ -9,16 +9,16 @@ Item: [TASK-002 Mobile foundation](../tasks/mobile/TASK-002-mobile-foundation.md
 ## Changed files
 | Path | Purpose |
 |---|---|
-| `lib/app/router.dart` | `/` opens `AppShell`; every other route, including the retired `/discovery`, opens `UnknownRouteView` |
-| `lib/app/theme/app_theme.dart` | T7 › G0 primary: `#1F5A2E` / on `#FFFFFF` (light), `#7BC88A` / on `#000000` (dark) |
-| `lib/app/shell/app_shell.dart` | Header (garblo · 29° · bell) and 5-pillar navigation: 64-high `NavigationBar` below 800, `NavigationRail` at 800+ |
-| `lib/app/shell/pillar_pages.dart` | Pillar → page map; Impact and Community show their flag-off state; Add/Archive/Gu Match map to the feature views (stubs until TASK-003/004) |
-| `lib/app/shell/coming_soon_view.dart` | Flag-off state view |
-| `lib/app/shell/unknown_route_view.dart` | "Page not found" with "Go to Add" |
-| `lib/core/navigation/pillar.dart` | `Pillar`, G4 labels, `PillarController`, `pillarProvider` |
-| `lib/core/time/clock.dart` | `SystemClock`, `clockProvider` |
-| `lib/core/widgets/loading_view.dart` | Shared loading state |
-| `lib/core/layout/breakpoints.dart` | `Breakpoints.desktop = 800` (added; see Deviations) |
+| `apps/mobile/lib/app/router.dart` | `/` opens `AppShell`; every other route, including the retired `/discovery`, opens `UnknownRouteView` |
+| `apps/mobile/lib/app/theme/app_theme.dart` | T7 › G0 primary: `#1F5A2E` / on `#FFFFFF` (light), `#7BC88A` / on `#000000` (dark) |
+| `apps/mobile/lib/app/shell/app_shell.dart` | Header (garblo · 29° · bell) and 5-pillar navigation: 64-high `NavigationBar` below 800, `NavigationRail` at 800+ |
+| `apps/mobile/lib/app/shell/pillar_pages.dart` | Pillar → page map; Impact and Community show their flag-off state; Add/Archive/Gu Match map to the feature views (stubs until TASK-003/004) |
+| `apps/mobile/lib/app/shell/coming_soon_view.dart` | Flag-off state view |
+| `apps/mobile/lib/app/shell/unknown_route_view.dart` | "Page not found" with "Go to Add" |
+| `apps/mobile/lib/core/navigation/pillar.dart` | `Pillar`, G4 labels, `PillarController`, `pillarProvider` |
+| `apps/mobile/lib/core/time/clock.dart` | `SystemClock`, `clockProvider` |
+| `apps/mobile/lib/core/widgets/loading_view.dart` | Shared loading state |
+| `apps/mobile/lib/core/layout/breakpoints.dart` | `Breakpoints.desktop = 800` (added; see Deviations) |
 
 ## Scenario coverage
 | Scenario | Test name | Result |
@@ -45,13 +45,13 @@ Non-scenario: header shows wordmark, temperature and bell (both layouts); `pilla
 | format (`dart format --output=none --set-exit-if-changed .`) | pass (whole repo) |
 | analyze (`flutter analyze`) | pass, no issues |
 | tests, TASK-002 files | 24 / 24 pass |
-| tests, dating baseline (`test/features/discovery`) | 18 / 18 pass, unchanged |
+| tests, dating baseline (`apps/mobile/test/features/discovery`) | 18 / 18 pass, unchanged |
 | tests, full suite | 43 pass, 210 fail. Every failure is in a TASK-003 or TASK-004 test file (red by design) |
 
 Toolchain: Flutter 3.24.5, Dart 3.5.4 (pinned by CHG-004).
 
 ## Deviations from plan
-- Added `lib/core/layout/breakpoints.dart` so the shell and the feature layouts share one 800 px constant (D-003) instead of repeating it. TASK-002's file list is updated.
+- Added `apps/mobile/lib/core/layout/breakpoints.dart` so the shell and the feature layouts share one 800 px constant (D-003) instead of repeating it. TASK-002's file list is updated.
 - `pillar_pages.dart` maps the Add, Archive and Gu Match pillars to the feature views now, so TASK-003/004 need no shell change. Their file lists are updated. Until those tasks are green, the running app shows an error on those three pillars, because the views are still stubs.
 
 ## Doc issues

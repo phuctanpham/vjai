@@ -2,7 +2,7 @@
 
 > **Sprint**: Phase 3 (Core Social Mechanics)  
 > **Status**: Ready for Agent Execution  
-> **Target Bounded Context**: `lib/features/matching/` & `lib/features/discovery/`  
+> **Target Bounded Context**: `apps/mobile/lib/features/matching/` & `apps/mobile/lib/features/discovery/`  
 > **Dependencies**: TASK-004 (Discovery Scaffold), TASK-005 (Swipe Persistence)  
 > **Estimated Agent Prompts**: 1 bounded session  
 
@@ -16,18 +16,18 @@ When a user likes or superlikes a candidate who also likes them, a **Mutual Matc
 ## 2. File Confinement
 
 ### Files to CREATE or MODIFY
-- `lib/features/matching/domain/match.dart` (Match entity: id, matchedUserId, matchedUserProfile, createdAt)
-- `lib/features/matching/data/matching_repository.dart` (Record match contract & mock store)
-- `lib/features/matching/presentation/match_celebration_dialog.dart` (Celebration modal with scale animation)
-- `lib/features/discovery/presentation/discovery_view_model.dart` (Detect match from swipe outcome and trigger celebration event)
-- `lib/features/discovery/presentation/discovery_view.dart` (Listen to match event and show modal)
-- `test/features/matching/domain/match_test.dart`
-- `test/features/matching/presentation/match_celebration_dialog_test.dart`
-- `test/features/discovery/presentation/discovery_view_model_match_test.dart`
+- `apps/mobile/lib/features/matching/domain/match.dart` (Match entity: id, matchedUserId, matchedUserProfile, createdAt)
+- `apps/mobile/lib/features/matching/data/matching_repository.dart` (Record match contract & mock store)
+- `apps/mobile/lib/features/matching/presentation/match_celebration_dialog.dart` (Celebration modal with scale animation)
+- `apps/mobile/lib/features/discovery/presentation/discovery_view_model.dart` (Detect match from swipe outcome and trigger celebration event)
+- `apps/mobile/lib/features/discovery/presentation/discovery_view.dart` (Listen to match event and show modal)
+- `apps/mobile/test/features/matching/domain/match_test.dart`
+- `apps/mobile/test/features/matching/presentation/match_celebration_dialog_test.dart`
+- `apps/mobile/test/features/discovery/presentation/discovery_view_model_match_test.dart`
 
 ### LOCKED Files (Strict Anti-Touch)
-- `lib/features/auth/*`
-- `lib/features/onboarding/*`
+- `apps/mobile/lib/features/auth/*`
+- `apps/mobile/lib/features/onboarding/*`
 
 ---
 

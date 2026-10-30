@@ -5,8 +5,8 @@ Standard: [tdd.md](../../../policies/engineering/tdd.md). Existing tests do not 
 ## Scenario tests
 | Scenario | Level | Test file | Current test → required name |
 |---|---|---|---|
-| BL-004-S01 | Widget | `test/features/discovery/presentation/discovery_view_test.dart` | "renders profile card and controls when loaded" → `[BL-004-S01] …` |
-| BL-004-S02 | ViewModel unit | `test/features/discovery/presentation/discovery_view_model_test.dart` | "advances current index …" → `[BL-004-S02] …` (also assert the recorded swipe) |
+| BL-004-S01 | Widget | `apps/mobile/test/features/discovery/presentation/discovery_view_test.dart` | "renders profile card and controls when loaded" → `[BL-004-S01] …` |
+| BL-004-S02 | ViewModel unit | `apps/mobile/test/features/discovery/presentation/discovery_view_model_test.dart` | "advances current index …" → `[BL-004-S02] …` (also assert the recorded swipe) |
 | BL-004-S03 | Widget | `discovery_view_test.dart` | missing: swipe the last card, expect `EmptyView` |
 | BL-004-S04 | Widget | `discovery_view_test.dart` | "renders ErrorView … allows retry" → `[BL-004-S04] …` (also tap Try Again) |
 | BL-004-S05 | Widget, 1280 × 800 | `discovery_view_test.dart` | "renders desktop layout with sidebar" → `[BL-004-S05] …` |
@@ -22,3 +22,4 @@ Standard: [tdd.md](../../../policies/engineering/tdd.md). Existing tests do not 
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../../changes/CHG-001-agentic-documentation-system.md) | Created from APRD-001 and existing tests |
+| 2026-10-30 | [CHG-010](../../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |

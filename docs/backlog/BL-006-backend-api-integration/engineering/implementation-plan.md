@@ -3,14 +3,14 @@
 ## Generated files
 | Role | Path | Change |
 |---|---|---|
-| App Developer | `lib/core/networking/http_api_client.dart` | New `HttpApiClient implements ApiClient`, built on `dart:io` `HttpClient` (no new package) |
-| App Developer | `lib/app/providers.dart` | `apiClientProvider` → `HttpApiClient(baseUrl: String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8080'))` |
-| App Developer | `lib/features/discovery/data/http_discovery_repository.dart` | New `HttpDiscoveryRepository` |
-| App Developer | `lib/features/discovery/data/discovery_repository.dart` | Provider returns `HttpDiscoveryRepository`, which falls back to `MockDiscoveryRepository` |
-| App Developer | `test/core/networking/http_api_client_test.dart`, `test/features/discovery/data/http_discovery_repository_test.dart` | New tests |
+| App Developer | `apps/mobile/lib/core/networking/http_api_client.dart` | New `HttpApiClient implements ApiClient`, built on `dart:io` `HttpClient` (no new package) |
+| App Developer | `apps/mobile/lib/app/providers.dart` | `apiClientProvider` → `HttpApiClient(baseUrl: String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8080'))` |
+| App Developer | `apps/mobile/lib/features/discovery/data/http_discovery_repository.dart` | New `HttpDiscoveryRepository` |
+| App Developer | `apps/mobile/lib/features/discovery/data/discovery_repository.dart` | Provider returns `HttpDiscoveryRepository`, which falls back to `MockDiscoveryRepository` |
+| App Developer | `apps/mobile/test/core/networking/http_api_client_test.dart`, `apps/mobile/test/features/discovery/data/http_discovery_repository_test.dart` | New tests |
 | Backend Developer | — | No change; the existing endpoints and `backend/tests/test_discovery.py` are the contract |
 
-**Locked:** `lib/features/discovery/presentation/**` and everything else not listed.
+**Locked:** `apps/mobile/lib/features/discovery/presentation/**` and everything else not listed.
 
 ## Contracts
 - **Boundary:** `HttpDiscoveryRepository` is the only discovery code that turns `ApiClient` responses into `Profile`.
@@ -34,3 +34,4 @@ Pending.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../../changes/CHG-001-agentic-documentation-system.md) | Migrated from TASK-006; chose `dart:io` over the `http` package to avoid a new dependency; env name fixed to `API_BASE_URL` |
+| 2026-10-30 | [CHG-010](../../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
