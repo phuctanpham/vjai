@@ -36,6 +36,10 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
         _clock = clock,
         super(GuMatchState.initial());
 
+  /// Restores the studio draft and, when the latest session still has
+  /// undecided Fits, reopens its deck at the first one (TASK-005-S03).
+  Future<void> restore() => throw UnimplementedError('TASK-005-S03');
+
   /// Loads the ready count (loaded, or empty when N = 0).
   Future<void> load() async {
     state = state.copyWith(status: GuMatchStatus.loading, clearError: true);

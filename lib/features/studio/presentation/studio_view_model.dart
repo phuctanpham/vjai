@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/failures.dart';
 import '../../../core/media/photo_picker.dart';
+import '../../../core/storage/object_id.dart';
 import '../../../core/time/clock.dart';
 import '../../wardrobe/data/wardrobe_repository.dart';
 import '../../wardrobe/domain/wardrobe_item.dart';
@@ -44,11 +45,19 @@ class StudioViewModel extends StateNotifier<StudioState> {
     required WardrobeRepository wardrobeRepository,
     required PhotoPicker photoPicker,
     required Clock clock,
+
+    /// Batch and asset IDs (ObjectIds, unique across batches). Defaults to
+    /// a generator on [clock].
+    ObjectIdGenerator? ids,
   })  : _studioRepository = studioRepository,
         _wardrobeRepository = wardrobeRepository,
         _photoPicker = photoPicker,
         _clock = clock,
         super(StudioState.initial());
+
+  /// Restores the open batch and the active consent after a restart
+  /// (TASK-005-S03). Call once when the ViewModel is created.
+  Future<void> restore() => throw UnimplementedError('TASK-005-S03');
 
   /// Opens the picker for the remaining capacity and stages valid photos.
   Future<void> pickPhotos() async {

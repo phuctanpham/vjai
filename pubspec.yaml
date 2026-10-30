@@ -11,6 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.5.1
+  flutter_secure_storage: ^10.3.4
+  image_picker: ^1.1.2
+  path_provider: ^2.1.5
+  sqlcipher_flutter_libs: ^0.6.8
+  sqlite3: ^2.9.4
+  sqlite_async: ^0.13.1
 
 dev_dependencies:
   flutter_test:

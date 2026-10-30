@@ -4,7 +4,7 @@
 .flutter-plugins-dependencies
 .packages
 build/
-*.lock
+# Lock files are committed (CHG-005, ci-cd.md).
 
 # Python / FastAPI / uv
 __pycache__/

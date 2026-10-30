@@ -29,6 +29,11 @@ PowerSync table rules, so P3 swaps the database object, not the repositories.
   `LocalStudioRepository` (open batch, tray, consent, review draft edits),
   `LocalGuMatchRepository` (sessions, Fits, decisions, interactions, studio
   draft). The fake analysis and fake Fit generator are unchanged.
+- Batch, asset, draft, session and Fit IDs are ObjectIds, so rows never
+  collide across batches or sessions (the Phase 1 `asset_<n>` and
+  `session_<n>` IDs stay in the in-memory fakes only).
+- Picked file URIs are local paths and are **not stored** (no column in v1).
+  Restored photos are addressed as `attachment://<attachment_id>`.
 - ViewModels restore persisted state through the repositories on start.
 - Open or migration failure shows an explicit error, never an in-memory
   fallback.
@@ -75,6 +80,17 @@ the host `sqlite3.dll`, see ci-cd.md).
 Device checks (not in `flutter test`, reported as skipped until run): the
 database file is unreadable without the key on a phone (SQLCipher); a real
 restart on Android and iOS.
+
+Open questions found while writing the red tests (decide before green):
+
+- The fake analysis finds Pieces by photo URI (preset fixtures). Real photos
+  from `image_picker` match no fixture, so Flow A on a device yields "no
+  clothes found" until AI-001 lands. Options: keep the sample photos as a
+  picker choice, or let the fake return fixture Pieces by slot for photos
+  without a fixture.
+- A partial result's "N photos couldn't be read" note is not restored after a
+  restart: schema v1 has no per-photo analysis status. Add a column (BE-006
+  change) or accept the loss.
 
 ## File confinement
 

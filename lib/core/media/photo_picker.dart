@@ -10,9 +10,16 @@ final photoPickerProvider = Provider<PhotoPicker>((ref) {
 @immutable
 class PickedPhoto {
   final String uri;
+
+  /// Sniffed from the bytes for real photos (TASK-007); JPG and PNG are
+  /// accepted, anything else (e.g. HEIC) is rejected by the tray.
   final String mimeType;
 
-  const PickedPhoto({required this.uri, required this.mimeType});
+  /// The original picked bytes, to be sanitized before storage. Null for
+  /// Phase 1 preset fixtures. Not part of equality.
+  final Uint8List? bytes;
+
+  const PickedPhoto({required this.uri, required this.mimeType, this.bytes});
 
   @override
   bool operator ==(Object other) =>
