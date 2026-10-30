@@ -109,6 +109,11 @@ class MockGuMatchRepository implements GuMatchRepository {
 
   int _sessionCount = 0;
 
+  // The latest session, its deck with decisions, and the studio draft.
+  GuMatchSession? _session;
+  List<OutfitCandidate> _deck = const [];
+  StylingContext _draft = const StylingContext();
+
   MockGuMatchRepository({
     required WardrobeRepository wardrobeRepository,
     required WearRepository wearRepository,
@@ -128,7 +133,8 @@ class MockGuMatchRepository implements GuMatchRepository {
     final eligible = await _wardrobeRepository.countEligible();
     if (eligible == 0) throw const NoEligibleItemsFailure();
     _sessionCount++;
-    return GuMatchSession(
+    _deck = const [];
+    return _session = GuMatchSession(
       sessionId: 'session_$_sessionCount',
       path: context.path,
       occasions: context.occasions,
@@ -168,12 +174,14 @@ class MockGuMatchRepository implements GuMatchRepository {
   @override
   Future<GeneratedDeck> buildDeck(GuMatchSession session) async {
     final items = await _wardrobeRepository.getEligibleItems();
-    return generator.generate(
+    final deck = generator.generate(
       sessionId: session.sessionId,
       items: items,
       daysUnworn: await _daysUnworn(items),
       context: session.context,
     );
+    if (_session?.sessionId == session.sessionId) _deck = deck.candidates;
+    return deck;
   }
 
   @override
@@ -222,20 +230,27 @@ class MockGuMatchRepository implements GuMatchRepository {
   }
 
   @override
-  Future<void> updateSwipeStatus(String candidateId, SwipeStatus status) =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<void> updateSwipeStatus(String candidateId, SwipeStatus status) async {
+    _deck = [
+      for (final c in _deck)
+        c.candidateId == candidateId ? c.copyWith(swipeStatus: status) : c,
+    ];
+  }
 
   @override
-  Future<GuMatchSnapshot?> loadLatestSession() =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<GuMatchSnapshot?> loadLatestSession() async {
+    final session = _session;
+    if (session == null) return null;
+    return GuMatchSnapshot(
+        session: session, candidates: List.unmodifiable(_deck));
+  }
 
   @override
-  Future<void> saveContextDraft(StylingContext context) =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<void> saveContextDraft(StylingContext context) async =>
+      _draft = context;
 
   @override
-  Future<StylingContext> loadContextDraft() =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<StylingContext> loadContextDraft() async => _draft;
 
   ContextCard _occasionCard(GuMatchSession session) {
     if (session.path == SessionPath.promptLed) {

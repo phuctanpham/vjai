@@ -60,6 +60,16 @@ const Map<String, Map<String, ColumnType>> _contract = {
     'removed': _i,
     'created_at': _t,
   },
+  // Spec T2 AI_JOBS, added by CHG-006 G-03.
+  'ai_processing_jobs': {
+    'user_id': _t,
+    'batch_id': _t,
+    'asset_id': _t,
+    'task_type': _t,
+    'status': _t,
+    'created_at': _t,
+    'updated_at': _t,
+  },
   'extracted_items': {
     'user_id': _t,
     'batch_id': _t,
@@ -136,6 +146,9 @@ const Map<String, List<List<String>>> _indexes = {
   ],
   'media_assets': [
     ['batch_id', 'slot_index'],
+  ],
+  'ai_processing_jobs': [
+    ['batch_id', 'asset_id'],
   ],
   'extracted_items': [
     ['batch_id', 'item_index'],

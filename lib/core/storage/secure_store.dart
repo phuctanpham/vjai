@@ -9,15 +9,18 @@ abstract class SecureStore {
 
 /// [SecureStore] backed by the platform keychain / keystore.
 class FlutterSecureStore implements SecureStore {
-  FlutterSecureStore([FlutterSecureStorage? storage]);
+  final FlutterSecureStorage _storage;
+
+  FlutterSecureStore([FlutterSecureStorage? storage])
+      : _storage = storage ?? const FlutterSecureStorage();
 
   @override
-  Future<String?> read(String key) => throw UnimplementedError('TASK-005-S10');
+  Future<String?> read(String key) => _storage.read(key: key);
 
   @override
   Future<void> write(String key, String value) =>
-      throw UnimplementedError('TASK-005-S10');
+      _storage.write(key: key, value: value);
 
   @override
-  Future<void> delete(String key) => throw UnimplementedError('TASK-005-S10');
+  Future<void> delete(String key) => _storage.delete(key: key);
 }

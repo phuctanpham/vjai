@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/failures.dart';
 import '../domain/analysis_selection.dart';
+import '../domain/batch_status.dart';
 import '../domain/extracted_item.dart';
 import '../domain/media_asset.dart';
 import '../domain/photo_storage.dart';
@@ -124,6 +125,11 @@ class MockStudioRepository implements StudioRepository {
   /// The assets passed to each [analyze] call, in order.
   final List<List<MediaAsset>> analyzedAssets = [];
 
+  /// Every batch passed to [saveBatch], in order.
+  final List<UploadBatch> savedBatches = [];
+
+  UploadBatch? _openBatch;
+
   MockStudioRepository({
     this.fixtures = presetFixtures,
     this.failingUris = const {},
@@ -184,27 +190,39 @@ class MockStudioRepository implements StudioRepository {
   }
 
   @override
-  Future<PrivacyConsent?> activeConsent() =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<PrivacyConsent?> activeConsent() async {
+    for (final consent in recordedConsents.reversed) {
+      if (consent.isActive) return consent;
+    }
+    return null;
+  }
 
   @override
-  Future<UploadBatch?> loadOpenBatch() =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<UploadBatch?> loadOpenBatch() async => _openBatch;
 
   @override
-  Future<void> saveBatch(UploadBatch batch) =>
-      throw UnimplementedError('TASK-005-S03');
+  Future<void> saveBatch(UploadBatch batch) async {
+    savedBatches.add(batch);
+    final closed = batch.status == BatchStatus.completed ||
+        batch.status == BatchStatus.deletedByUser;
+    _openBatch = closed ? null : batch;
+  }
 
+  /// No bytes are kept in memory: assets are stored as they are.
   @override
   Future<PhotoStorageResult> storePhotos({
     required String batchId,
     required List<StagedPhoto> photos,
-  }) =>
-      throw UnimplementedError('TASK-007-S03');
+  }) async =>
+      PhotoStorageResult(
+        stored: [for (final photo in photos) photo.asset],
+        failedAssetIds: const [],
+      );
 
   @override
-  Future<void> discardBatch(String batchId) =>
-      throw UnimplementedError('TASK-007-S07');
+  Future<void> discardBatch(String batchId) async {
+    if (_openBatch?.batchId == batchId) _openBatch = null;
+  }
 
   Future<void> _wait() async {
     if (delay > Duration.zero) await Future<void>.delayed(delay);

@@ -11,6 +11,17 @@ import 'package:sqlite_async/sqlite_async.dart';
 /// Linux and macOS use the system library. Top-level so it can run in the
 /// database isolates (`BeforeOpen`).
 void useHostSqlite() {
+  if (Platform.isLinux) {
+    // CI images may ship only the runtime library, without the dev symlink.
+    sqlite_open.open.overrideFor(sqlite_open.OperatingSystem.linux, () {
+      try {
+        return DynamicLibrary.open('libsqlite3.so');
+      } on ArgumentError {
+        return DynamicLibrary.open('libsqlite3.so.0');
+      }
+    });
+    return;
+  }
   if (!Platform.isWindows) return;
   final dll = Platform.environment['GARBLO_SQLITE3_DLL'] ??
       r'F:\tools\sqlite\sqlite3.dll';

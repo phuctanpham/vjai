@@ -58,8 +58,15 @@ class MockWearRepository implements WearRepository {
   }
 
   @override
-  Future<Map<String, int>> wearCountByItem() =>
-      throw UnimplementedError('TASK-006-S01');
+  Future<Map<String, int>> wearCountByItem() async {
+    final counts = <String, int>{};
+    for (final event in _events) {
+      for (final itemId in event.itemIds) {
+        counts[itemId] = (counts[itemId] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }
 
   @override
   Future<List<WearEvent>> getEvents() async => List.unmodifiable(_events);

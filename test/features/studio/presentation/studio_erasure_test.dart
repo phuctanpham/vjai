@@ -19,7 +19,6 @@ import '../../../helpers/wardrobe_fixtures.dart';
 class _HeldRepository extends MockStudioRepository {
   final Completer<void> hold = Completer<void>();
   final bool failAfterHold;
-  final List<UploadBatch> savedBatches = [];
 
   _HeldRepository({this.failAfterHold = false})
       : super(fixtures: const {
@@ -41,9 +40,6 @@ class _HeldRepository extends MockStudioRepository {
 
   @override
   Future<UploadBatch?> loadOpenBatch() async => null;
-
-  @override
-  Future<void> saveBatch(UploadBatch batch) async => savedBatches.add(batch);
 
   @override
   Future<PhotoStorageResult> storePhotos({

@@ -13,6 +13,7 @@ import 'package:garblo/features/studio/domain/media_asset.dart';
 import 'package:garblo/features/studio/domain/photo_storage.dart';
 import 'package:garblo/features/studio/domain/photo_tray.dart';
 import 'package:garblo/features/studio/domain/privacy_consent.dart';
+import 'package:garblo/features/studio/domain/review_draft.dart';
 import 'package:garblo/features/studio/domain/upload_batch.dart';
 import 'package:sqlite_async/sqlite_async.dart';
 
@@ -131,6 +132,105 @@ void main() {
           review.items.map((i) => i.name), ['Violet shirt', 'Cream sneakers']);
       expect(review.items.every((i) => isObjectId(i.draftId)), isTrue);
       expect(review.items.map((i) => i.draftId).toSet(), hasLength(2));
+    });
+
+    // CHG-006 G-01: the fake works on any photo.
+    test(
+        '[TASK-005-S03] a photo without a fixture gets sample Pieces from its '
+        'bytes, the same every time', () async {
+      final repo = repoOn(t.db);
+      final batchId = ids.next();
+      final stored = await storeTwo(repo, batchId);
+
+      final first = await repo.analyze(
+          assets: stored, selection: AnalysisSelection.defaults());
+      final again = await repo.analyze(
+          assets: stored, selection: AnalysisSelection.defaults());
+
+      expect(first.items, isNotEmpty);
+      expect(first.items.map((i) => i.name), again.items.map((i) => i.name));
+      expect(first.outcome, AnalysisOutcome.success);
+    });
+
+    test('[TASK-005-S03] an empty fixture is the "no clothes found" path',
+        () async {
+      final repo = LocalStudioRepository(
+        db: t.db,
+        ownerId: _owner,
+        attachments: attachments,
+        ids: ids,
+        clock: clock,
+        fixtures: const {'content://gallery/1.jpg': []},
+      );
+      final batchId = ids.next();
+      final stored = await storeTwo(repo, batchId);
+
+      final review = await repo.analyze(
+          assets: [stored.first], selection: AnalysisSelection.defaults());
+
+      expect(review.items, isEmpty);
+      expect(review.outcome, AnalysisOutcome.zeroItems);
+    });
+
+    // CHG-006 G-03, G-04: one job per photo × task.
+    test('[TASK-005-S03] analysis writes one job per photo × task', () async {
+      final repo = repoOn(t.db);
+      final batchId = ids.next();
+      final stored = await storeTwo(repo, batchId);
+      const selection = AnalysisSelection(
+          {AnalysisTask.outfitExtraction, AnalysisTask.poseEstimation});
+
+      await repo.analyze(assets: stored, selection: selection);
+      await repo.analyze(assets: stored, selection: selection); // retry
+
+      final jobs = await t.db.getAll(
+          'SELECT asset_id, task_type, status FROM ai_processing_jobs '
+          'WHERE batch_id = ? ORDER BY asset_id, task_type',
+          [batchId]);
+      expect(jobs, hasLength(4));
+      expect(
+        jobs
+            .where((j) => j['task_type'] == 'OUTFIT_EXTRACTION')
+            .map((j) => j['status']),
+        everyElement('COMPLETED'),
+      );
+      expect(
+        jobs
+            .where((j) => j['task_type'] == 'POSE_ESTIMATION')
+            .map((j) => j['status']),
+        everyElement('SKIPPED_NO_PERSON'),
+      );
+    });
+
+    test(
+        '[TASK-005-S03] a partial result\'s failure note survives closing and '
+        'reopening', () async {
+      final batchId = ids.next();
+      final stored = await storeTwo(repoOn(t.db), batchId);
+      final failing = LocalStudioRepository(
+        db: t.db,
+        ownerId: _owner,
+        attachments: attachments,
+        ids: ids,
+        clock: clock,
+        failingUris: {stored.last.uri},
+      );
+      final review = await failing.analyze(
+          assets: stored, selection: AnalysisSelection.defaults());
+      expect(review.failureNote, "1 photo couldn't be read");
+      await failing.saveBatch(UploadBatch(
+        batchId: batchId,
+        status: BatchStatus.awaitingReview,
+        tray: PhotoTray(assets: stored, nextSequence: 3),
+        selection: AnalysisSelection.defaults(),
+        review: review,
+      ));
+
+      final reopened = await t.reopen();
+      final restored = await repoOn(reopened).loadOpenBatch();
+
+      expect(restored!.review, review);
+      expect(restored.review!.failureNote, "1 photo couldn't be read");
     });
   });
 

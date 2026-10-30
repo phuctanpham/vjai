@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'app/app.dart';
 
+import 'app/bootstrap.dart';
+
+/// Opens the local store first, then runs the app on it (TASK-005).
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    const ProviderScope(
-      child: GarbloApp(),
-    ),
-  );
+  runApp(const GarbloBootstrap());
 }
