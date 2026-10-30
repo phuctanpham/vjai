@@ -165,13 +165,13 @@ class StudioViewModel extends StateNotifier<StudioState> {
       notice: notice,
       clearNotice: notice == null,
     );
-    _persist();
+    await _persist();
   }
 
   void removePhoto(String assetId) {
     if (state.batchStatus != BatchStatus.draft) return;
     state = state.copyWith(tray: state.tray.remove(assetId), clearNotice: true);
-    _persist();
+    unawaited(_persist());
   }
 
   void setConsent(bool checked) {
@@ -197,7 +197,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
         consent: consent,
         clearError: true,
       );
-      _persist();
+      await _persist();
     } on Failure catch (failure) {
       if (!mounted) return;
       state = state.copyWith(errorMessage: failure.message);
@@ -207,7 +207,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
   void toggleTask(AnalysisTask task) {
     if (!state.isScopeSheetOpen) return;
     state = state.copyWith(selection: state.selection.toggle(task));
-    _persist();
+    unawaited(_persist());
   }
 
   /// Closes the sheet and returns to DRAFT, keeping photos and consent.
@@ -218,7 +218,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
       clearReview: true,
       clearError: true,
     );
-    _persist();
+    unawaited(_persist());
   }
 
   /// Runs the analysis (→ AWAITING_REVIEW or FAILED).
@@ -283,7 +283,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
       if (!mounted) return;
       state =
           state.copyWith(batchStatus: BatchStatus.completed, isSaving: false);
-      _persist();
+      await _persist();
     } on Failure {
       if (!mounted) return;
       state = state.copyWith(isSaving: false, errorMessage: saveFailedMessage);
@@ -331,7 +331,7 @@ class StudioViewModel extends StateNotifier<StudioState> {
         errorMessage: analysisFailedMessage,
       );
     }
-    _persist();
+    await _persist();
   }
 
   void _moveTo(BatchStatus next) {
@@ -352,15 +352,16 @@ class StudioViewModel extends StateNotifier<StudioState> {
       state = state.copyWith(
         review: review.replaceItem(index, change(review.items[index])),
       );
-      _persist();
+      unawaited(_persist());
     } on ArgumentError {
       // Unknown type codes are not offered by the picker; ignore them.
     }
   }
 
-  /// Saves the batch as it is now. Called synchronously after each change,
-  /// so saves reach the database in order.
-  void _persist() {
+  /// Saves the batch as it is now. The save is issued before the first
+  /// `await`, so saves reach the database in order; async actions await
+  /// it, sync ones (edits) do not. A failed save never breaks the flow.
+  Future<void> _persist() {
     final batch = UploadBatch(
       batchId: _batchId,
       status: state.batchStatus,
@@ -369,9 +370,9 @@ class StudioViewModel extends StateNotifier<StudioState> {
       consentId: state.consent?.id,
       review: state.review,
     );
-    unawaited(_studioRepository.saveBatch(batch).catchError((Object _) {
+    return _studioRepository.saveBatch(batch).catchError((Object _) {
       // Best effort: the flow continues; the next change saves again.
-    }));
+    });
   }
 
   /// A batch interrupted mid-analysis resumes on the scope sheet.
