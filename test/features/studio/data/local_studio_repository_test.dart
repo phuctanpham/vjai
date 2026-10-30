@@ -73,7 +73,7 @@ void main() {
         photo: PickedPhoto(
             uri: 'content://gallery/2.png',
             mimeType: 'image/png',
-            bytes: pngWithMetadata()),
+            bytes: pngWithMetadata(exif: false)),
       ),
     ];
     final result = await repo.storePhotos(batchId: batchId, photos: staged);

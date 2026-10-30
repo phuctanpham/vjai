@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Provider for the photo picker. Phase 1 uses preset fixture photos.
+import 'image_picker_photo_picker.dart';
+
+/// Provider for the photo picker: the device gallery (CHG-006 G-02).
 final photoPickerProvider = Provider<PhotoPicker>((ref) {
-  return const PresetPhotoPicker();
+  return ImagePickerPhotoPicker();
 });
 
 /// One photo returned by the picker, before it is staged.
@@ -36,7 +38,8 @@ abstract class PhotoPicker {
   Future<List<PickedPhoto>> pick({required int maxCount});
 }
 
-/// Phase 1 picker that returns the three preset flat-lay photos.
+/// Returns the three preset flat-lay photos. A test and demo double only;
+/// the app uses the gallery (CHG-006 G-02).
 class PresetPhotoPicker implements PhotoPicker {
   static const List<PickedPhoto> presets = [
     PickedPhoto(

@@ -32,6 +32,7 @@ changed while going green, so no test is edited silently.
 | `test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | New: a photo without a fixture gets sample Pieces chosen from its bytes, the same every time; an empty fixture gives zero items | G-01 |
 | `test/helpers/local_db.dart` | On Linux, falls back from `libsqlite3.so` to `libsqlite3.so.0` | CI image may lack the dev symlink |
 | `test/features/studio/presentation/studio_erasure_test.dart` `[TASK-008-S07]` | The held fake uses the Mock's own `savedBatches` instead of shadowing it | The Mock now records saved batches itself |
+| `test/features/studio/data/local_studio_repository_test.dart` `[TASK-005-S03]` | The second test photo is a PNG without `eXIf`, so the restored orientations are 6 and 1 as the test expects | The default PNG fixture carries orientation 6; the expectation was wrong |
 | `test/app/bootstrap_test.dart` `[TASK-005-S09]` | New: a store that cannot be opened shows the error with "Try again", never the app | Covers the bootstrap error screen |
 
 ## Product impact (APM)
