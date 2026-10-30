@@ -48,9 +48,9 @@ void main() {
   });
 
   List<String> syncedTables() => [
-    for (final table in PhoneSchema.tables)
-      if (!table.localOnly && table.name != 'item_types') table.name,
-  ];
+        for (final table in PhoneSchema.tables)
+          if (!table.localOnly && table.name != 'item_types') table.name,
+      ];
 
   Future<void> fill() async {
     final db = store.database;
