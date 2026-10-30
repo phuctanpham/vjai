@@ -86,5 +86,5 @@ Community tables, `feed_cache`.
 ## Code follow-up
 | Role | Paths | Tests | Done |
 |---|---|---|---|
-| App Developer | TASK-005…008 file lists; TASK-009 after | Test plans in the cards | [x] TASK-005…008 |
+| App Developer | TASK-005…008 file lists; TASK-009 after | Test plans in the cards | [x] TASK-005…009 ([CHG-009](CHG-009-phase-2-verification.md)) |
 | Backend Developer | None in Phase 2. See BE-006, BE-007 | — | — |

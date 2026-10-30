@@ -2,7 +2,7 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Approved | Human request · [TASK-001 documentation conflict analysis](../tasks/docs/TASK-001-doc-conficts.md) · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7.1 | 2026-10-30 |
+| Done | Human request · [TASK-001 documentation conflict analysis](../tasks/docs/TASK-001-doc-conficts.md) · [Garblo Flow Spec](../tasks/mobile/Garblo%20Flow%20Spec.html) v2.7.1 | 2026-10-30 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
@@ -69,3 +69,4 @@ dating documents.
 | 2026-10-30 | — | Centralized superseded architecture, APRD and DoD documents under `docs/archive/legacy/` and repaired repository links. |
 | 2026-10-30 | [CHG-008](CHG-008-claude-code-adapter.md) | Repaired Windows-1252 double encoding that the link rewrite introduced in 12 files; moved `GUIDE.MD` to `docs/archive/legacy/GUIDE.md` |
 | 2026-10-30 | — | Approved by the human |
+| 2026-10-30 | — | Done: merged to `main` with Phase 2 (PR 4) |

@@ -1,7 +1,7 @@
 # TASK-009: Offline reliability and migration validation
 
 > **Phase:** 2 · P2 Persistent offline app  
-> **Status:** Ready: TASK-005 to TASK-008 are green; its tests are written next (CHG-005 P2-D6)  
+> **Status:** Green · merged ([report](../../reports/TASK-009-app-developer.md), [CHG-009](../../changes/CHG-009-phase-2-verification.md))  
 > **Dependencies:** [TASK-005](TASK-005-local-persistence-foundation.md), [TASK-006](TASK-006-derived-queries-and-rules.md), [TASK-007](TASK-007-photo-privacy-pipeline.md), [TASK-008](TASK-008-device-integrations-and-data-rights.md)  
 > **Source tasks:** P2-09
 
@@ -64,3 +64,4 @@ Expected areas:
 |---|---|---|
 | 2026-10-29 | — | Created from T6 P2-09 as the Phase 2 verification gate. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Tests after TASK-005…008; calendar, export, rewards and check-ins removed with the P2 deferrals; replay uses deterministic IDs. |
+| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | Green: 20 tests on the local stack; consent replay, orphan sweep and Wear today error fixed (V-01…V-03). |

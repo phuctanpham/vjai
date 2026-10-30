@@ -2,7 +2,7 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Approved | Human request: centralize documents in `docs/` and set up Claude Code instructions for exploring the codebase | 2026-10-30 |
+| Done | Human request: centralize documents in `docs/` and set up Claude Code instructions for exploring the codebase | 2026-10-30 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
@@ -64,8 +64,8 @@ Windows-1252 (`—` became `â€”`, and tree lines became `â”œâ”€â�
   codebase map, `tdd.md` paths and the architecture tests' `lib/` roots.
 - `.github/copilot-instructions.md` still repeats architecture rules. CHG-001
   intended a thin adapter like `CLAUDE.md`.
-- `docs/tasks/mobile/README.md` says Phase 2 is "merged (PR 4)". On 2026-10-30
-  PR 4 is still Draft. This is for the APM to correct.
+- Resolved: `docs/tasks/mobile/README.md` said Phase 2 was "merged (PR 4)" while
+  PR 4 was Draft; PR 4 is now merged ([CHG-009](CHG-009-phase-2-verification.md)).
 
 ## Code follow-up
 
@@ -80,3 +80,4 @@ Windows-1252 (`—` became `â€”`, and tree lines became `â”œâ”€â�
 |---|---|---|
 | 2026-10-30 | — | Created |
 | 2026-10-30 | — | Approved by the human |
+| 2026-10-30 | — | Done: merged to `main` with Phase 2 (PR 4) |

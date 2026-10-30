@@ -84,12 +84,16 @@ test/
 ├── app/                               shell, router, bootstrap, theme, and journeys:
 │                                      flow_a_journey, flow_b_journey, persistence_restore, privacy_entry
 ├── architecture/                      layering_test (import rules), storage_boundary_test
+├── integration/                       TASK-009: offline_reliability (crash images, replay, migrations, files),
+│                                      offline_error_view (retryable errors on screen)
 ├── features/<f>/{domain,data,presentation}/
 │   ├── studio/studio_boundary_test    feature-level boundary test
 │   └── wardrobe/data/wear_benchmark   tagged `benchmark`, skipped by default
 └── helpers/
     ├── contracts/                     shared repository contract suites (wardrobe, wear): run against Mock and Local
-    ├── local_db.dart                  opens a temp SQLite DB (host library; GARBLO_SQLITE3_DLL on Windows)
+    ├── local_db.dart                  opens a temp SQLite DB (host library; GARBLO_SQLITE3_DLL on Windows);
+    │                                  crashImage() copies DB + WAL as a kill leaves them
+    ├── reliability.dart               withoutNetwork, FlakyWardrobeRepository, FlakyWearRepository
     ├── fixed_clock.dart  layout.dart  surface-size helpers for both layouts
     └── image_fixtures.dart  privacy_fakes.dart  wardrobe_fixtures.dart
 ```
@@ -122,3 +126,4 @@ The folder contract is in [docs/README.md](../../README.md) §2. Two locations m
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Moved from `docs/archive/legacy/architecture/MAP.md`; now the only tree in the docs |
 | 2026-10-30 | [CHG-008](../../changes/CHG-008-claude-code-adapter.md) | Rebuilt for the Phase 1–2 wardrobe tree (studio, wardrobe, gu_match, privacy, core storage and media); added monorepo layout, test helpers and docs navigation |
+| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | Added `test/integration/` and the reliability helpers |

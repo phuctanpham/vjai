@@ -2,7 +2,7 @@
 
 > **Product:** Garblo  
 > **Phase:** 1 · P1 Clickable offline app and Phase 2 · P2 Persistent offline app  
-> **Status:** Phase 1 green and merged (PR 2, [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)); Phase 2 (TASK-005 to 008) green and merged (PR 4, [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md), [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md)); TASK-009 next  
+> **Status:** Phase 1 green and merged (PR 2, [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md)); Phase 2 (TASK-005 to 009) green and merged (PR 4, [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md), [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md), [CHG-009](../../changes/CHG-009-phase-2-verification.md)); Phase 2 complete, P3 waits for BE-001  
 > **Source:** [Garblo Flow Spec.html](Garblo%20Flow%20Spec.html) v2.7
 
 ## Purpose
@@ -48,11 +48,11 @@ keeping the UI and domain contracts stable.
 
 | ID | Task | Dependency | Status |
 |---|---|---|---|
-| [TASK-005](TASK-005-local-persistence-foundation.md) | SQLite/SQLCipher, PowerSync-shaped phone schema v1, local repositories, restore | Phase 1 merged | Green (PR 4) |
-| [TASK-006](TASK-006-derived-queries-and-rules.md) | Derived wear values in SQL (dormancy, rescue eligibility), benchmark | TASK-005 | Green (PR 4) |
-| [TASK-007](TASK-007-photo-privacy-pipeline.md) | Real photos, lossless metadata stripping, private attachments | TASK-005 | Green (PR 4) |
-| [TASK-008](TASK-008-device-integrations-and-data-rights.md) | UC-09 local erasure: Avatar › Privacy & data (calendar, reminders, export and poster deferred) | TASK-005, TASK-007 | Green (PR 4) |
-| [TASK-009](TASK-009-offline-reliability-validation.md) | Restart, app-kill, offline, and migration verification | TASK-005 through TASK-008 green | Ready: tests next |
+| [TASK-005](TASK-005-local-persistence-foundation.md) | SQLite/SQLCipher, PowerSync-shaped phone schema v1, local repositories, restore | Phase 1 merged | **Green · merged** (PR 4, [report](../../reports/TASK-005-008-app-developer.md)) |
+| [TASK-006](TASK-006-derived-queries-and-rules.md) | Derived wear values in SQL (dormancy, rescue eligibility), benchmark | TASK-005 | **Green · merged** (PR 4, [report](../../reports/TASK-005-008-app-developer.md)) |
+| [TASK-007](TASK-007-photo-privacy-pipeline.md) | Real photos, lossless metadata stripping, private attachments | TASK-005 | **Green · merged** (PR 4, [report](../../reports/TASK-005-008-app-developer.md)) |
+| [TASK-008](TASK-008-device-integrations-and-data-rights.md) | UC-09 local erasure: Avatar › Privacy & data (calendar, reminders, export and poster deferred) | TASK-005, TASK-007 | **Green · merged** (PR 4, [report](../../reports/TASK-005-008-app-developer.md)) |
+| [TASK-009](TASK-009-offline-reliability-validation.md) | Restart, app-kill, offline, and migration verification | TASK-005 through TASK-008 green | **Green · merged** (PR 4, [report](../../reports/TASK-009-app-developer.md)) |
 
 ### Phase 2 constraints
 
@@ -95,3 +95,4 @@ Red-phase commits stay on the feature branch: CI
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Aligned with spec T6 P1; links moved to `docs/policies/`; backend handoff linked. |
 | 2026-10-29 | — | Added the P2 persistent-offline task breakdown based on T6 P2-01 through P2-09. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Phase 1 merged; Phase 2 scope corrected to must-have; PowerSync table rules; statuses updated. |
+| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | TASK-009 green; Phase 2 complete and merged. |
