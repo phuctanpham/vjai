@@ -4,6 +4,7 @@ import 'package:sqlite_async/sqlite_async.dart';
 
 import '../../../core/errors/failures.dart';
 import '../../../core/storage/object_id.dart';
+import '../domain/dormancy.dart';
 import '../domain/wear_event.dart';
 import 'wear_repository.dart';
 
@@ -11,7 +12,8 @@ import 'wear_repository.dart';
 ///
 /// An event's ID is `deterministicObjectId([ownerId, wornDate, signature])`,
 /// so the same Fit logged twice on one day is one row on every device
-/// (TASK-005-S07).
+/// (TASK-005-S07). Each event's `items` JSON holds provisional `gap_days`
+/// and `rescue_eligible` per item (TASK-006-S03).
 class LocalWearRepository implements WearRepository {
   static const String _likeConfirm = 'LIKE_CONFIRM';
 
@@ -48,7 +50,8 @@ class LocalWearRepository implements WearRepository {
             _likeConfirm,
             event.signature,
             jsonEncode([
-              for (final itemId in event.itemIds) {'item_id': itemId},
+              for (final itemId in event.itemIds)
+                await _provisional(tx, itemId, event.wornDate),
             ]),
             DateTime.now().toIso8601String(),
           ],
@@ -109,6 +112,47 @@ class LocalWearRepository implements WearRepository {
           );
         }));
       });
+
+  /// Provisional `gap_days` and `rescue_eligible` for one Piece (N6, I12):
+  /// the gap runs from the previous logged wear, or from the save date, and
+  /// never from the Last-worn estimate. The server recomputes both from P4
+  /// (BE-003). A Piece not in the Archive has no gap.
+  Future<Map<String, Object?>> _provisional(
+    SqliteWriteContext tx,
+    String itemId,
+    DateTime wornDate,
+  ) async {
+    final previous = await tx.get(
+      'SELECT max(e.worn_date) AS last FROM wear_events e, json_each(e.items) j '
+      "WHERE e.user_id = ? AND json_extract(j.value, '\$.item_id') = ? "
+      'AND e.worn_date < ?',
+      [_ownerId, itemId, _date(wornDate)],
+    );
+    var from = previous['last'] as String?;
+    if (from == null) {
+      final saved = await tx.getOptional(
+        'SELECT created_at FROM wardrobe_items WHERE id = ? AND user_id = ?',
+        [itemId, _ownerId],
+      );
+      from = saved?['created_at'] as String?;
+    }
+    if (from == null) {
+      return {'item_id': itemId, 'gap_days': null, 'rescue_eligible': false};
+    }
+    final gap = _calendarDays(DateTime.parse(from), wornDate);
+    return {
+      'item_id': itemId,
+      'gap_days': gap,
+      'rescue_eligible': gap >= DormancyRules.thresholdDays,
+    };
+  }
+
+  /// Calendar days from [from] to [to], ignoring time of day and DST, as in
+  /// `DormancyRules`.
+  static int _calendarDays(DateTime from, DateTime to) =>
+      DateTime.utc(to.year, to.month, to.day)
+          .difference(DateTime.utc(from.year, from.month, from.day))
+          .inDays;
 
   /// Calendar date as `YYYY-MM-DD`.
   static String _date(DateTime day) => '${day.year.toString().padLeft(4, '0')}-'
