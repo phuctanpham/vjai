@@ -17,6 +17,9 @@ abstract class WearRepository {
   /// Latest worn date per item ID.
   Future<Map<String, DateTime>> lastWornByItem();
 
+  /// Number of wear events per item ID (derived, never stored, R2).
+  Future<Map<String, int>> wearCountByItem();
+
   Future<List<WearEvent>> getEvents();
 }
 
@@ -52,6 +55,17 @@ class MockWearRepository implements WearRepository {
       }
     }
     return lastWorn;
+  }
+
+  @override
+  Future<Map<String, int>> wearCountByItem() async {
+    final counts = <String, int>{};
+    for (final event in _events) {
+      for (final itemId in event.itemIds) {
+        counts[itemId] = (counts[itemId] ?? 0) + 1;
+      }
+    }
+    return counts;
   }
 
   @override

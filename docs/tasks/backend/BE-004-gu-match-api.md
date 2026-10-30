@@ -21,6 +21,15 @@ context cards from `MockGuMatchRepository`. The server takes over session
 creation, context gathering (with the 5 s per-source timeout the phone does
 not implement), deck generation, and interaction logging.
 
+**Deck ownership by phase (CHG-005):** in Phase 2 the phone writes
+`gu_match_sessions`, `outfit_candidates` and `interactions` to local SQLite.
+**P3 is download-only**, so the phone keeps generating and writing decks
+locally and queues them for upload. The server takes over deck generation in
+**P4**; from then on `gu_match_sessions` and `outfit_candidates` are written
+by the server and read-only on the phone (spec T4 phone schema), and the phone
+writes only `interactions` and swipe decisions. Table and column names are in
+[BE-006](BE-006-phone-schema-sync-parity.md).
+
 ## Contract fixed by Phase 1 (do not break)
 
 | Mobile type | Fields / rule | Test that pins it |
@@ -53,3 +62,4 @@ No LLM intent/naming (AI-003), no try-on (AI-002), no thank-you or rewards.
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Gu Match contract. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-004 green: not-a-dating-API warning; do not extend `/api/v1/swipes` or `/matches` (BE-005). |
+| 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Deck ownership: phone writes decks in P2 and P3 (queued), server from P4. |

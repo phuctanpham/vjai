@@ -25,13 +25,15 @@ A gate that cannot run (missing toolchain) is reported as **skipped** with the r
 | Python | ≥ 3.10 |
 | uv | latest |
 
-`pubspec.lock` and `uv.lock` must be committed. `.gitignore` currently ignores `*.lock` (CHG-002).
+`pubspec.lock` and `uv.lock` are committed ([CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)).
+
+Tests that open SQLite use the host library: the system `libsqlite3` on Linux and macOS, and on Windows a `sqlite3.dll` outside the repo (default `F:\tools\sqlite\sqlite3.dll`, or the path in `GARBLO_SQLITE3_DLL`). Benchmarks carry the `benchmark` tag and run with `flutter test --run-skipped --tags benchmark`.
 
 ## 3. CI
 **Today:** [`.github/workflows/android-apk.yml`](../../../.github/workflows/android-apk.yml)
 runs on every push to `main` (and on manual dispatch) with Flutter 3.24.5:
 `flutter pub get` → `dart format --output=none --set-exit-if-changed .` →
-`flutter analyze` → `flutter test` → release APK artifact. An unformatted file
+`flutter analyze` → `flutter test` → benchmark (`flutter test --run-skipped --tags benchmark`, 300 ms budget) → release APK artifact. An unformatted file
 fails the build ([CHG-004](../../changes/CHG-004-enforce-format-gate.md)).
 
 **Planned:** `.github/workflows/ci.yml`, triggered on pull requests to `main`:
@@ -58,3 +60,5 @@ flutter run          # requires platform folders, see CHG-002
 |---|---|---|
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created; gate commands moved here from README, DoD and copilot instructions |
 | 2026-10-29 | [CHG-004](../../changes/CHG-004-enforce-format-gate.md) | Flutter pinned to 3.24.5 (`.fvmrc`); CI checks formatting instead of rewriting it; existing APK workflow documented |
+| 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Lock files committed; host SQLite for tests; benchmark tag |
+| 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | CI runs the derived-query benchmark |

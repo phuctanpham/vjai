@@ -46,9 +46,12 @@ them in spec phases P3–P5 without changing the mobile features. None is
 | [BE-003](BE-003-wardrobe-and-wear-api.md) | Backend | Wardrobe items API, item-type catalog, wear events, dormancy parity | P3–P4 | `MockWardrobeRepository`, `MockWearRepository` | Blocked by BE-001 |
 | [BE-004](BE-004-gu-match-api.md) | Backend | Gu Match sessions, context events, rule-based generator, interactions, swap | P4 | `MockGuMatchRepository` | Blocked by BE-001 |
 | [BE-005](BE-005-retire-dating-mock-api.md) | Backend | Retire the dating mock API (`/api/v1/discovery`, `/swipes`, `/profiles`, `/matches`, `/chat`, `/auth` placeholder) and rewrite `backend/README.md` for the wardrobe product | before BE-002 | — | Proposed · needs a CHG |
+| [BE-006](BE-006-phone-schema-sync-parity.md) | Backend + DevOps | MongoDB collections and Sync Streams match phone schema v1: names, phone-generated ObjectIds, no DB uniqueness (deterministic IDs), install owner ID becomes the anonymous `sub` | P3–P4 | Local SQLite tables (Phase 2) | Blocked by BE-001 |
+| [BE-007](BE-007-privacy-erasure-and-export.md) | Backend | Server erasure (UC-09) with proof query and job cancellation; export after UC-19 | P4 | Local wipe (Phase 2) | Blocked by BE-001, gap ④ |
 | [AI-001](AI-001-outfit-extraction.md) | AI | Outfit extraction (segmentation, attributes, confidence, embeddings), pose/scene | P5 | Fixture items in `MockStudioRepository` | Blocked by BE-002 |
 | [AI-002](AI-002-virtual-try-on.md) | AI + Backend | Virtual try-on render pipeline and body-photo consent | P5 | "Try-on is coming soon" | Blocked by BE-004, SP-3 |
 | [AI-003](AI-003-agent-context-and-styling.md) | AI + Backend | Agent context (calendar, weather, mobility), LLM intent/naming, PII scrubber, embedding-ranked generator | P5 | Fixture context cards, `FakeCandidateGenerator` | Blocked by BE-004, SP-7 |
+| [AI-004](AI-004-on-device-blur-and-duplicates.md) | AI + Mobile | On-device bystander blur and duplicate detection, after Phase 2 metadata stripping | P5 | Metadata-only `PhotoSanitizer` | Blocked by SP-1, SP-4 |
 
 ---
 
@@ -104,13 +107,13 @@ graph TD
 | Task ID | Phase | Feature Title | Target Directory | Status | Specification Card |
 |---|---|---|---|---|---|
 | **TASK-001** | Phase 1 | App Shell & Multi-Platform Scaffold | `lib/app/` | `COMPLETED` | Architecture baseline |
-| **TASK-004** | Phase 1 | Discovery Feed & Adaptive Layout | `lib/features/discovery/` | `COMPLETED` | [APRD-001](../specs/APRD-001-discovery.md) |
-| **TASK-002** | Phase 2 | Authentication & Mock Session | `lib/features/auth/` | `READY TO CODE` | [Task](TASK-002-authentication.md) · [APRD](../specs/APRD-002-authentication.md) |
-| **TASK-003** | Phase 2 | Multi-Step Profile Onboarding Wizard | `lib/features/onboarding/` | `READY TO CODE` | [Task](TASK-003-profile-onboarding.md) · [APRD](../specs/APRD-003-profile-onboarding.md) |
-| **TASK-005** | Phase 3 | Local Swipe Persistence & Filtering | `lib/features/discovery/` | `READY TO CODE` | [Task](TASK-005-swipe-persistence.md) · [APRD](../specs/APRD-005-swipe-persistence.md) |
-| **TASK-006** | Phase 3 | Backend FastAPI API Integration | `lib/core/networking/` | `READY TO CODE` | [Task](TASK-006-backend-api-integration.md) · [APRD](../specs/APRD-006-backend-api-integration.md) |
-| **TASK-007** | Phase 3 | Mutual Match Formation & Celebration | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-007-mutual-matching.md) · [APRD](../specs/APRD-007-mutual-matching.md) |
-| **TASK-008** | Phase 3 | Matches Carousel & Connections View | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-008-matches-list.md) · [APRD](../specs/APRD-008-matches-list.md) |
+| **TASK-004** | Phase 1 | Discovery Feed & Adaptive Layout | `lib/features/discovery/` | `COMPLETED` | [APRD-001](../../archive/legacy/specs/APRD-001-discovery.md) |
+| **TASK-002** | Phase 2 | Authentication & Mock Session | `lib/features/auth/` | `READY TO CODE` | [Task](TASK-002-authentication.md) · [APRD](../../archive/legacy/specs/APRD-002-authentication.md) |
+| **TASK-003** | Phase 2 | Multi-Step Profile Onboarding Wizard | `lib/features/onboarding/` | `READY TO CODE` | [Task](TASK-003-profile-onboarding.md) · [APRD](../../archive/legacy/specs/APRD-003-profile-onboarding.md) |
+| **TASK-005** | Phase 3 | Local Swipe Persistence & Filtering | `lib/features/discovery/` | `READY TO CODE` | [Task](TASK-005-swipe-persistence.md) · [APRD](../../archive/legacy/specs/APRD-005-swipe-persistence.md) |
+| **TASK-006** | Phase 3 | Backend FastAPI API Integration | `lib/core/networking/` | `READY TO CODE` | [Task](TASK-006-backend-api-integration.md) · [APRD](../../archive/legacy/specs/APRD-006-backend-api-integration.md) |
+| **TASK-007** | Phase 3 | Mutual Match Formation & Celebration | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-007-mutual-matching.md) · [APRD](../../archive/legacy/specs/APRD-007-mutual-matching.md) |
+| **TASK-008** | Phase 3 | Matches Carousel & Connections View | `lib/features/matching/` | `READY TO CODE` | [Task](TASK-008-matches-list.md) · [APRD](../../archive/legacy/specs/APRD-008-matches-list.md) |
 | **TASK-009** | Phase 4 | Chat History & Message Bubbles | `lib/features/chat/` | `PLANNED` | [Task](TASK-009-chat-history.md) |
 | **TASK-010** | Phase 4 | Realtime Chat via WebSockets | `lib/features/chat/` | `PLANNED` | [Task](TASK-010-realtime-chat.md) |
 | **TASK-011** | Phase 5 | Push & In-App Notifications | `lib/features/notifications/` | `PLANNED` | [Task](TASK-011-push-notifications.md) |
@@ -161,7 +164,7 @@ If any gate is missing, update the documentation before implementation.
 When starting any task card from this backlog, the coding agent MUST execute the following 5-step loop:
 
 1. **Ingest Directives & Task Card**:
-   - Read [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md).
+   - Read [`.github/copilot-instructions.md`](../../../.github/copilot-instructions.md).
    - Read the specific task card (e.g. [`TASK-002-authentication.md`](TASK-002-authentication.md)).
    - Check the **Locked Files** list: do NOT modify any file listed under Locked Files.
 2. **Review Anti-Scope**:

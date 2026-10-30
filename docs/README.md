@@ -17,7 +17,7 @@ The **human** approves documents, edits agent specs, and merges code.
 
 | Type | Content | Written by | Location |
 |---|---|---|---|
-| **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`CLAUDE.md`, `.claude/agents/`, `.github/copilot-instructions.md`) |
+| **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.github/copilot-instructions.md`) |
 | **2 · Followed files** | Policies, backlog documents, change records, lessons | Tier A, one owner per file | `docs/policies/`, `docs/backlog/`, `docs/changes/`, `docs/memory/` |
 | **3 · Generated files** | Code lines and delivery reports | Tier B | `lib/`, `test/`, `backend/`, `docs/reports/` |
 
@@ -38,7 +38,9 @@ docs/
 │       └── engineering/         T2 · ASEM  implementation-plan · test-plan  (+ dataflow · functionality · event-stream)
 ├── changes/                     T2 · APM + ASEM   CHG-NNN change records
 ├── memory/LESSONS_LEARNED.md    T2 · ASEM
-└── reports/                     T3 · developers   one report per delivery
+├── reports/                     T3 · developers   one report per delivery
+├── tasks/                       T2 · mobile, backend and documentation tasks
+└── archive/legacy/              Superseded architecture, APRDs, DoD and the historical GUIDE.md
 ```
 
 ## 3. Context rules (keep agent context small)
@@ -83,10 +85,12 @@ A delivery is "in review" when its report exists in `docs/reports/`.
 4. **Report the truth.** Never claim a command passed without running it. List skipped commands and why.
 5. **No secrets.** Never commit credentials, tokens, keys or personal data.
 6. **Stop when blocked.** If followed files conflict or are missing, record it (report or CHG) and stop. Do not improvise.
-7. **Precedence when documents conflict:** agent specs > item card > uat.feature > implementation plan > test plan > policies > existing code.
+7. **Precedence when documents conflict:** agent specs > item card > uat.feature > implementation plan > test plan > Flow Spec (T7 for UI, T2 for data, T4 for platform, T6 for phases) > policies > existing code.
 
 ## Change history
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-16 | [CHG-001](changes/CHG-001-agentic-documentation-system.md) | System created; replaces GUIDE.MD, docs/architecture, docs/specs, docs/tasks, docs/quality |
+| 2026-10-16 | [CHG-001](changes/CHG-001-agentic-documentation-system.md) | System created; replaces the former root-level architecture, specs and quality sets |
+| 2026-10-30 | [CHG-007](changes/CHG-007-documentation-authority-migration.md) | Centralized superseded documents under `archive/legacy/`; active paths remain under policies, backlog, changes, tasks, memory and reports |
+| 2026-10-30 | [CHG-008](changes/CHG-008-claude-code-adapter.md) | Claude Code adapter: `CLAUDE.md`, `.claude/agents/` and `.claude/skills/` (flow-spec, gates); `GUIDE.MD` archived |

@@ -81,6 +81,17 @@ class OutfitDeckPanel extends StatelessWidget {
                 'Wearing this today?',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
+              // A failed "Wear today" stays on the prompt so it can be
+              // retried (TASK-009-S08).
+              if (state.errorMessage != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  state.errorMessage!,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                ),
+              ],
               const SizedBox(height: 16),
               PrimaryButton(label: 'Wear today', onPressed: onWearToday),
               const SizedBox(height: 8),

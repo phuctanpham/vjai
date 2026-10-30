@@ -4,7 +4,7 @@
 .flutter-plugins-dependencies
 .packages
 build/
-*.lock
+# Lock files are committed (CHG-005, ci-cd.md).
 
 # Python / FastAPI / uv
 __pycache__/
@@ -16,6 +16,10 @@ __pycache__/
 .coverage
 htmlcov/
 dist/
+
+# Claude Code: personal notes and settings (CLAUDE.md and .claude/ are shared)
+CLAUDE.local.md
+.claude/settings.local.json
 
 # IDE & OS
 .DS_Store

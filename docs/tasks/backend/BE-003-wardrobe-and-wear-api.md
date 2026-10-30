@@ -12,6 +12,16 @@ item-type catalog in Dart (`ItemTypeCatalog`), and computes dormancy on the
 phone (`DormancyRules`). The spec requires the server to compute the **same**
 values from the **same** golden fixtures (T3 › Shared rules, TAC-04.2).
 
+**From Phase 2 (CHG-005):** the phone stores `wardrobe_items` and
+`wear_events` in local SQLite with phone-generated ObjectIds. A wear event's
+ID is deterministic (hash of owner + worn date + Fit signature), so the same
+Fit logged twice on one day is one event on every device. Each event's
+`items` JSON carries **provisional** `gap_days` and `rescue_eligible`
+computed on the phone from logged wears only (N6); the server recomputes them
+authoritatively (I12) and its values replace the phone's on sync. Item IDs
+for indexed Pieces are hashed from their review draft ID, so a retried commit
+cannot duplicate. Names and types: [BE-006](BE-006-phone-schema-sync-parity.md).
+
 ## Contract fixed by Phase 1 (do not break)
 
 | Mobile type | Fields / rule | Test that pins it |
@@ -50,3 +60,4 @@ No rewards or rescue XP (Flow C).
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Wardrobe contract. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: Last-worn estimate, rescue rule parity (N6/I12), client-generated IDs, save atomicity, seed list. |
+| 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Phase 2: local deterministic wear IDs, provisional gap_days/rescue_eligible, draft-hashed item IDs. |

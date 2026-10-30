@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/failures.dart';
@@ -36,11 +38,48 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
         _clock = clock,
         super(GuMatchState.initial());
 
+  /// Restores the studio draft and, when the latest session still has
+  /// undecided Fits, reopens its deck at the first one (TASK-005-S03).
+  Future<void> restore() async {
+    await load();
+    if (!mounted) return;
+    try {
+      final draft = await _repository.loadContextDraft();
+      final snapshot = await _repository.loadLatestSession();
+      if (!mounted) return;
+      state = state.copyWith(context: draft);
+      final fits = snapshot?.candidates ?? const <OutfitCandidate>[];
+      final next =
+          fits.indexWhere((c) => c.swipeStatus == SwipeStatus.pendingSwipe);
+      if (snapshot == null || next < 0) return;
+      _shownAt = _clock.now();
+      state = state.copyWith(
+        phase: GuMatchPhase.deck,
+        session: snapshot.session,
+        cards: {
+          for (final kind in ContextCardKind.values)
+            kind: ContextCard.missing(kind),
+        },
+        isContextComplete: true,
+        deck: fits,
+        currentIndex: next,
+        likedCount: fits
+            .where((c) =>
+                c.swipeStatus == SwipeStatus.swipedRightLiked ||
+                c.swipeStatus == SwipeStatus.savedToLookbook)
+            .length,
+      );
+    } on Failure {
+      // Nothing to restore: the studio opens fresh.
+    }
+  }
+
   /// Loads the ready count (loaded, or empty when N = 0).
   Future<void> load() async {
     state = state.copyWith(status: GuMatchStatus.loading, clearError: true);
     try {
       final count = await _repository.readyItemCount();
+      if (!mounted) return;
       state = state.copyWith(
         status: count == 0 ? GuMatchStatus.empty : GuMatchStatus.loaded,
         readyCount: count,
@@ -58,11 +97,19 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
   void toggleOccasion(Occasion occasion) {
     if (state.phase != GuMatchPhase.studio) return;
     state = state.copyWith(context: state.context.toggle(occasion));
+    _saveDraft();
   }
 
   void setPrompt(String prompt) {
     if (state.phase != GuMatchPhase.studio) return;
     state = state.copyWith(context: state.context.withPrompt(prompt));
+    _saveDraft();
+  }
+
+  /// Keeps the chips and prompt between launches. Best effort.
+  void _saveDraft() {
+    unawaited(
+        _repository.saveContextDraft(state.context).catchError((Object _) {}));
   }
 
   /// Starts a session, reveals context cards as they arrive, then builds the
@@ -74,6 +121,7 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
 
     try {
       final session = await _repository.startSession(state.context);
+      if (!mounted) return;
       state = state.copyWith(
         session: session,
         phase: GuMatchPhase.analyzingContext,
@@ -105,6 +153,7 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
       );
 
       final deck = await _repository.buildDeck(session);
+      if (!mounted) return;
       _shownAt = _clock.now();
       state = state.copyWith(
         phase:
@@ -155,7 +204,8 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
     if (candidate == null || !state.isWearPromptVisible || state.isBusy) {
       return;
     }
-    state = state.copyWith(isBusy: true);
+    // A retry starts clean; a new failure sets the message again.
+    state = state.copyWith(isBusy: true, clearError: true);
     try {
       // false means this Fit is already logged today: not an error.
       await _repository.confirmWearing(candidate);
@@ -290,8 +340,15 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
     ));
   }
 
+  /// Records the decision on the current Fit and saves it, so the deck
+  /// resumes after a restart (TASK-005-S03). The save is issued at once.
   void _setStatus(SwipeStatus status) {
     final index = state.currentIndex;
+    if (index < state.deck.length) {
+      unawaited(_repository
+          .updateSwipeStatus(state.deck[index].candidateId, status)
+          .catchError((Object _) {}));
+    }
     state = state.copyWith(
       deck: [
         for (var i = 0; i < state.deck.length; i++)

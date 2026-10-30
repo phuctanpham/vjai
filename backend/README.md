@@ -1,6 +1,10 @@
-# Garblo Mock API Backend
+# Garblo Legacy Mock API Backend
 
-FastAPI mock server managed with [`uv`](https://docs.astral.sh/uv/) providing sample discovery data, profile browsing, and swipe recording for the Garblo cross-platform client.
+This FastAPI service is a deterministic, phase-limited mock managed with
+[`uv`](https://docs.astral.sh/uv/). It currently serves legacy dating fixtures
+for health and integration tests. It is not the target wardrobe backend for
+P3/P4; that platform decision is pending
+[BE-001](../docs/tasks/backend/BE-001-platform-decision.md).
 
 ## Architecture
 
@@ -73,7 +77,7 @@ uv run pytest
 | `GET` | `/api/v1/matches` | Placeholder matches list | `200 OK` |
 | `GET` | `/api/v1/chat/conversations` | Placeholder conversations list | `200 OK` |
 
-### Sample Discovery Profile JSON
+### Legacy sample profile JSON
 
 ```json
 {
@@ -89,4 +93,3 @@ uv run pytest
   ]
 }
 ```
-

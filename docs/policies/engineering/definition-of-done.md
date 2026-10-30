@@ -17,4 +17,4 @@ A delivery is done when every box is true. The ASEM checks this list and records
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Moved from `docs/quality/DOD.md`; commands moved to ci-cd.md, test rules to tdd.md |
+| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Moved from `docs/archive/legacy/quality/DOD.md`; commands moved to ci-cd.md, test rules to tdd.md |

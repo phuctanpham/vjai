@@ -28,6 +28,11 @@ jobs:
       - name: Generate Android host project
         run: flutter create --platforms=android --org com.garblo --project-name garblo .
 
+      - name: Set Android minSdk 23 (flutter_secure_storage 10, CHG-006 G-07)
+        run: |
+          sed -i -E 's/minSdk(Version)? = flutter\.minSdkVersion/minSdk = 23/' android/app/build.gradle
+          grep -q "minSdk = 23" android/app/build.gradle
+
       - name: Remove generated placeholder test
         run: rm -f test/widget_test.dart
 
@@ -42,6 +47,9 @@ jobs:
 
       - name: Run Flutter tests
         run: flutter test
+
+      - name: Run derived-query benchmark (TASK-009, 300 ms budget)
+        run: flutter test --run-skipped --tags benchmark
 
       - name: Build release APK
         run: flutter build apk --release

@@ -14,8 +14,10 @@ import '../domain/interaction.dart';
 import '../domain/occasion.dart';
 import '../domain/outfit_candidate.dart';
 import '../domain/session_path.dart';
+import '../domain/gu_match_snapshot.dart';
 import '../domain/slot_role.dart';
 import '../domain/styling_context.dart';
+import '../domain/swipe_status.dart';
 import 'fake_candidate_generator.dart';
 
 /// Provider for GuMatchRepository. Phase 1: fixtures and the on-phone
@@ -60,6 +62,19 @@ abstract class GuMatchRepository {
   /// Logs the Fit as worn today. Returns false when it was already logged
   /// today (TAC-07.4).
   Future<bool> confirmWearing(OutfitCandidate candidate);
+
+  /// Persists a decision on a Fit (pass, add to rotation, save for later).
+  Future<void> updateSwipeStatus(String candidateId, SwipeStatus status);
+
+  /// The latest session with its Fits and decisions, or null
+  /// (TASK-005-S03).
+  Future<GuMatchSnapshot?> loadLatestSession();
+
+  /// Keeps the studio chips and prompt between launches (local-only
+  /// `session_draft`).
+  Future<void> saveContextDraft(StylingContext context);
+
+  Future<StylingContext> loadContextDraft();
 }
 
 /// Phase 1 implementation. Decks come from [FakeCandidateGenerator], which
@@ -94,6 +109,11 @@ class MockGuMatchRepository implements GuMatchRepository {
 
   int _sessionCount = 0;
 
+  // The latest session, its deck with decisions, and the studio draft.
+  GuMatchSession? _session;
+  List<OutfitCandidate> _deck = const [];
+  StylingContext _draft = const StylingContext();
+
   MockGuMatchRepository({
     required WardrobeRepository wardrobeRepository,
     required WearRepository wearRepository,
@@ -113,7 +133,8 @@ class MockGuMatchRepository implements GuMatchRepository {
     final eligible = await _wardrobeRepository.countEligible();
     if (eligible == 0) throw const NoEligibleItemsFailure();
     _sessionCount++;
-    return GuMatchSession(
+    _deck = const [];
+    return _session = GuMatchSession(
       sessionId: 'session_$_sessionCount',
       path: context.path,
       occasions: context.occasions,
@@ -153,12 +174,14 @@ class MockGuMatchRepository implements GuMatchRepository {
   @override
   Future<GeneratedDeck> buildDeck(GuMatchSession session) async {
     final items = await _wardrobeRepository.getEligibleItems();
-    return generator.generate(
+    final deck = generator.generate(
       sessionId: session.sessionId,
       items: items,
       daysUnworn: await _daysUnworn(items),
       context: session.context,
     );
+    if (_session?.sessionId == session.sessionId) _deck = deck.candidates;
+    return deck;
   }
 
   @override
@@ -205,6 +228,29 @@ class MockGuMatchRepository implements GuMatchRepository {
       candidateId: candidate.candidateId,
     ));
   }
+
+  @override
+  Future<void> updateSwipeStatus(String candidateId, SwipeStatus status) async {
+    _deck = [
+      for (final c in _deck)
+        c.candidateId == candidateId ? c.copyWith(swipeStatus: status) : c,
+    ];
+  }
+
+  @override
+  Future<GuMatchSnapshot?> loadLatestSession() async {
+    final session = _session;
+    if (session == null) return null;
+    return GuMatchSnapshot(
+        session: session, candidates: List.unmodifiable(_deck));
+  }
+
+  @override
+  Future<void> saveContextDraft(StylingContext context) async =>
+      _draft = context;
+
+  @override
+  Future<StylingContext> loadContextDraft() async => _draft;
 
   ContextCard _occasionCard(GuMatchSession session) {
     if (session.path == SessionPath.promptLed) {

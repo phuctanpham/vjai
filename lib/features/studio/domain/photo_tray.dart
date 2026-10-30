@@ -25,7 +25,10 @@ class PhotoTray {
 
   /// Stages accepted photos after the current ones. Files that are not JPG or
   /// PNG are rejected; photos beyond [maxPhotos] are not added (I2).
-  PhotoTrayAddResult add(List<PickedPhoto> picked) {
+  /// [newAssetId] supplies asset IDs (ObjectIds in Phase 2); without it IDs
+  /// are `asset_<n>`.
+  PhotoTrayAddResult add(List<PickedPhoto> picked,
+      {String Function()? newAssetId}) {
     final staged = List.of(assets);
     var sequence = nextSequence;
     var rejected = 0;
@@ -38,7 +41,7 @@ class PhotoTray {
         overLimit++;
       } else {
         staged.add(MediaAsset(
-          assetId: 'asset_$sequence',
+          assetId: newAssetId?.call() ?? 'asset_$sequence',
           slotIndex: _lowestFreeSlot(staged),
           uri: photo.uri,
           mimeType: photo.mimeType,

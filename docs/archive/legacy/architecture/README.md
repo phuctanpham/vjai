@@ -119,15 +119,17 @@ The backend provides a mock API built with **FastAPI** and managed via **`uv`**:
 
 To enable a solo developer to effectively direct AI coding agents, the codebase enforces the **5-Layer Documentation Hierarchy**:
 
-1. **Governance & Directives**: [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) and [`docs/architecture/MAP.md`](MAP.md).
-2. **Domain & Strategy**: [Agentic PRDs (`docs/specs/`)](../specs/APRD-001-discovery.md) and [Ubiquitous Language (`docs/architecture/GLOSSARY.md`)](GLOSSARY.md).
+1. **Governance & Directives**: [`.github/copilot-instructions.md`](../../../../.github/copilot-instructions.md) and [`MAP.md`](MAP.md).
+2. **Domain & Strategy**: [Legacy APRDs (`../specs/`)](../specs/APRD-001-discovery.md) and [legacy glossary](GLOSSARY.md).
 3. **Architectural Decisions**:
    - [ADR 001: Feature-First Organization](001-feature-first-architecture.md)
    - [ADR 002: State Management with Riverpod](002-state-management.md)
    - [ADR 003: Adaptive Mobile & Desktop UI](003-adaptive-mobile-desktop-ui.md)
    - [ADR 004: Agentic Development Workflow](004-agentic-development-workflow.md)
    - [ADR 005: Agentic Product Management & Documentation Hierarchy](005-agentic-product-management.md)
-4. **Execution & Quality**: [Task Backlog (`docs/tasks/README.md`)](../tasks/README.md) and [Definition of Done (`docs/quality/DOD.md`)](../quality/DOD.md).
-5. **Living Memory**: [Lessons Learned & Guardrails (`docs/agent/LESSONS_LEARNED.md`)](../agent/LESSONS_LEARNED.md).
+4. **Execution & Quality**: [Active mobile tasks](../../../tasks/mobile/README.md), [active backend tasks](../../../tasks/backend/README.md) and [legacy DoD](../quality/DOD.md).
+5. **Living Memory**: [Lessons Learned & Guardrails](../../../memory/LESSONS_LEARNED.md).
 
-Every implementation task must connect an APRD (goal, scope, anti-scope, state model, and acceptance criteria) to a task card (file locks, dependencies, execution sequence, tests, and verification commands). The complete index is maintained in [`docs/tasks/README.md`](../tasks/README.md).
+Every implementation task must connect its scope and acceptance criteria to an
+active task card. The active indexes are maintained in the mobile and backend
+task README files linked above.

@@ -39,4 +39,4 @@ followed by a list of required non-scenario tests (edge cases, failures).
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created; merges test coverage rules from `docs/quality/DOD.md` |
+| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created; merges test coverage rules from `docs/archive/legacy/quality/DOD.md` |

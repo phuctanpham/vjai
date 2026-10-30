@@ -1,86 +1,76 @@
 # Data Schema
 
-The contract shared by Dart domain entities, Pydantic models, local storage and fixtures.
+The active wardrobe data contract is defined by the Flow Spec and the
+phase-specific records below. This policy points to those sources instead of
+maintaining a second dating API contract.
 
-## 1. Wire rules
-- JSON with **camelCase** keys. Pydantic fields are snake_case with a camelCase `alias`; Dart fields are camelCase.
-- Enums are lowercase strings (`"like"`, `"pass"`, `"superlike"`).
-- IDs are strings. Profiles use `usr_NN`.
-- Timestamps are ISO-8601 UTC strings (`2026-10-16T08:30:00Z`).
-- Errors are HTTP status codes with FastAPI's `{"detail": "..."}` body.
-- All routes are under `/api/v1/`, except `GET /health`.
+## 1. Authority by phase
 
-## 2. Entities
+| Concern | Source |
+|---|---|
+| Logical entities and names | Flow Spec T2 |
+| Phone tables and column types | Flow Spec T4 and [CHG-005 phone schema v1](../../changes/CHG-005-phase-2-local-persistence.md) |
+| AI processing jobs | [CHG-006 G-03](../../changes/CHG-006-phase-2-green-decisions.md) |
+| UI-facing repository behavior | Flow Spec T6 and the applicable mobile task card |
+| Backend platform and wire contracts | BE-001, pending before P3 |
 
-### Profile
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `id` | string | yes | `usr_NN` |
-| `name` | string | yes | |
-| `age` | int | yes | ≥ 18 |
-| `bio` | string | yes | may be empty |
-| `occupation` | string | yes | may be empty |
-| `distanceKm` | int | yes | fixture value; no geolocation |
-| `interests` | string[] | no | default `[]` |
-| `imageUrls` | string[] | no | default `[]` |
+## 2. Phone schema v1
 
-### SwipeRequest → SwipeResponse
-| Request field | Type | | Response field | Type |
-|---|---|---|---|---|
-| `profileId` | string | | `success` | bool |
-| `swipeType` | `like`·`pass`·`superlike` | | `profileId` | string |
-| | | | `swipeType` | enum |
-| | | | `matched` | bool, default `false` |
+The declarative implementation is
+`lib/core/storage/phone_schema.dart`. Every synced table has an
+`id TEXT PRIMARY KEY`; other columns use only `TEXT`, `INTEGER` or `REAL`.
+Dates are ISO-8601 text, booleans are integer `0`/`1`, and structured values
+are JSON stored as text.
 
-### HealthResponse
-`{ "status": "ok", "service": "garblo-api" }`
+The current tables are:
 
-### LoginRequest → AuthSession (BL-002)
-| Request field | Type | | Response field | Type |
-|---|---|---|---|---|
-| `email` | string | | `userId` | string |
-| `password` | string | | `token` | string, non-empty |
-| | | | `expiresAt` | ISO-8601 UTC |
+- `wardrobe_items`
+- `wear_events`
+- `upload_batches`
+- `media_assets`
+- `ai_processing_jobs`
+- `extracted_items`
+- `consents`
+- `interactions`
+- `gu_match_sessions`
+- `outfit_candidates`
+- `item_types`
+- local-only `session_draft`
 
-Mock rule: password `wrong-password` → `401 {"detail": "Invalid email or password"}`; any other well-formed request → `200` with `userId: "me_01"`, `token: "mock-token-me_01"`, `expiresAt: "2099-01-01T00:00:00Z"`.
+Use CHG-005 for the authoritative columns and indexes. Use CHG-006 for the
+one-job-per-photo-and-task rule and deterministic job IDs.
 
-## 3. Endpoints
+## 3. Persistence and idempotency rules
 
-| Method | Path | Request | Response | Owner item |
-|---|---|---|---|---|
-| GET | `/health`, `/api/v1/health` | — | HealthResponse | BL-001 |
-| GET | `/api/v1/discovery` | — | Profile[] | BL-004 |
-| GET | `/api/v1/profiles/{id}` | — | Profile or 404 | BL-004 |
-| POST | `/api/v1/swipes` | SwipeRequest | SwipeResponse | BL-004 |
-| GET | `/api/v1/auth/status` | — | `{authenticated, provider}` placeholder | BL-002 |
-| POST | `/api/v1/auth/login` | LoginRequest | AuthSession or 401 | BL-002 |
-| POST | `/api/v1/auth/logout` | — | `{success: true}` | BL-002 |
-| GET | `/api/v1/matches` | — | `{matches: []}` placeholder | BL-008 |
-| GET | `/api/v1/chat/conversations` | — | `{conversations: []}` placeholder | BL-009 |
+- Synced tables have no foreign keys or `UNIQUE` constraints on the phone.
+- Idempotency comes from deterministic IDs and an existence check in the same
+  write transaction.
+- `wear_events` and `consents` are append-only.
+- Derived values such as last worn, wear count and dormancy come from
+  `wear_events`; do not add editable counters to the phone schema.
+- The owner ID is generated once per install and stored securely.
 
-## 4. Fixtures
-- `backend/app/data/sample_data.py` is the source of truth for sample profiles `usr_01`–`usr_05`. `MockDiscoveryRepository` in Dart mirrors it.
-- Deterministic mock rule: a `like` or `superlike` on `usr_01` (Alex Chen) returns `matched: true`; everything else returns `false`.
-- Known drift: `usr_01` has 2 `imageUrls` in Python but 1 in Dart ([CHG-002](../../changes/CHG-002-restore-green-build.md)).
+## 4. Phase boundaries
 
-## 5. Local storage keys
+- **P1:** in-memory repositories and fake analysis; no SQLite, PowerSync,
+  backend API or ML.
+- **P2:** local SQLite/SQLCipher using the phone schema v1; fake analysis and
+  rule-based Gu Match remain local.
+- **P3:** PowerSync replaces the SQLite database behind repository interfaces;
+  final read/write ownership is governed by T4 and the resolved backend
+  decision.
+- **P4/P5:** backend services and real AI are introduced according to T4/T6.
 
-| Key | Value | Owner item |
-|---|---|---|
-| `garblo_swiped_profile_ids` | JSON array of profile IDs | BL-005 |
-| `auth_token` | AuthSession as JSON | BL-002 |
+## 5. Backend contract status
 
-New keys must be added here before use.
-
-## 6. Configuration
-
-| Name | Where | Default |
-|---|---|---|
-| `API_BASE_URL` | Flutter `--dart-define` | `http://localhost:8080` (BL-006) |
-| `PORT`, `HOST`, `ENV`, `SERVICE_NAME` | backend env | `8080`, `0.0.0.0`, `development`, `garblo-api` |
+The old `/api/v1/discovery`, dating profile schema and dating storage keys are
+legacy contracts only. Do not extend them for wardrobe work. The wardrobe
+REST, sync and authentication contracts remain blocked on
+[BE-001](../../tasks/backend/BE-001-platform-decision.md).
 
 ## Change history
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the code, backend README and backlog items; `API_BASE_URL` chosen over README's `API_URL` |
+| 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Created from the previous implementation contract |
+| 2026-10-30 | [CHG-007](../../changes/CHG-007-documentation-authority-migration.md) | Replaced the dating API contract with the Flow Spec and Phase 2 phone schema authorities |

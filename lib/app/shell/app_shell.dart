@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/layout/breakpoints.dart';
 import '../../core/navigation/pillar.dart';
+import '../router.dart';
 import 'pillar_pages.dart';
 
 /// App shell: header (wordmark, temperature, bell) and pillar navigation.
@@ -110,6 +111,17 @@ class _ShellHeader extends StatelessWidget implements PreferredSizeWidget {
           tooltip: 'Notifications',
           icon: const Icon(Icons.notifications_none_rounded),
           onPressed: () {},
+        ),
+        // Avatar › Privacy & data (CHG-005 P2-D3). A person icon until
+        // first launch provides the first-name initial.
+        IconButton(
+          tooltip: 'Privacy & data',
+          icon: const CircleAvatar(
+            radius: 14,
+            child: Icon(Icons.person_outline_rounded, size: 18),
+          ),
+          onPressed: () =>
+              Navigator.of(context).pushNamed(AppRouter.privacyRoute),
         ),
         const SizedBox(width: 8),
       ],

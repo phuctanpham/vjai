@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/failures.dart';
 import '../domain/analysis_selection.dart';
+import '../domain/batch_status.dart';
 import '../domain/extracted_item.dart';
 import '../domain/media_asset.dart';
+import '../domain/photo_storage.dart';
 import '../domain/privacy_consent.dart';
 import '../domain/review_draft.dart';
+import '../domain/upload_batch.dart';
 
 /// Provider for StudioRepository. Phase 1: fixture analysis, no network.
 /// The short delay lets the demo show the "Reading photos" state.
@@ -25,6 +28,27 @@ abstract class StudioRepository {
     required List<MediaAsset> assets,
     required AnalysisSelection selection,
   });
+
+  /// The consent that is not revoked, if any (TASK-008-S03).
+  Future<PrivacyConsent?> activeConsent();
+
+  /// The batch that is not yet completed or deleted, for restore after a
+  /// restart (TASK-005-S03).
+  Future<UploadBatch?> loadOpenBatch();
+
+  /// Persists the batch: status, tray assets, selection, consent link and
+  /// review drafts with edits.
+  Future<void> saveBatch(UploadBatch batch);
+
+  /// Sanitizes and stores the picked bytes of newly staged photos. A photo
+  /// that fails is not stored at all (TASK-007-S05).
+  Future<PhotoStorageResult> storePhotos({
+    required String batchId,
+    required List<StagedPhoto> photos,
+  });
+
+  /// Deletes the batch, its assets, drafts and files (TASK-007-S07).
+  Future<void> discardBatch(String batchId);
 }
 
 /// One fixture item that the fake analysis returns for a photo.
@@ -101,6 +125,11 @@ class MockStudioRepository implements StudioRepository {
   /// The assets passed to each [analyze] call, in order.
   final List<List<MediaAsset>> analyzedAssets = [];
 
+  /// Every batch passed to [saveBatch], in order.
+  final List<UploadBatch> savedBatches = [];
+
+  UploadBatch? _openBatch;
+
   MockStudioRepository({
     this.fixtures = presetFixtures,
     this.failingUris = const {},
@@ -158,6 +187,41 @@ class MockStudioRepository implements StudioRepository {
       failedPhotoCount: failed,
       items: List.unmodifiable(items),
     );
+  }
+
+  @override
+  Future<PrivacyConsent?> activeConsent() async {
+    for (final consent in recordedConsents.reversed) {
+      if (consent.isActive) return consent;
+    }
+    return null;
+  }
+
+  @override
+  Future<UploadBatch?> loadOpenBatch() async => _openBatch;
+
+  @override
+  Future<void> saveBatch(UploadBatch batch) async {
+    savedBatches.add(batch);
+    final closed = batch.status == BatchStatus.completed ||
+        batch.status == BatchStatus.deletedByUser;
+    _openBatch = closed ? null : batch;
+  }
+
+  /// No bytes are kept in memory: assets are stored as they are.
+  @override
+  Future<PhotoStorageResult> storePhotos({
+    required String batchId,
+    required List<StagedPhoto> photos,
+  }) async =>
+      PhotoStorageResult(
+        stored: [for (final photo in photos) photo.asset],
+        failedAssetIds: const [],
+      );
+
+  @override
+  Future<void> discardBatch(String batchId) async {
+    if (_openBatch?.batchId == batchId) _openBatch = null;
   }
 
   Future<void> _wait() async {
