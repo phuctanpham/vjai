@@ -27,14 +27,40 @@ class LocalDataStore {
   SqliteDatabase get database =>
       _database ?? (throw StateError('Open the local data store first.'));
 
-  /// Opens the database with the install's key.
+  /// Opens the database with the install's key, then removes photo files
+  /// that no row references (CHG-009 V-02, TASK-009-S07).
   Future<SqliteDatabase> open() async {
     final key = await identity.databaseKey();
-    return _database = await GarbloDatabase.open(
+    final db = _database = await GarbloDatabase.open(
       path: databasePath,
       key: key,
       beforeOpen: beforeOpen,
     );
+    await _removeOrphanAttachments(db);
+    return db;
+  }
+
+  /// Files are written before their row and deleted after it, so a kill in
+  /// between can only leave a file without a row, never a row without its
+  /// file. Runs before the app uses the store, so no write is in flight.
+  Future<void> _removeOrphanAttachments(SqliteDatabase db) async {
+    try {
+      final rows = await db.getAll(
+        'SELECT attachment_id AS id FROM media_assets '
+        'WHERE attachment_id IS NOT NULL '
+        'UNION SELECT cutout_attachment_id FROM wardrobe_items '
+        'WHERE cutout_attachment_id IS NOT NULL '
+        'UNION SELECT cutout_attachment_id FROM extracted_items '
+        'WHERE cutout_attachment_id IS NOT NULL',
+      );
+      final referenced = {for (final row in rows) row['id'] as String};
+      for (final id in await attachments.listIds()) {
+        if (!referenced.contains(id)) await attachments.delete(id);
+      }
+    } catch (_) {
+      // Best effort: an orphan is retried at the next open and removed by
+      // "Delete all"; it must not stop the app from opening.
+    }
   }
 
   /// Closes the database, deletes its files and every attachment, forgets

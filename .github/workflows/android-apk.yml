@@ -48,6 +48,9 @@ jobs:
       - name: Run Flutter tests
         run: flutter test
 
+      - name: Run derived-query benchmark (TASK-009, 300 ms budget)
+        run: flutter test --run-skipped --tags benchmark
+
       - name: Build release APK
         run: flutter build apk --release
 

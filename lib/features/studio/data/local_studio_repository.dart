@@ -65,24 +65,35 @@ class LocalStudioRepository implements StudioRepository {
   static final List<List<StudioFixtureItem>> _samples =
       MockStudioRepository.presetFixtures.values.toList();
 
+  /// The ID is hashed from the consent, so replaying it after a crash adds
+  /// no row, and the insert never touches an existing (possibly withdrawn)
+  /// one (CHG-009 V-01, TASK-009-S05).
   @override
   Future<PrivacyConsent> recordConsent(PrivacyConsent consent) =>
       _write('Could not record your consent.', () async {
+        final grantedAt = consent.grantedAt.toIso8601String();
         final stored = PrivacyConsent(
-          id: _ids.next(),
+          id: deterministicObjectId([
+            _ownerId,
+            consent.version,
+            grantedAt,
+            '${consent.includesBodyProcessing}',
+          ]),
           version: consent.version,
           grantedAt: consent.grantedAt,
           includesBodyProcessing: consent.includesBodyProcessing,
         );
         await _db.execute(
           'INSERT INTO consents(id, user_id, version, includes_body, '
-          'granted_at) VALUES (?, ?, ?, ?, ?)',
+          'granted_at) SELECT ?, ?, ?, ?, ? '
+          'WHERE NOT EXISTS (SELECT 1 FROM consents WHERE id = ?)',
           [
             stored.id,
             _ownerId,
             stored.version,
             stored.includesBodyProcessing ? 1 : 0,
-            stored.grantedAt.toIso8601String(),
+            grantedAt,
+            stored.id,
           ],
         );
         return stored;

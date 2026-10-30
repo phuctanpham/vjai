@@ -204,7 +204,8 @@ class GuMatchViewModel extends StateNotifier<GuMatchState> {
     if (candidate == null || !state.isWearPromptVisible || state.isBusy) {
       return;
     }
-    state = state.copyWith(isBusy: true);
+    // A retry starts clean; a new failure sets the message again.
+    state = state.copyWith(isBusy: true, clearError: true);
     try {
       // false means this Fit is already logged today: not an error.
       await _repository.confirmWearing(candidate);
