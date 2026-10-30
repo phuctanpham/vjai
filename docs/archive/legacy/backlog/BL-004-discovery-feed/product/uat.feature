@@ -41,3 +41,4 @@ Feature: Discovery feed and adaptive layout
     When candidates are loaded
     Then the profile card fills the width with the Pass, Superlike and Like buttons below it
     And no sidebar is shown
+# Archived legacy dating BDD; not an active requirement.

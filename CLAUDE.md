@@ -25,7 +25,7 @@ Role specs are in `docs/agents/`. Matching subagents are in `.claude/agents/` (`
 | Current: build on it | Legacy: read-only, do not extend or reuse its vocabulary |
 |---|---|
 | `apps/mobile/lib/features/{studio,wardrobe,gu_match,privacy}`, `apps/mobile/lib/core/`, `apps/mobile/lib/app/` | `apps/mobile/lib/features/discovery/` and the `*_placeholder.dart` features |
-| `docs/tasks/`, `docs/changes/`, `docs/policies/`, Flow Spec | `docs/backlog/BL-*` (dating backlog), `docs/archive/` |
+| `docs/tasks/`, `docs/changes/`, `docs/policies/`, Flow Spec | `docs/archive/legacy/` (dating backlog and superseded documents) |
 | Wardrobe terms in `terminology.md` | `backend/` dating endpoints (platform pending [BE-001](docs/tasks/backend/BE-001-platform-decision.md)) |
 
 ## Commands

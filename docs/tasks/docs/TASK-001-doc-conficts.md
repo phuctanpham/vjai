@@ -51,7 +51,14 @@ decision record until BE-001 is resolved, and do not delete legacy documents
 under this task.
 
 The former `docs/architecture/`, `docs/specs/` and `docs/quality/` directories
-are now preserved under [`docs/archive/legacy/`](../../archive/legacy/). Active
-documents remain centralized in `policies/`, `backlog/`, `changes/`, `tasks/`,
-`memory/` and `reports/`. All repository references, including the agent
-instructions, were updated to the new paths.
+are preserved under [`docs/archive/legacy/`](../../archive/legacy/), alongside
+the retired dating backlog. Active documents remain centralized in
+`policies/`, `changes/`, `tasks/`, `memory/` and `reports`. The duplicate
+`docs/docs/` snapshot was removed under CHG-013, and the Type 1 root README and
+adapter references were updated in the integration pass.
+
+## Change history
+
+| Date | CHG | Change |
+|---|---|---|
+| 2026-10-30 | [CHG-013](../../changes/CHG-013-final-documentation-cleanup.md) | Recorded final archive relocation and completed the Type 1 integration pass. |

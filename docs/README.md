@@ -18,7 +18,7 @@ The **human** approves documents, edits agent specs, and merges code.
 | Type | Content | Written by | Location |
 |---|---|---|---|
 | **1 · Agent specs** | Role, skills, workflow, followed files, generated files | Human | `docs/README.md`, `docs/agents/`, tool adapters (`GEMINI.md`, `AGENTS.md`, `.agents/`, `CLAUDE.md`, `.claude/agents/`, `.claude/skills/`, `.github/copilot-instructions.md`) |
-| **2 · Followed files** | Policies, backlog documents, change records, lessons | Tier A, one owner per file | `docs/policies/`, `docs/backlog/`, `docs/changes/`, `docs/memory/` |
+| **2 · Followed files** | Policies, phase and platform tasks, change records, lessons | Tier A, one owner per file | `docs/policies/`, `docs/tasks/`, `docs/changes/`, `docs/memory/` |
 | **3 · Generated files** | Code lines and delivery reports | Tier B | `apps/mobile/lib/`, `apps/mobile/test/`, `backend/`, `docs/reports/` |
 
 ```text
@@ -29,17 +29,13 @@ docs/
 │   ├── product/                 T2 · APM   terminology · design-system · bdd
 │   └── engineering/             T2 · ASEM  architecture · codebase-map · data-schema · coding-conventions
 │                                           tdd · ci-cd · definition-of-done · decisions
-├── backlog/
-│   ├── README.md                T2 · APM   index and status
-│   ├── _TEMPLATE/               copy to start an item
-│   └── BL-NNN-<slug>/
-│       ├── README.md            T2 · APM   item card: goal, scope, anti-scope, status, product acceptance
-│       ├── product/             T2 · APM   uat.feature  (+ ui-ux · user-flow · information-layout · interactions)
-│       └── engineering/         T2 · ASEM  implementation-plan · test-plan  (+ dataflow · functionality · event-stream)
 ├── changes/                     T2 · APM + ASEM   CHG-NNN change records
 ├── memory/LESSONS_LEARNED.md    T2 · ASEM
 ├── reports/                     T3 · developers   one report per delivery
 ├── tasks/                       T2 · mobile, backend and documentation tasks
+│   ├── mobile/                  wardrobe phase tasks and Flow Spec
+│   ├── backend/                 future platform and AI tasks
+│   └── docs/                    documentation reconciliation tasks (`DOC-NNN`)
 └── archive/legacy/              Superseded architecture, APRDs, DoD and the historical GUIDE.md
 ```
 
@@ -95,4 +91,5 @@ A delivery is "in review" when its report exists in `docs/reports/`.
 | 2026-10-30 | [CHG-007](changes/CHG-007-documentation-authority-migration.md) | Centralized superseded documents under `archive/legacy/`; active paths remain under policies, backlog, changes, tasks, memory and reports |
 | 2026-10-30 | [CHG-008](changes/CHG-008-claude-code-adapter.md) | Claude Code adapter: `CLAUDE.md`, `.claude/agents/` and `.claude/skills/` (flow-spec, gates); `GUIDE.MD` archived |
 | 2026-10-30 | [CHG-010](changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-013](changes/CHG-013-final-documentation-cleanup.md) | Removed duplicate active-looking documentation paths, archived the dating backlog, and standardized documentation task IDs as `DOC-NNN` |
 | 2026-10-30 | Antigravity Adapter | Google Antigravity adapter: `GEMINI.md`, `AGENTS.md`, `.agents/skills/` (flow-spec, gates), and `.agents/rules/` |

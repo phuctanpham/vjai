@@ -35,3 +35,4 @@ Feature: Matches and connections view
     Given the list shows "Alex Chen"
     When the user taps "Alex Chen"
     Then the conversation placeholder for "Alex Chen" is opened
+# Archived legacy dating BDD; not an active requirement.

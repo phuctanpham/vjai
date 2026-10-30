@@ -47,7 +47,7 @@ The operating environment is **Windows** with **PowerShell** as the primary shel
 | Current (Build upon & test) | Legacy (Read-only, do not extend or reuse) |
 |---|---|
 | `apps/mobile/lib/features/{studio,wardrobe,gu_match,privacy}`, `apps/mobile/lib/core/`, `apps/mobile/lib/app/` | `apps/mobile/lib/features/discovery/` and `*_placeholder.dart` features (dating code) |
-| `docs/tasks/`, `docs/changes/`, `docs/policies/`, Flow Spec | `docs/backlog/BL-*` (legacy dating backlog), `docs/archive/` |
+| `docs/tasks/`, `docs/changes/`, `docs/policies/`, Flow Spec | `docs/archive/legacy/` (legacy dating backlog and superseded documents) |
 | Wardrobe terms in `docs/policies/product/terminology.md` | `backend/` dating endpoints (pending platform decision [BE-001](docs/tasks/backend/BE-001-platform-decision.md)) |
 
 ---
@@ -143,4 +143,3 @@ When working on complex tasks or using Antigravity subagents (`invoke_subagent`)
 3. **No Secret Commits:** Never expose or commit keys, tokens, or credentials (e.g. `atlas-credentials.env`).
 4. **Precedence on Conflict:** Agent specs > Item card > `uat.feature` > Implementation plan > Test plan > Flow Spec > Policies > Existing code. When a conflict is found, record it in a CHG note and stop; never guess.
 5. **Never Fake Gates:** Never claim a test or check passed without running it. Report failures faithfully.
-

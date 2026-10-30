@@ -38,3 +38,4 @@ Feature: Mutual match and celebration
     Given the user is viewing "Alex Chen"
     When the user taps "Pass"
     Then no celebration is shown
+# Archived legacy dating BDD; not an active requirement.

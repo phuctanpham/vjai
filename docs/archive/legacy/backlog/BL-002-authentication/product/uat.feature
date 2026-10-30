@@ -65,3 +65,4 @@ Feature: Authentication and session
       | width | layout                          |
       | 400   | full width                      |
       | 1280  | a centred card at most 420 wide |
+# Archived legacy dating BDD; not an active requirement.

@@ -33,3 +33,4 @@ Feature: Local swipe persistence and feed filtering
     When the user taps "Like" on "usr_01"
     Then an error message is shown
     And "usr_01" is not reported as remembered
+# Archived legacy dating BDD; not an active requirement.

@@ -26,3 +26,4 @@ Feature: Backend discovery API integration
     When the discovery feed loads
     Then the sample profiles are shown
     And a fallback warning is logged
+# Archived legacy dating BDD; not an active requirement.

@@ -6,3 +6,4 @@ Feature: <Item title>
     Given <context>
     When <user action>
     Then <observable outcome>
+# Archived legacy dating BDD template; not an active requirement.
