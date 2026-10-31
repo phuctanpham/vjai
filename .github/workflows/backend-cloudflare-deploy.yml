@@ -1,0 +1,108 @@
+name: Deploy backend Worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+  workflow_dispatch:
+
+concurrency:
+  group: backend-cloudflare-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Test and deploy backend Worker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_WORKER_NAME: ${{ secrets.CLOUDFLARE_WORKER_NAME }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js for Wrangler
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate deployment configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test "$CLOUDFLARE_WORKER_NAME" = "garblo"
+          test -n "$MONGODB_URI"
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Run backend tests
+        run: uv run pytest
+
+      - name: Install Python Worker tooling
+        run: uv sync --dev
+
+      - name: Deploy Worker
+        run: uv run pywrangler deploy --config wrangler.jsonc
+
+      - name: Provision MongoDB Atlas runtime secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s' "$MONGODB_URI" | uv run pywrangler secret put MONGODB_URI --config wrangler.jsonc
+
+      - name: Smoke-test canonical Worker hostname
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail-with-body --silent --show-error --retry 5 --retry-delay 3 \
+            --connect-timeout 10 --max-time 30 "https://api.phamtanph.uk/health")"
+          printf '%s' "$response" | grep -q '"status"'
+
+      - name: Delete non-active historical deployments
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts/${CLOUDFLARE_WORKER_NAME}/deployments"
+          auth_header="Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
+          deployments="$(curl --fail-with-body --silent --show-error \
+            -H "$auth_header" "$api?per_page=100")"
+          printf '%s' "$deployments" | jq -e '.success == true and (.result | type == "array")' >/dev/null
+          active_id="$(printf '%s' "$deployments" | jq -r '
+            [.result[] | select(.id != null)] |
+            sort_by(.created_on // "") |
+            last.id // empty
+          ')"
+          test -n "$active_id"
+
+          while IFS= read -r deployment_id; do
+            test -n "$deployment_id" || continue
+            delete_response="$(curl --fail-with-body --silent --show-error --request DELETE \
+              -H "$auth_header" "$api/$deployment_id")"
+            printf '%s' "$delete_response" | jq -e '.success == true' >/dev/null
+          done < <(printf '%s' "$deployments" | jq -r --arg active "$active_id" '
+            .result[] | select(.id != null and .id != $active) | .id
+          ')
