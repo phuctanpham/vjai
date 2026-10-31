@@ -7,7 +7,4 @@
     "python_workers",
     "python_dedicated_snapshot"
   ],
-  "observability": {
-    "enabled": true
-  }
 }
