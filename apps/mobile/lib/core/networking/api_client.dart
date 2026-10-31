@@ -1,3 +1,5 @@
+import 'api_config.dart';
+
 /// Interface defining core HTTP client contract.
 abstract class ApiClient {
   Future<dynamic> get(String path,
@@ -10,7 +12,7 @@ abstract class ApiClient {
 class MockApiClient implements ApiClient {
   final String baseUrl;
 
-  const MockApiClient({this.baseUrl = 'http://localhost:8080'});
+  const MockApiClient({this.baseUrl = ApiConfig.baseUrl});
 
   @override
   Future<dynamic> get(String path,

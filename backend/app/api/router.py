@@ -1,10 +1,19 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import auth, chat, discovery, health, matches, openai_health
+from app.api.v1.endpoints import (
+    auth,
+    chat,
+    deployment_health,
+    discovery,
+    health,
+    matches,
+    openai_health,
+)
 
 api_router = APIRouter()
 
 # Health endpoints mounted at root /health and /api/v1/health
 api_router.include_router(health.router)
+api_router.include_router(deployment_health.router)
 api_router.include_router(openai_health.router)
 
 # Discovery and swipe endpoints

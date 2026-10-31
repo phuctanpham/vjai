@@ -109,26 +109,52 @@ jobs:
           printf '%s' "$response" | jq -e \
             '.status == "ok" and .provider == "openai" and .model == "gpt-4o-mini"' >/dev/null
 
+      - name: Resolve active deployment metadata
+        id: deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts/${CLOUDFLARE_WORKER_NAME}/deployments"
+          deployments="$(curl --fail-with-body --silent --show-error \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" "$api?per_page=100")"
+          printf '%s' "$deployments" | jq -e '.success == true and (.result | type == "array")' >/dev/null
+          deployment_id="$(printf '%s' "$deployments" | jq -r '.result[0].id // empty')"
+          test -n "$deployment_id"
+          printf 'deployment_id=%s\n' "$deployment_id" >> "$GITHUB_OUTPUT"
+          printf 'Active Cloudflare deployment: %s\n' "$deployment_id"
+
+      - name: Smoke-test commit and deployment metadata URL
+        shell: bash
+        env:
+          DEPLOYMENT_ID: ${{ steps.deployment.outputs.deployment_id }}
+        run: |
+          set -euo pipefail
+          response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
+            --connect-timeout 10 --max-time 30 \
+            -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
+            --get "https://api.phamtanph.uk/health/deployment" \
+            --data-urlencode "commit_id=${GITHUB_SHA}" \
+            --data-urlencode "deployment_id=${DEPLOYMENT_ID}")"
+          printf '%s' "$response" | jq -e \
+            --arg commit "$GITHUB_SHA" --arg deployment "$DEPLOYMENT_ID" \
+            '.status == "ok" and .commit_id == ($commit | ascii_downcase) and .deployment_id == $deployment' >/dev/null
+          printf 'Verified commit %s on deployment %s\n' "$GITHUB_SHA" "$DEPLOYMENT_ID"
+
       - name: Delete non-active historical deployments
         shell: bash
         run: |
           set -euo pipefail
           api="https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/workers/scripts/${CLOUDFLARE_WORKER_NAME}/deployments"
-          auth_header="Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
           deployments="$(curl --fail-with-body --silent --show-error \
-            -H "$auth_header" "$api?per_page=100")"
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" "$api?per_page=100")"
           printf '%s' "$deployments" | jq -e '.success == true and (.result | type == "array")' >/dev/null
-          active_id="$(printf '%s' "$deployments" | jq -r '
-            [.result[] | select(.id != null)] |
-            sort_by(.created_on // "") |
-            last.id // empty
-          ')"
+          active_id="$(printf '%s' "$deployments" | jq -r '.result[0].id // empty')"
           test -n "$active_id"
 
           while IFS= read -r deployment_id; do
             test -n "$deployment_id" || continue
             delete_response="$(curl --fail-with-body --silent --show-error --request DELETE \
-              -H "$auth_header" "$api/$deployment_id")"
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" "$api/$deployment_id")"
             printf '%s' "$delete_response" | jq -e '.success == true' >/dev/null
           done < <(printf '%s' "$deployments" | jq -r --arg active "$active_id" '
             .result[] | select(.id != null and .id != $active) | .id
