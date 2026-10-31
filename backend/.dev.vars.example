@@ -1,0 +1,6 @@
+# Copy this file to .dev.vars for local Wrangler development.
+# Never commit real credentials.
+MONGODB_URI=
+OPENAI_API_KEY=
+BASIC_AUTH_USERNAME=
+BASIC_AUTH_PASSWORD=

@@ -12,6 +12,7 @@ __pycache__/
 *$py.class
 .venv/
 .env
+.dev.vars
 .pytest_cache/
 .coverage
 htmlcov/
