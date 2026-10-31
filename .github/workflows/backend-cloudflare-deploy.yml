@@ -76,7 +76,9 @@ jobs:
         run: uv sync --dev
 
       - name: Deploy Worker
-        run: uv run pywrangler deploy --config wrangler.jsonc
+        run: |
+          uv run pywrangler sync
+          npx --yes wrangler@4.140.0 deploy --config wrangler.jsonc
 
       - name: Provision MongoDB Atlas runtime secret
         shell: bash
