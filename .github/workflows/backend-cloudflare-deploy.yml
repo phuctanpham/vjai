@@ -66,6 +66,16 @@ jobs:
           test -n "$BASIC_AUTH_USERNAME"
           test -n "$BASIC_AUTH_PASSWORD"
 
+      - name: Verify Cloudflare API token
+        shell: bash
+        run: |
+          set -euo pipefail
+          token_status="$(curl --fail-with-body --silent --show-error \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            "https://api.cloudflare.com/client/v4/user/tokens/verify")"
+          printf '%s' "$token_status" | jq -e \
+            '.success == true and .result.status == "active"' >/dev/null
+
       - name: Install dependencies
         run: uv sync --extra dev
 
