@@ -27,6 +27,8 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_WORKER_NAME: ${{ secrets.CLOUDFLARE_WORKER_NAME }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      HEALTH_CHECK_TOKEN: ${{ secrets.HEALTH_CHECK_TOKEN }}
 
     steps:
       - name: Check out repository
@@ -55,6 +57,8 @@ jobs:
           test -n "$CLOUDFLARE_ACCOUNT_ID"
           test "$CLOUDFLARE_WORKER_NAME" = "garblo"
           test -n "$MONGODB_URI"
+          test -n "$OPENAI_API_KEY"
+          test -n "$HEALTH_CHECK_TOKEN"
 
       - name: Install dependencies
         run: uv sync --extra dev
@@ -74,6 +78,18 @@ jobs:
           set -euo pipefail
           printf '%s' "$MONGODB_URI" | uv run pywrangler secret put MONGODB_URI --config wrangler.jsonc
 
+      - name: Provision OpenAI runtime secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s' "$OPENAI_API_KEY" | uv run pywrangler secret put OPENAI_API_KEY --config wrangler.jsonc
+
+      - name: Provision health-check runtime secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s' "$HEALTH_CHECK_TOKEN" | uv run pywrangler secret put HEALTH_CHECK_TOKEN --config wrangler.jsonc
+
       - name: Smoke-test canonical Worker hostname
         shell: bash
         run: |
@@ -81,6 +97,17 @@ jobs:
           response="$(curl --fail-with-body --silent --show-error --retry 5 --retry-delay 3 \
             --connect-timeout 10 --max-time 30 "https://api.phamtanph.uk/health")"
           printf '%s' "$response" | grep -q '"status"'
+
+      - name: Smoke-test LangChain/OpenAI connectivity
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
+            --connect-timeout 10 --max-time 60 \
+            -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
+            "https://api.phamtanph.uk/health/openai")"
+          printf '%s' "$response" | jq -e \
+            '.status == "ok" and .provider == "openai" and .model == "gpt-4o-mini"' >/dev/null
 
       - name: Delete non-active historical deployments
         shell: bash
