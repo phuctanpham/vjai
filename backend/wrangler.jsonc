@@ -7,12 +7,6 @@
     "python_workers",
     "python_dedicated_snapshot"
   ],
-  "routes": [
-    {
-      "pattern": "api.phamtanph.uk",
-      "custom_domain": true
-    }
-  ],
   "observability": {
     "enabled": true
   }
