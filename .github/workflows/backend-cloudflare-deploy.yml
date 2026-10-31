@@ -30,6 +30,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       BASIC_AUTH_USERNAME: ${{ secrets.CLOUDFLARE_BASIC_AUTH_USERNAME }}
       BASIC_AUTH_PASSWORD: ${{ secrets.CLOUDFLARE_BASIC_AUTH_PASSWORD }}
+      UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/garblo-backend-venv
 
     steps:
       - name: Check out repository
