@@ -28,30 +28,84 @@ Some spec and data names sound like the retired dating product. They mean:
 The existing FastAPI code in `backend/` (`discovery.py`, `/api/v1/swipes`,
 `matches.py`, `chat.py`, `models/profile.py`, `sample_data.py`) is the
 **retired dating mock**. Do not extend it for wardrobe work; see
-[BE-005](BE-005-retire-dating-mock-api.md). Wardrobe endpoints live under
-`/v1/studio`, `/v1/wardrobe` and `/v1/gu-match` (spec T2 › API surface).
+[BE-005](BE-005-retire-dating-mock-api.md). Wardrobe data goes through the one
+write endpoint `POST /v1/sync/tx` (Flow Spec v2.8 T4 › DB5); the former
+`/v1/studio`, `/v1/wardrobe` and `/v1/gu-match` REST routes were removed from the spec.
 
 ## Wardrobe handoff for backend and AI engineers
 
-Mobile Phase 1 (spec T6 **P1 Clickable offline app**) needs **no** backend or
-AI work: it runs on in-memory repositories and fakes. The cards below record
-the contracts that the Phase 1 fakes define, so the real services can replace
-them in spec phases P3–P5 without changing the mobile features. None is
-`Ready` until BE-001 is decided.
+Mobile Phases 1–2 are green and run on local repositories and fakes. The backend
+work is split into two tracks ([CHG-014](../../changes/CHG-014-mock-first-backend-track.md), Draft):
 
-| ID | Owner | Task | Spec phase | Replaces Phase 1 fake | Status |
+- **Track M · mock first.** A deterministic FastAPI mock of the Flow Spec **v2.8**
+  contract: a dev token, the one write endpoint `POST /v1/sync/tx`, fake side
+  effects (fake extraction, fake context, rule-based deck, fake erasure, in-memory
+  files) and a dev-only change feed standing in for Sync Streams. No database, no
+  external service, no wall clock. It fits D-004 as written, so it does **not**
+  wait for BE-001, and it lets the mobile app integrate before P3
+  ([TASK-010](../mobile/TASK-010-mock-backend-integration.md)).
+- **Track R · real platform.** MongoDB, PowerSync, auth, RustFS, real models. It
+  reuses Track M's rules and contract tests and waits for BE-001.
+
+Spec v2.8 removed the REST + SSE "API surface" (T2 › *Sync contract (replaces the
+API surface)*). Every card below targets the sync contract. Spec files:
+[Flow Spec v2.8](<../../specs/Garblo Flow Spec.md>),
+[DB handbook](<../../specs/Garblo — Đặc tả cơ sở dữ liệu (DRS + DDS).md>)
+(relocation open in [DOC-002](../docs/DOC-002-flow-spec-v2-8-relocation.md)).
+
+### Track M · mock first (priority order)
+
+| # | ID | Owner | Task | Mock of | Blocked by | Status |
+|---|---|---|---|---|---|---|
+| 0 | [BE-010](BE-010-restore-backend-gate.md) | Backend | Restore the backend gate: packaging, Python pin, `uv.lock`, CI job (`uv run pytest` fails to build today) | — | — | Draft |
+| 1 | [BE-005](BE-005-retire-dating-mock-api.md) | Backend | Retire the dating mock API; rewrite `backend/README.md` | — | BE-010 | Draft |
+| 2 | [BE-011](BE-011-mock-platform-core.md) | Backend | Sync row models (phone schema), ObjectId parity, injected clock, in-memory `Store`, dev token, mock controls | P4-B01 (dev token) | BE-005 | Draft |
+| 3 | [BE-012](BE-012-mock-write-handler.md) | Backend | `POST /v1/sync/tx`: PUT/PATCH/DELETE rules, owner checks, allow-lists, idempotency, atomicity, I1/I2/I4/I6 | P4-B02, P4-B03 | BE-011 | Draft |
+| 4 | [BE-013](BE-013-mock-change-feed.md) | Backend | Dev change feed per Sync Stream, write checkpoints, catalog and demo-wardrobe seeds | P3-02, P3-03 | BE-012 | Draft |
+| 5 | [AI-005](AI-005-model-ports-and-fakes.md) | AI | Model ports + deterministic fakes (extractor, person detector, context sources, rule generator, namer) | P5 seams | BE-011 | Draft |
+| 6 | [BE-014](BE-014-fake-studio-side-effects.md) | Backend | Studio side effects: photo × task jobs, fake extraction, review, atomic commit, outcome scenarios | P4-B05 | BE-012, BE-013, AI-005 | Draft |
+| 7 | [BE-015](BE-015-fake-gu-match-side-effects.md) | Backend | Gu Match side effects: session status, context cards, ≤ 8 Fits, swipes, swap | P4-B07 | BE-012, BE-013, AI-005 | Draft |
+| 8 | [BE-016](BE-016-wear-rules-parity.md) | Backend | Shared wear rules: dormancy, gap days, rescue eligibility, golden parity | P4-B08 (rules part) | BE-012, TASK-012 | Draft |
+| 9 | [BE-017](BE-017-fake-privacy-requests.md) | Backend | `privacy_requests`: BODY and ALL erasure in memory, proof function | P4-B09 | BE-012, BE-013 | Draft |
+| 10 | [BE-018](BE-018-mock-attachments.md) | Backend | Attachment tickets, in-memory file store, JPEG/PNG + EXIF verification | P4-B04, P4-B06 | BE-012, BE-013 | Draft |
+| 11 | [AI-006](AI-006-pii-scrubber-and-eval-harness.md) | AI | PII scrubber v0 (red-team fixtures) and offline evaluation harness with fake baselines | P5-A03, P5-A04 prep | AI-005 | Draft |
+
+### Track R · real platform (after BE-001)
+
+| ID | Owner | Task | Spec phase | Mock predecessor | Status |
 |---|---|---|---|---|---|
-| [BE-001](BE-001-platform-decision.md) | Backend + EM | Platform decision: FastAPI mock (D-004) vs. MongoDB + PowerSync + auth (spec T4) | before P3 | — | **Acknowledged · decide before P3** |
-| [BE-002](BE-002-studio-pipeline.md) | Backend | Studio API: batches, consent, analysis jobs, review drafts, atomic commit | P4 | `MockStudioRepository` | Blocked by BE-001 |
-| [BE-003](BE-003-wardrobe-and-wear-api.md) | Backend | Wardrobe items API, item-type catalog, wear events, dormancy parity | P3–P4 | `MockWardrobeRepository`, `MockWearRepository` | Blocked by BE-001 |
-| [BE-004](BE-004-gu-match-api.md) | Backend | Gu Match sessions, context events, rule-based generator, interactions, swap | P4 | `MockGuMatchRepository` | Blocked by BE-001 |
-| [BE-005](BE-005-retire-dating-mock-api.md) | Backend | Retire the dating mock API (`/api/v1/discovery`, `/swipes`, `/profiles`, `/matches`, `/chat`, `/auth` placeholder) and rewrite `backend/README.md` for the wardrobe product | before BE-002 | — | Proposed · needs a CHG |
-| [BE-006](BE-006-phone-schema-sync-parity.md) | Backend + DevOps | MongoDB collections and Sync Streams match phone schema v1: names, phone-generated ObjectIds, no DB uniqueness (deterministic IDs), install owner ID becomes the anonymous `sub` | P3–P4 | Local SQLite tables (Phase 2) | Blocked by BE-001 |
-| [BE-007](BE-007-privacy-erasure-and-export.md) | Backend | Server erasure (UC-09) with proof query and job cancellation; export after UC-19 | P4 | Local wipe (Phase 2) | Blocked by BE-001, gap ④ |
-| [AI-001](AI-001-outfit-extraction.md) | AI | Outfit extraction (segmentation, attributes, confidence, embeddings), pose/scene | P5 | Fixture items in `MockStudioRepository` | Blocked by BE-002 |
-| [AI-002](AI-002-virtual-try-on.md) | AI + Backend | Virtual try-on render pipeline and body-photo consent | P5 | "Try-on is coming soon" | Blocked by BE-004, SP-3 |
-| [AI-003](AI-003-agent-context-and-styling.md) | AI + Backend | Agent context (calendar, weather, mobility), LLM intent/naming, PII scrubber, embedding-ranked generator | P5 | Fixture context cards, `FakeCandidateGenerator` | Blocked by BE-004, SP-7 |
-| [AI-004](AI-004-on-device-blur-and-duplicates.md) | AI + Mobile | On-device bystander blur and duplicate detection, after Phase 2 metadata stripping | P5 | Metadata-only `PhotoSanitizer` | Blocked by SP-1, SP-4 |
+| [BE-001](BE-001-platform-decision.md) | Backend + EM | Platform decision; now gates Track R only | before P3 | — | **Acknowledged · decide before P3** |
+| [BE-006](BE-006-phone-schema-sync-parity.md) | Backend + DevOps | MongoDB collections, validators and Sync Streams match the phone schema | P3 | BE-011, BE-013 | Blocked by BE-001, TASK-011 |
+| [BE-019](BE-019-auth-service.md) | Backend | Auth service: anonymous JWT, JWKS, refresh rotation, Google link | P4-B01 | BE-011 dev token | Blocked by BE-001, SP-6 |
+| [BE-020](BE-020-write-handler-on-mongodb.md) | Backend | Write handler on MongoDB, same rules and tests | P4-B02, B03 | BE-012 | Blocked by BE-001, BE-006 |
+| [BE-002](BE-002-studio-pipeline.md) | Backend | Studio pipeline on the real store and job runner | P4-B05, B06 | BE-014 | Blocked by BE-001 |
+| [BE-003](BE-003-wardrobe-and-wear-api.md) | Backend | Catalog stream, wear-event validator, server dormancy | P3–P4 | BE-013, BE-016 | Blocked by BE-001 |
+| [BE-004](BE-004-gu-match-api.md) | Backend | Gu Match on the real store; weather API; `recent` flag; `deck_history` | P4-B07 | BE-015 | Blocked by BE-001 |
+| [BE-007](BE-007-privacy-erasure-and-export.md) | Backend | Erasure on MongoDB + RustFS with proof query; export after UC-19 | P4-B09 | BE-017 | Blocked by BE-001, gap ④ |
+| [BE-008](BE-008-rustfs-tickets-and-verify.md) | Backend + DevOps | RustFS buckets, ticket issuer, verify worker | P4-B04, B06 | BE-018 | Blocked by BE-001, SP-R1 |
+| [BE-009](BE-009-sync-nudge.md) | Backend | Data-free push when results are ready | P4 | — | Blocked by BE-001 |
+| [AI-001](AI-001-outfit-extraction.md) | AI | Outfit extraction models behind the AI-005 ports | P5 | AI-005 fakes | Blocked by BE-002, SP-2 |
+| [AI-002](AI-002-virtual-try-on.md) | AI + Backend | Virtual try-on (`vton_jobs` command row) | P5 | — | Blocked by BE-004, SP-3 |
+| [AI-003](AI-003-agent-context-and-styling.md) | AI + Backend | Agent context, LLM intent and naming, name detection, generator v2 | P5 | AI-005, AI-006 | Blocked by BE-004, SP-7 |
+| [AI-004](AI-004-on-device-blur-and-duplicates.md) | AI + Mobile | On-device bystander blur and duplicate detection | P5 | — | Blocked by SP-1, SP-4 |
+
+### Requests to other roles (found during the analysis)
+
+| ID | For | Problem | Blocks |
+|---|---|---|---|
+| [TASK-010](../mobile/TASK-010-mock-backend-integration.md) | App Developer + EM | No HTTP transport and no approved HTTP dependency; dev sync connector to the mock | Mobile integration of Track M |
+| [TASK-011](../mobile/TASK-011-phone-schema-v2-alignment.md) | EM + App Developer | Phone schema v1 lacks v2.8 tables and columns; the phone writes server-owned tables | BE-006, P3-04 |
+| [TASK-012](../mobile/TASK-012-shared-golden-fixtures.md) | App Developer + EM | Parity fixtures exist only inside Dart tests | BE-016; parity in BE-011, BE-013, AI-005 |
+| [DOC-002](../docs/DOC-002-flow-spec-v2-8-relocation.md) | APM + EM + human | Spec moved to `docs/specs/` (uncommitted); dead links; D-/CHG- ID collisions in the DB handbook; snake_case and pytest naming policy | Links in every card |
+| [DOC-003](../docs/DOC-003-archive-legacy-backend-cards.md) | APM + EM | 14 retired dating cards in this folder collide with mobile TASK IDs | Unambiguous scenario-ID search |
+
+### Requests from the mobile analysis ([CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md), 2026-10-31)
+
+| ID | For | Problem | Blocks |
+|---|---|---|---|
+| [BE-022](BE-022-mock-contract-requests-from-mobile.md) | Backend + EM | The phone's v1 rows use camelCase enums, local times and date-times for dates; keep the mock strict on v2.8, read the shared table classes, export recorded responses | TASK-010, TASK-018, TASK-024…027 |
+| [BE-021](BE-021-fake-try-on-side-effects.md) | Backend | `vton_jobs` is refused in the mock until AI-002; a fake render unblocks the phone's try-on flow | TASK-030 |
+| [DOC-004](../docs/DOC-004-mobile-contract-decisions.md) | APM + EM | Contract decisions (time zone, `upload_batches.status` writers, save-for-later, action names, Fit item shape) | BE-012, BE-015, BE-016 |
 
 ---
 
@@ -181,3 +235,11 @@ When starting any task card from this backlog, the coding agent MUST execute the
      flutter test test/features/<feature>/
      ```
    - Only declare completion once all tests pass with zero warnings.
+
+## Change history
+
+| Date | CHG | Change |
+|---|---|---|
+| 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Superseded banner, "not a dating app" glossary and wardrobe handoff added; dating backlog kept as history |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Handoff rewritten: Track M (mock first) before Track R (real); spec v2.8 sync contract; requests to other roles. Table added (it was missing; README §3 rule 7) |
+| 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Added "Requests from the mobile analysis" (BE-021, BE-022, DOC-004) |

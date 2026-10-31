@@ -1,7 +1,7 @@
 # BE-003: Wardrobe items, item-type catalog, wear events, dormancy parity
 
 > **Owner:** Backend Developer  
-> **Status:** Blocked by [BE-001](BE-001-platform-decision.md)  
+> **Status:** Blocked by [BE-001](BE-001-platform-decision.md) · Track R; the shared rules start now in [BE-016](BE-016-wear-rules-parity.md)  
 > **Spec phase:** P3 (catalog + seed, P3-03) · P4 (write path, P4-B03, P4-B08 parity)  
 > **Source:** UC-04, UC-07 AC-07.7 · T2 (C4, P6, I8, I9) · T4 (wear_events, derived values) · TAC-04.2, 04.5, 07.4
 
@@ -40,10 +40,20 @@ cannot duplicate. Names and types: [BE-006](BE-006-phone-schema-sync-parity.md).
 
 ## Scope
 
-- `GET /v1/wardrobe/items?group=&cursor=`, `POST /v1/wardrobe/wear-logs`.
-- Item-type catalog served to the phone (P3 catalog stream or REST).
-- Server dormancy computed from the shared golden fixtures; a parity test
-  that runs the Dart fixtures' expected values.
+> **Spec v2.8:** `GET /v1/wardrobe/items` and `POST /v1/wardrobe/wear-logs` are
+> removed. The wardrobe list is a local query on the phone; items and wear events
+> arrive as `wardrobe_items` / `wear_events` rows through `POST /v1/sync/tx`, and sync
+> back through `my_wardrobe` (T2 › Sync contract).
+
+Mock predecessors: [BE-012](BE-012-mock-write-handler.md) (type-code, owned-only
+and append-only rules), [BE-013](BE-013-mock-change-feed.md) (catalog, demo seed),
+[BE-014](BE-014-fake-studio-side-effects.md) (atomic commit),
+[BE-016](BE-016-wear-rules-parity.md) (shared wear rules, golden parity). This card:
+
+- The item-type catalog in the `catalog` Sync Stream, seeded by re-runnable scripts (P3-03).
+- `wear_events` validator and unique index `{user_id, worn_date, signature}` on the
+  real store; BE-016's rules recompute `gap_days` / `rescue_eligible` (I12) there.
+- Server dormancy from the shared golden fixtures (TAC-04.2), using BE-016 unchanged.
 - Seed script for the 9 demo items, matching `MockWardrobeRepository.seeded`
   in `apps/mobile/lib/features/wardrobe/data/wardrobe_repository.dart` (White T-shirt
   benched 41 days, Short-sleeve shirt, Black jeans, Pleated skirt, Black
@@ -62,3 +72,4 @@ No rewards or rescue XP (Flow C).
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: Last-worn estimate, rescue rule parity (N6/I12), client-generated IDs, save atomicity, seed list. |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Phase 2: local deterministic wear IDs, provisional gap_days/rescue_eligible, draft-hashed item IDs. |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | REST endpoints replaced by the v2.8 sync contract; mock predecessors BE-012, BE-013, BE-014, BE-016. |

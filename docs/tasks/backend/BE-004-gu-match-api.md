@@ -1,7 +1,7 @@
 # BE-004: Gu Match API — sessions, context events, generator, interactions
 
 > **Owner:** Backend Developer  
-> **Status:** Blocked by [BE-001](BE-001-platform-decision.md)  
+> **Status:** Blocked by [BE-001](BE-001-platform-decision.md) · Track R; the mock is [BE-015](BE-015-fake-gu-match-side-effects.md)  
 > **Spec phase:** P4 (P4-B07: rule-based generator, live weather, SSE)  
 > **Source:** UC-05 – UC-08 · T2 (I6, I9, enums) · TAC-05.2, 05.5, 05.6, 06.1–06.3, 06.5–06.7, 07.3, 08.6
 
@@ -44,13 +44,23 @@ writes only `interactions` and swipe decisions. Table and column names are in
 
 ## Scope
 
-- `POST /v1/gu-match/sessions`, `GET …/events` (SSE: `status`, `card`,
-  `deck_ready`), `GET …/candidates`, `POST /v1/gu-match/candidates/{id}/interactions`,
-  `PUT …/items/{slot}`.
-- Idempotent session start (TAC-05.6) and interactions (TAC-07.3).
-- Weather API with a per-city-hour cache (TAC-06.3); 5 s per-source timeout.
-- Rule-based generator on the server that passes the same property tests as the
-  phone generator (owned-only, deterministic).
+> **Spec v2.8:** the REST + SSE surface (`POST /v1/gu-match/sessions`, `GET …/events`,
+> `GET …/candidates`, `POST …/interactions`, `PUT …/items/{slot}`) is removed. A
+> session is a `gu_match_sessions` command row; context cards are patched into that
+> row; the deck syncs as `outfit_candidates` (`my_decks`); swipes and swaps are
+> `interactions` rows (T2 › Sync contract, T4 › Side effects).
+
+Mock predecessor: [BE-015](BE-015-fake-gu-match-side-effects.md), with the ports and
+the rule generator of [AI-005](AI-005-model-ports-and-fakes.md). This card:
+
+- Session worker on the real store; `recent` flag job and 90-day TTL (P3-03, R4);
+  `deck_history` stream.
+- Weather API with a per-city-hour cache (TAC-06.3); 5 s per-source timeout; a
+  real `ContextSource` adapter behind the AI-005 port.
+- The rule-based generator is AI-005's `RuleOutfitGenerator`, unchanged; it already
+  passes the phone generator's property and golden tests.
+- Idempotent session start (TAC-05.6) and interactions (TAC-07.3) are BE-012/BE-015
+  behaviour on the real store.
 
 ## Anti-scope
 
@@ -63,3 +73,4 @@ No LLM intent/naming (AI-003), no try-on (AI-002), no thank-you or rewards.
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the Phase 1 Gu Match contract. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-004 green: not-a-dating-API warning; do not extend `/api/v1/swipes` or `/matches` (BE-005). |
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Deck ownership: phone writes decks in P2 and P3 (queued), server from P4. |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Scope rewritten for the v2.8 sync contract; mock predecessor BE-015; generator from AI-005. Note: spec v2.8 P3-04 says P3 fakes write only to local-only `fake_*` mirrors, which conflicts with "queued for upload" above; see TASK-011. |

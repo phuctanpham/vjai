@@ -13,8 +13,14 @@ already exist; this card makes them real.
 
 ## Scope
 
-- `POST /v1/gu-match/candidates/{id}/try-on` → 202 job, or 409
-  `BODY_REFERENCE_REQUIRED` / `BODY_CONSENT_REQUIRED`.
+- A `vton_jobs` command row (`PUT … REQUESTED`) through `POST /v1/sync/tx`. Spec v2.8
+  removed `POST /v1/gu-match/candidates/{id}/try-on`. The I7 precheck rejects the
+  write with 422 `BODY_REFERENCE_REQUIRED` / `BODY_CONSENT_REQUIRED` (the queue moves
+  on, BE-012 rules), or the worker sets the job `FAILED` with that reason. Pick one
+  with the APM, because the phone shows a different message for each.
+- The render model sits behind a `TryOnRenderer` port, added next to the
+  [AI-005](AI-005-model-ports-and-fakes.md) ports, with a fake that returns a fixed
+  illustration, so the mobile flow can be built before SP-3 picks a model or vendor.
 - Body-reference batch (`purpose = BODY_REFERENCE`, pose analysis forced on).
 - Render worker: ≤ 20 s p95, cancellable; ≤ 1 active render per candidate,
   ≤ 2 retries; failures keep the illustration ("Try-on didn't work · Retry").
@@ -33,3 +39,4 @@ render progress; tests for AC-08.5–08.11.
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created; Phase 1 try-on is "coming soon". |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Try-on endpoint replaced by the `vton_jobs` command row (spec v2.8); `TryOnRenderer` port with a fake. |

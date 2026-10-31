@@ -34,6 +34,17 @@ Found while building Phase 1 (TASK-003):
 - **Pose and Background** produce no output in Phase 1. The checkboxes exist
   (default off), but no job runs.
 
+## Plug point and early work (CHG-014)
+
+- The model sits behind the `OutfitExtractor` and `PersonDetector` ports of
+  [AI-005](AI-005-model-ports-and-fakes.md). The Studio worker, the job states and
+  the `extracted_items` rows do not change when the fake is swapped for the model.
+- Calibration and the latency budget are measured with the
+  [AI-006](AI-006-pii-scrubber-and-eval-harness.md) harness, against the fake's
+  committed baseline.
+- Spike SP-2 (model choice) and the evaluation set can start before BE-002. Any ML
+  dependency needs a decisions.md entry first.
+
 ## Acceptance
 
 - ≤ 8 s per photo p95; ≤ 30 s for 10 photos (TAC-02.1).
@@ -49,3 +60,4 @@ Found while building Phase 1 (TASK-003):
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created; Phase 1 uses fixture extraction. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | From TASK-003 green: Piece names, catalog type codes, low-confidence pill, Pose/Background in Phase 1. |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Plug point (AI-005 ports), evaluation harness (AI-006), early spike work. |

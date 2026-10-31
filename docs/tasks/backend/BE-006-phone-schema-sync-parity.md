@@ -38,7 +38,14 @@ holds people or matches between people (see
   exactly these columns (P3-02).
 - Seed scripts for `item_types` matching `ItemTypeCatalog` (P3-03).
 - A parity test: run the phone's schema description against the deployed
-  Sync Streams and fail on any difference.
+  Sync Streams and fail on any difference. The mock already pins the names on the
+  server side: [BE-011](BE-011-mock-platform-core.md)-S03 (row models = phone schema)
+  and [BE-013](BE-013-mock-change-feed.md) (stream names and membership). Reuse those
+  models for the `$jsonSchema` validators instead of writing them twice.
+- Phone schema v1 lacks tables and columns that spec v2.8 T4 and the DB handbook
+  sync (`profiles`, `attachments`, `attachment_tickets`, `privacy_requests`,
+  `vton_jobs`, `gu_match_sessions.status/context/…`); aligning them is
+  [TASK-011](../mobile/TASK-011-phone-schema-v2-alignment.md) and must land first.
 - Verify on a PowerSync view that a write-transaction "check the ID, then
   insert" works as the phone expects (the phone does not use
   `INSERT OR IGNORE`, which views may not support).
@@ -55,3 +62,4 @@ change to the phone schema without a mobile CHG.
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Created from the Phase 2 phone schema v1 contract. |
 | 2026-10-30 | [CHG-006](../../changes/CHG-006-phase-2-green-decisions.md) | `ai_processing_jobs` added to the table list; deterministic job IDs. |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Reuse the mock's row models and stream names (BE-011, BE-013); schema v1 gaps go to TASK-011. |

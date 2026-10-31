@@ -45,11 +45,29 @@ The decision must also approve the minimum security contract from
 7. If certificate pinning is selected, where are backup pins, rotation,
    emergency recovery and Android/iOS/Windows/macOS coverage documented?
 
+Raised by the mock track ([CHG-014](../../changes/CHG-014-mock-first-backend-track.md)):
+
+8. **Idempotency key of `POST /v1/sync/tx`.** T4 keys `applied_tx` by `tx_id`, but
+   the PowerSync SDK's transaction ID is believed to be a local counter per
+   database, so two installs or a reinstall can repeat it (to confirm in the spike).
+   The mock keys on `(sub, tx_id)` plus an ops hash and returns 409 `TX_ID_REUSED`
+   on a mismatch ([BE-012](BE-012-mock-write-handler.md)). Pick the real key.
+9. Do side-effect workers run in-process behind the effects registry
+   ([BE-020](BE-020-write-handler-on-mongodb.md)) or behind a queue? A queue is a new
+   dependency and needs its own entry.
+10. Does the in-memory `Store` stay as the contract-test double for the real store
+    (proposed: yes, as Mock/Local do on the phone)?
+
 ## Deliverable
 
-A `decisions.md` entry (D-006 or later) and an updated
-[architecture.md](../../policies/engineering/architecture.md) §4. Then
-BE-002…BE-004 can move to `Ready`.
+A `decisions.md` entry (number assigned by the ASEM; the DB handbook already cites
+D-010, D-011 and D-013, so check they are free) and an updated
+[architecture.md](../../policies/engineering/architecture.md) §4. Then the Track R
+cards (BE-002…BE-004, BE-006…BE-009, BE-019, BE-020) can move to `Ready`.
+
+**No longer blocks mobile integration.** The mock track (BE-010…BE-018, AI-005,
+AI-006) mocks the v2.8 contract inside D-004's rules and can start once CHG-014 is
+approved. This decision now gates only the real platform.
 
 ## Anti-scope
 
@@ -63,3 +81,4 @@ No infrastructure, database or service is built under this card.
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Acknowledged in review: D-004 must change; decide before P3. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | The current FastAPI code is the retired dating mock; retirement is BE-005. |
 | 2026-10-30 | [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md) | Added security acceptance questions for the P3/P4 platform decision. |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Questions 8–10 from the mock track; D-number collision note; no longer blocks mobile integration. |

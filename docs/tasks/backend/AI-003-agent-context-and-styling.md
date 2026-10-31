@@ -30,9 +30,23 @@ replaces the fixtures and the rule with the agent and models, keeping the
   person) on the evaluation set.
 - Calibrated match % (replaces A-03).
 
+## Plug points and early work (CHG-014)
+
+- Context sources, generator v2 and naming replace the fakes behind the
+  `ContextSource`, `OutfitGenerator` and `LookNamer` ports of
+  [AI-005](AI-005-model-ports-and-fakes.md). The session worker
+  ([BE-015](BE-015-fake-gu-match-side-effects.md)) does not change.
+- The PII scrubber starts as the rule-based v0 in
+  [AI-006](AI-006-pii-scrubber-and-eval-harness.md) (emails, phone numbers, URLs,
+  addresses; red-team fixtures). This card adds name detection behind its
+  `NameDetector` port.
+- "Beat the rule-based Add to Rotation rate" is measured with AI-006's `deck_eval`,
+  against the committed baseline of `RuleOutfitGenerator`.
+
 ## Change history
 
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created; Phase 1 uses fixture context and a rule-based generator. |
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | "Like rate" → Add to Rotation rate (a decision on a Fit). |
+| 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Plug points (AI-005), scrubber v0 and evaluation harness (AI-006). |
