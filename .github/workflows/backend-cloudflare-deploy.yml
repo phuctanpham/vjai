@@ -29,6 +29,8 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       HEALTH_CHECK_TOKEN: ${{ secrets.HEALTH_CHECK_TOKEN }}
+      CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
+      CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
 
     steps:
       - name: Check out repository
@@ -59,6 +61,8 @@ jobs:
           test -n "$MONGODB_URI"
           test -n "$OPENAI_API_KEY"
           test -n "$HEALTH_CHECK_TOKEN"
+          test -n "$CLOUDFLARE_ACCESS_CLIENT_ID"
+          test -n "$CLOUDFLARE_ACCESS_CLIENT_SECRET"
 
       - name: Install dependencies
         run: uv sync --extra dev
@@ -95,7 +99,10 @@ jobs:
         run: |
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 5 --retry-delay 3 \
-            --connect-timeout 10 --max-time 30 "https://api.phamtanph.uk/health")"
+            --connect-timeout 10 --max-time 30 \
+            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
+            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
+            "https://api.phamtanph.uk/health")"
           printf '%s' "$response" | grep -q '"status"'
 
       - name: Smoke-test LangChain/OpenAI connectivity
@@ -104,6 +111,8 @@ jobs:
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
             --connect-timeout 10 --max-time 60 \
+            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
+            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
             -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
             "https://api.phamtanph.uk/health/openai")"
           printf '%s' "$response" | jq -e \
@@ -131,6 +140,8 @@ jobs:
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
             --connect-timeout 10 --max-time 30 \
+            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
+            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
             -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
             --get "https://api.phamtanph.uk/health/deployment" \
             --data-urlencode "commit_id=${GITHUB_SHA}" \
