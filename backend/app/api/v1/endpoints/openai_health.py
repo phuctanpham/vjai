@@ -1,11 +1,14 @@
 import logging
-import secrets
-from typing import Any
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
+
+from app.api.v1.endpoints.health_auth import (
+    _environment_value,
+    has_valid_basic_auth,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -32,13 +35,11 @@ async def _invoke_openai(api_key: str) -> None:
 
 @router.get("/health/openai")
 async def get_openai_health(request: Request) -> JSONResponse:
-    expected_token = _environment_value(request, "HEALTH_CHECK_TOKEN")
-    supplied_token = request.headers.get("X-Health-Token", "")
-    if not expected_token or not secrets.compare_digest(supplied_token, expected_token):
+    if not has_valid_basic_auth(request):
         return JSONResponse(
             status_code=401,
             content={"status": "unauthorized"},
-            headers={"WWW-Authenticate": "Bearer"},
+            headers={"WWW-Authenticate": "Basic"},
         )
 
     api_key = _environment_value(request, "OPENAI_API_KEY")

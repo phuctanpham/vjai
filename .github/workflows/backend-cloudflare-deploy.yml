@@ -28,9 +28,8 @@ jobs:
       CLOUDFLARE_WORKER_NAME: ${{ secrets.CLOUDFLARE_WORKER_NAME }}
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      HEALTH_CHECK_TOKEN: ${{ secrets.HEALTH_CHECK_TOKEN }}
-      CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
-      CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
+      BASIC_AUTH_USERNAME: ${{ secrets.CLOUDFLARE_BASIC_AUTH_USERNAME }}
+      BASIC_AUTH_PASSWORD: ${{ secrets.CLOUDFLARE_BASIC_AUTH_PASSWORD }}
 
     steps:
       - name: Check out repository
@@ -60,9 +59,8 @@ jobs:
           test "$CLOUDFLARE_WORKER_NAME" = "garblo"
           test -n "$MONGODB_URI"
           test -n "$OPENAI_API_KEY"
-          test -n "$HEALTH_CHECK_TOKEN"
-          test -n "$CLOUDFLARE_ACCESS_CLIENT_ID"
-          test -n "$CLOUDFLARE_ACCESS_CLIENT_SECRET"
+          test -n "$BASIC_AUTH_USERNAME"
+          test -n "$BASIC_AUTH_PASSWORD"
 
       - name: Install dependencies
         run: uv sync --extra dev
@@ -88,11 +86,17 @@ jobs:
           set -euo pipefail
           printf '%s' "$OPENAI_API_KEY" | uv run pywrangler secret put OPENAI_API_KEY --config wrangler.jsonc
 
-      - name: Provision health-check runtime secret
+      - name: Provision Basic Auth username secret
         shell: bash
         run: |
           set -euo pipefail
-          printf '%s' "$HEALTH_CHECK_TOKEN" | uv run pywrangler secret put HEALTH_CHECK_TOKEN --config wrangler.jsonc
+          printf '%s' "$BASIC_AUTH_USERNAME" | uv run pywrangler secret put BASIC_AUTH_USERNAME --config wrangler.jsonc
+
+      - name: Provision Basic Auth password secret
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s' "$BASIC_AUTH_PASSWORD" | uv run pywrangler secret put BASIC_AUTH_PASSWORD --config wrangler.jsonc
 
       - name: Smoke-test canonical Worker hostname
         shell: bash
@@ -100,8 +104,7 @@ jobs:
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 5 --retry-delay 3 \
             --connect-timeout 10 --max-time 30 \
-            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
-            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
+            --user "${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}" \
             "https://api.phamtanph.uk/health")"
           printf '%s' "$response" | grep -q '"status"'
 
@@ -111,9 +114,7 @@ jobs:
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
             --connect-timeout 10 --max-time 60 \
-            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
-            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
-            -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
+            --user "${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}" \
             "https://api.phamtanph.uk/health/openai")"
           printf '%s' "$response" | jq -e \
             '.status == "ok" and .provider == "openai" and .model == "gpt-4o-mini"' >/dev/null
@@ -140,9 +141,7 @@ jobs:
           set -euo pipefail
           response="$(curl --fail-with-body --silent --show-error --retry 2 --retry-delay 3 \
             --connect-timeout 10 --max-time 30 \
-            -H "CF-Access-Client-Id: ${CLOUDFLARE_ACCESS_CLIENT_ID}" \
-            -H "CF-Access-Client-Secret: ${CLOUDFLARE_ACCESS_CLIENT_SECRET}" \
-            -H "X-Health-Token: ${HEALTH_CHECK_TOKEN}" \
+            --user "${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}" \
             --get "https://api.phamtanph.uk/health/deployment" \
             --data-urlencode "commit_id=${GITHUB_SHA}" \
             --data-urlencode "deployment_id=${DEPLOYMENT_ID}")"

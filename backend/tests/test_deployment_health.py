@@ -1,19 +1,24 @@
 import asyncio
+import base64
 
 from starlette.requests import Request
 
 from app.api.v1.endpoints.deployment_health import get_deployment_health
 
 
-def _request(token: str = "health-token") -> Request:
+def _request(username: str = "health-user", password: str = "health-password") -> Request:
+    credentials = base64.b64encode(f"{username}:{password}".encode()).decode()
     return Request(
         {
             "type": "http",
             "method": "GET",
             "path": "/health/deployment",
-            "headers": [(b"x-health-token", token.encode())],
+            "headers": [(b"authorization", f"Basic {credentials}".encode())],
             "query_string": b"",
-            "env": {"HEALTH_CHECK_TOKEN": "health-token"},
+            "env": {
+                "BASIC_AUTH_USERNAME": "health-user",
+                "BASIC_AUTH_PASSWORD": "health-password",
+            },
         }
     )
 
@@ -36,7 +41,7 @@ def test_deployment_health_returns_metadata():
 def test_deployment_health_rejects_invalid_token():
     response = asyncio.run(
         get_deployment_health(
-            _request("wrong-token"),
+            _request("wrong-user", "wrong-password"),
             commit_id="abcdef1234567",
             deployment_id="dep-123",
         )

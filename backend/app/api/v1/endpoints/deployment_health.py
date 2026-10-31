@@ -1,8 +1,7 @@
-import secrets
-from typing import Any
-
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
+
+from app.api.v1.endpoints.health_auth import has_valid_basic_auth
 
 router = APIRouter()
 
@@ -24,13 +23,11 @@ async def get_deployment_health(
     commit_id: str = Query(min_length=7, max_length=40, pattern=r"^[0-9a-fA-F]+$"),
     deployment_id: str = Query(min_length=1, max_length=128),
 ) -> JSONResponse:
-    expected_token = _environment_value(request, "HEALTH_CHECK_TOKEN")
-    supplied_token = request.headers.get("X-Health-Token", "")
-    if not expected_token or not secrets.compare_digest(supplied_token, expected_token):
+    if not has_valid_basic_auth(request):
         return JSONResponse(
             status_code=401,
             content={"status": "unauthorized"},
-            headers={"WWW-Authenticate": "Bearer"},
+            headers={"WWW-Authenticate": "Basic"},
         )
 
     return JSONResponse(
