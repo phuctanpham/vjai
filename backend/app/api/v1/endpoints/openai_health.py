@@ -5,27 +5,13 @@ from fastapi.responses import JSONResponse
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
 
-from app.api.v1.endpoints.health_auth import (
-    _environment_value,
-    has_valid_basic_auth,
-)
+from app.api.v1.endpoints.health_auth import _environment_value, has_valid_basic_auth
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 MODEL_NAME = "gpt-4o-mini"
 HEALTH_PROMPT = "Reply with the single word: OK"
-
-
-def _environment_value(request: Request, name: str) -> str | None:
-    environment: Any = request.scope.get("env")
-    if environment is None:
-        return None
-    if isinstance(environment, dict):
-        value = environment.get(name)
-    else:
-        value = getattr(environment, name, None)
-    return value if isinstance(value, str) else None
 
 
 async def _invoke_openai(api_key: str) -> None:
