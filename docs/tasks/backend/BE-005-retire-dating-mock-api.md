@@ -43,6 +43,10 @@ Keep: `health.py` (`/health`, `/api/v1/health`), `config.py`, `main.py`.
 - `app/main.py` title and description: "Garblo mock API", with no "discovery and
   profile data".
 - `uv run pytest` stays green (health tests).
+- Moved here from [BE-010](BE-010-restore-backend-gate.md) (decision D3): add
+  `filterwarnings = ["error::DeprecationWarning"]` to `[tool.pytest.ini_options]`
+  once the dating models are gone. Before that, their `class Config` warnings break
+  collection of every test file.
 
 ## Scenarios
 
@@ -65,3 +69,4 @@ Keep: `health.py` (`/health`, `/api/v1/health`), `config.py`, `main.py`.
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Created from the TASK-004 dating-confusion audit. |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
 | 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Covered by CHG-014; priority 1 in the mock track; scenarios added; README target updated for spec v2.8. |
+| 2026-10-31 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Took over warnings-as-errors from BE-010 (it would break collection before the dating models are removed). |

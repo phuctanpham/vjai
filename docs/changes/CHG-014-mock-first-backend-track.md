@@ -2,13 +2,13 @@
 
 | Status | Source | Date |
 |---|---|---|
-| Draft | Human request: backend + AI analysis of the whole codebase; mock APIs (no database, fake data, fake AI) first, real APIs after | 2026-10-30 |
+| Approved (BE-010 only) | Human approval of the narrow backend-gate start; mock APIs (no database, fake data, fake AI) remain unapproved | 2026-10-31 |
 
 Status values: `Draft` → `Approved` (human) → `Done` (after merge).
 
 ## Problem
 
-1. **No backend work can start.** Every wardrobe backend card (BE-002…BE-007) and
+1. **No backend feature work can start.** Every wardrobe backend card (BE-002…BE-007) and
    every AI card is blocked by [BE-001](../tasks/backend/BE-001-platform-decision.md)
    (MongoDB + PowerSync + auth vs. the FastAPI mock). The mobile app therefore has
    no server to integrate against before P3.
@@ -19,12 +19,30 @@ Status values: `Draft` → `Approved` (human) → `Done` (after merge).
    writes only its local database; every write and command is a row uploaded to
    **one** endpoint, `POST /v1/sync/tx`; results come back only through Sync Streams.
 3. **The backend gate does not run.** `uv run pytest` fails before collecting a test:
-   hatchling cannot find the `app` package (project name `garblo-backend`), no
-   `uv.lock` is committed although [ci-cd.md](../policies/engineering/ci-cd.md) §2
-   says it is, and uv picks an unpinned interpreter (3.15 on the reference machine).
-   With the build bypassed the 7 legacy tests pass.
+   hatchling cannot find the `app` package (project name `garblo-backend`), and the
+   committed `uv.lock` is only an unreviewed diagnostic artifact. Uv also picks an
+   unpinned interpreter (3.15 on the reference machine). With the build bypassed
+   the 7 legacy tests pass.
 
-## Decision proposed
+## Decision
+
+This change is approved **only for BE-010: Restore the backend gate**.
+
+The approval authorizes the Backend Developer to modify only the files listed
+in BE-010's implementation plan, run its red/green verification, and open the
+result for human review. It does not approve BE-005, the Track M runtime,
+`/v1/mock/*`, the dev change feed, shared fixtures, mobile integration, or
+Track R.
+
+The unresolved questions Q1–Q4 remain open and do not block BE-010 because that
+task changes packaging, interpreter selection, lock generation, and CI only.
+
+The `[BE-010]` commit prefix is confirmed for this task. This is a scoped
+extension of the current `[BL-NNN]`/`[CHG-NNN]` convention for task-card
+deliveries; the Engineering Manager should generalize task prefixes in a
+separate policy change rather than through this approval.
+
+## Decision record
 
 Split the backend work into two tracks and run the **mock track first**.
 
@@ -97,3 +115,4 @@ from DB5**. The phone may use them only from a dev connector behind a build flag
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-30 | CHG-014 | Created (Draft) from the backend + AI codebase analysis |
+| 2026-10-31 | CHG-014 | Approved narrowly for BE-010 only; `[BE-010]` commit prefix confirmed; all mock runtime and platform work remains Draft |

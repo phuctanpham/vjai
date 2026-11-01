@@ -2,7 +2,7 @@
 
 > **Phase:** P3 · P3-05 (status part), P3-07  
 > **Track:** M (two phones against the mock) → R (two devices against PowerSync)  
-> **Status:** Blocked · the UI needs a spec from the Product Manager (P3-05 is "Needs spec"; DOC-004 Q9). The convergence suite (S04–S06) can start after TASK-010  
+> **Status:** Draft · blocked: the UI needs a spec from the Product Manager (P3-05 is "Needs spec"; DOC-004 Q9). The convergence suite (S04–S06) can start after TASK-010  
 > **Owner:** App Developer · Product Manager (UI spec)  
 > **Raised by:** App Developer, mobile + database analysis, 2026-10-31 ([CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md))  
 > **Dependencies:** [TASK-010](TASK-010-mock-backend-integration.md), [TASK-017](TASK-017-local-upload-queue.md)  
@@ -43,4 +43,4 @@ No lag dashboard (DevOps, P3-07). No notifications (P4).
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Created (Blocked on UI spec) by the App Developer |
+| 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Created (Draft) by the App Developer |

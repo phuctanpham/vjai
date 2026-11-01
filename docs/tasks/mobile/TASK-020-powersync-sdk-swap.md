@@ -2,7 +2,7 @@
 
 > **Phase:** P3 · P3-04  
 > **Track:** R (real platform)  
-> **Status:** Blocked · [BE-001](../backend/BE-001-platform-decision.md) (platform), dependency approval (`powersync`, `powersync_sqlcipher`), [BE-006](../backend/BE-006-phone-schema-sync-parity.md) (Sync Streams deployed)  
+> **Status:** Draft · blocked by [BE-001](../backend/BE-001-platform-decision.md) (platform), dependency approval (`powersync`, `powersync_sqlcipher`), [BE-006](../backend/BE-006-phone-schema-sync-parity.md) (Sync Streams deployed)  
 > **Owner:** App Developer · Engineering Manager (plan, decisions.md entry)  
 > **Raised by:** App Developer, mobile + database analysis, 2026-10-31 ([CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) F-17)  
 > **Dependencies:** TASK-010, TASK-011, TASK-013, TASK-014, TASK-017  
@@ -49,4 +49,4 @@ No write handler calls in P3 (P4, TASK-024). No user-data migration from P2 buil
 
 | Date | CHG | Change |
 |---|---|---|
-| 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Created (Blocked) by the App Developer |
+| 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Created (Draft) by the App Developer |

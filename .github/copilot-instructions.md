@@ -10,7 +10,7 @@ Welcome to the **Garblo** codebase (`phuctanpham/vjai`). This project is designe
   - The core of this codebase is a maintainable, reactive Flutter framework targeting **Android, iOS, Windows, and macOS**.
   - All feature logic, state management, adaptive presentation, and domain modeling live here.
 - **SECONDARY UTILITY — Python Mock Backend (`backend/`)**:
-  - The current Python/FastAPI service managed via `uv` is a **phase-limited
+  - The current Python/FastAPI/Langchain service managed via `uv` is a **phase-limited
     legacy mock** for fixtures, health checks and integration tests.
   - Do not treat its dating endpoints as the active product contract.
   - Do not implement the future MongoDB/PowerSync platform until

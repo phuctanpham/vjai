@@ -102,8 +102,8 @@ that the v2.8 sync contract would reject (CHG-015 F-01…F-17).
 | [TASK-018](TASK-018-flows-on-server-fakes.md) | Flow A and Flow B on server fakes (synced engines) | P3-04, P4 preview | M | TASK-010, TASK-015, BE-014, BE-015 | Draft |
 | [TASK-019](TASK-019-catalog-from-the-database.md) | Item-type catalog from the database | P3-05 | M → R | TASK-010, TASK-011 | Draft |
 | [TASK-021](TASK-021-attachment-downloads.md) | Attachment rows, GET tickets, offline file cache | P3-06 | M → R | TASK-010, BE-018 | Draft |
-| [TASK-022](TASK-022-sync-status-and-convergence.md) | Sync status, Sync now, two-phone convergence | P3-05, P3-07 | M → R | TASK-010, UI spec | Blocked (UI spec, DOC-004 Q9) |
-| [TASK-020](TASK-020-powersync-sdk-swap.md) | Swap plain SQLite for the PowerSync SDK | P3-04 | R | BE-001, BE-006, dependency decision | Blocked (BE-001) |
+| [TASK-022](TASK-022-sync-status-and-convergence.md) | Sync status, Sync now, two-phone convergence | P3-05, P3-07 | M → R | TASK-010, UI spec | Draft (blocked: UI spec, DOC-004 Q9) |
+| [TASK-020](TASK-020-powersync-sdk-swap.md) | Swap plain SQLite for the PowerSync SDK | P3-04 | R | BE-001, BE-006, dependency decision | Draft (blocked: BE-001) |
 
 ### P4 · Full backend, no AI
 

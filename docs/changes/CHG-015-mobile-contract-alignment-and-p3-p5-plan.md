@@ -84,6 +84,22 @@ Not planned as cards yet (no content until their spec or release exists, README 
 first launch (gap ①), item detail and manual wear logging (gaps ②③), P2-06 device calendar and
 notifications, P4-M05 rewards and P4-M06 Community (Flow C/D, flagged), P5-M03, P5-M04.
 
+## Review outcome (human, 2026-10-31)
+
+- The P1–P2 findings are **accepted as a required pre-P3 refactor**. The 481-test green
+  baseline does not prove wire compatibility: the enum, timestamp, date, clock, write-shape,
+  ownership, consent and fixture findings (F-01…F-14) must be fixed before backend integration.
+- **Status stays Draft** until [DOC-002](../tasks/docs/DOC-002-flow-spec-v2-8-relocation.md) and
+  [DOC-004](../tasks/docs/DOC-004-mobile-contract-decisions.md) are resolved and the Engineering
+  Manager has written the implementation and test plans. The ASEM turns the raised findings into
+  owned plans.
+- **No implementation and no code commits** until then.
+- **Approved execution order:** TASK-013 → TASK-016 (after Product Manager approval) →
+  TASK-015 → TASK-011 and TASK-014 → TASK-012 → P3 mock integration (TASK-017 onward).
+- Every new card stays **Draft**. Cards are **not renumbered**:
+  [DOC-003](../tasks/docs/DOC-003-archive-legacy-backend-cards.md) resolves the collision with
+  the retired backend `TASK-013…015` cards.
+
 ## Product impact (APM)
 
 | Affected | Change needed |
@@ -123,3 +139,4 @@ notifications, P4-M05 rewards and P4-M06 Community (Flow C/D, flagged), P5-M03, 
 | Date | CHG | Change |
 |---|---|---|
 | 2026-10-31 | CHG-015 | Created (Draft) from the mobile + database codebase analysis |
+| 2026-10-31 | CHG-015 | Human review recorded: findings accepted as a required pre-P3 refactor; order confirmed; stays Draft pending DOC-002, DOC-004 and ASEM plans; no renumbering. TASK-020 and TASK-022 set back to Draft (blockers kept in their text) |
