@@ -22,6 +22,10 @@ dist/
 CLAUDE.local.md
 .claude/settings.local.json
 
+# Secret files
+*/*.pem
+*/*.env
+
 # IDE & OS
 .DS_Store
 Thumbs.db
