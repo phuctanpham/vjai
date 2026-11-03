@@ -180,6 +180,12 @@ graph TD
 
 ## 3. Technical Delivery View
 
+The ordered Phase 4 plan is documented in
+[PHASE-4-implementation-plan.md](PHASE-4-implementation-plan.md). It separates
+shared contract tests, service-independent mock/real APIs, data migration,
+service-dependent adapters, OpenAI providers, and non-Docker/Docker localhost
+verification.
+
 This table is the manager's implementation handoff. A task is not ready for coding unless its contract, state behavior, test surface, and file boundary are clear.
 
 | Task | Primary contract | State/behavior to verify | Required test surface | Boundary |
@@ -243,3 +249,4 @@ When starting any task card from this backlog, the coding agent MUST execute the
 | 2026-10-29 | [CHG-003](../../changes/CHG-003-wardrobe-direction-phase-1.md) | Superseded banner, "not a dating app" glossary and wardrobe handoff added; dating backlog kept as history |
 | 2026-10-30 | [CHG-014](../../changes/CHG-014-mock-first-backend-track.md) | Handoff rewritten: Track M (mock first) before Track R (real); spec v2.8 sync contract; requests to other roles. Table added (it was missing; README §3 rule 7) |
 | 2026-10-31 | [CHG-015](../../changes/CHG-015-mobile-contract-alignment-and-p3-p5-plan.md) | Added "Requests from the mobile analysis" (BE-021, BE-022, DOC-004) |
+| 2026-11-03 | [CHG-016](../../changes/CHG-016-pip-backend-toolchain.md) | Added the nine-step Phase 4 implementation and verification plan |
