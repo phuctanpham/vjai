@@ -6,7 +6,7 @@ Why each rule exists is recorded in [decisions.md](decisions.md).
 | Part | Role | Stack |
 |---|---|---|
 | `apps/mobile/lib/` | **Primary product.** One Flutter app for Android, iOS, Windows, macOS | Flutter, Dart 3, Riverpod |
-| `backend/` | **Secondary.** Deterministic mock API for fixtures and HTTP integration | Python 3.10+, FastAPI, Pydantic v2, uv |
+| `backend/` | **Secondary.** Deterministic mock API for fixtures and HTTP integration | Python 3.10+, FastAPI, Pydantic v2, pip |
 
 ## 2. Flutter layering
 

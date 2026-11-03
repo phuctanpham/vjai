@@ -28,7 +28,7 @@ Two AI deliverables need no model, no provider and no database, and both gate P5
 | Name detection | Interface only: `NameDetector` port with a `NoopNameDetector`; a real one needs SP-7 and a decisions.md entry |
 | `backend/app/ai/eval/` | `extraction_eval(extractor, dataset)`: type-code accuracy per group, attribute accuracy, expected calibration error (10 bins), p95 latency. `deck_eval(generator, sessions, judgments)`: Add to Rotation rate@8, owned-only violations (must be 0), determinism check |
 | Datasets | Small synthetic JSON datasets in `backend/tests/ai/fixtures/eval/` (no real photos, no personal data); real sets are AI-001 and AI-003 work |
-| Command | `uv run python -m app.ai.eval --suite extraction|decks --report out.json`: deterministic JSON report; the fakes' report is committed as the baseline |
+| Command | `python -m app.ai.eval --suite extraction|decks --report out.json`: deterministic JSON report; the fakes' report is committed as the baseline |
 
 ## Scenarios
 

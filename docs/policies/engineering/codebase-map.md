@@ -7,7 +7,7 @@ The only repository tree in the docs. Use it to find files instead of crawling. 
 | Path | Package | Role |
 |---|---|---|
 | `apps/mobile/` (`pubspec.yaml`, `analysis_options.yaml`, `dart_test.yaml`, `lib/`, `test/`) | `garblo` (Flutter) | **Primary product.** One app for Android, iOS, Windows, macOS. Run Flutter commands from here ([CHG-010](../../changes/CHG-010-monorepo-mobile-move.md)) |
-| `backend/` | `garblo-backend` (uv) | **Secondary.** Legacy dating mock API; not the wardrobe contract ([BE-001](../../tasks/backend/BE-001-platform-decision.md)) |
+| `backend/` | `garblo-backend` (pip) | **Secondary.** Legacy dating mock API; not the wardrobe contract ([BE-001](../../tasks/backend/BE-001-platform-decision.md)) |
 | `docs/` | — | Every document; start at [docs/README.md](../../README.md) |
 | `.github/` | — | Copilot adapter and the APK workflow |
 | `CLAUDE.md`, `.claude/` | — | Claude Code adapter: entry instructions, subagents, skills, settings |
@@ -104,7 +104,8 @@ apps/mobile/test/
 
 ```text
 backend/
-├── pyproject.toml                     fastapi, uvicorn, pydantic; dev: pytest, httpx; readme = README.md
+├── requirements.txt                   fastapi, uvicorn, pydantic
+├── requirements-dev.txt               pytest, httpx, and the runtime requirements
 ├── app/
 │   ├── main.py                        FastAPI app, CORS
 │   ├── config.py                      Settings from env: PORT, HOST, ENV, SERVICE_NAME

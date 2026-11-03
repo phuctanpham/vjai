@@ -120,5 +120,5 @@ flutter test test/features/discovery/
 
 # Backend verification
 cd backend
-uv run pytest
+python -m pytest
 ```

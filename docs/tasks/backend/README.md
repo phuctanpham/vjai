@@ -57,7 +57,7 @@ API surface)*). Every card below targets the sync contract. Spec files:
 
 | # | ID | Owner | Task | Mock of | Blocked by | Status |
 |---|---|---|---|---|---|---|
-| 0 | [BE-010](BE-010-restore-backend-gate.md) | Backend | Restore the backend gate: packaging, Python pin, `uv.lock`, CI job (`uv run pytest` fails to build today) | — | — | Draft |
+| 0 | [BE-010](BE-010-restore-backend-gate.md) | Backend | Restore the backend gate: pip requirements, Python pin, CI job (`python -m pytest`) | — | — | Draft |
 | 1 | [BE-005](BE-005-retire-dating-mock-api.md) | Backend | Retire the dating mock API; rewrite `backend/README.md` | — | BE-010 | Draft |
 | 2 | [BE-011](BE-011-mock-platform-core.md) | Backend | Sync row models (phone schema), ObjectId parity, injected clock, in-memory `Store`, dev token, mock controls | P4-B01 (dev token) | BE-005 | Draft |
 | 3 | [BE-012](BE-012-mock-write-handler.md) | Backend | `POST /v1/sync/tx`: PUT/PATCH/DELETE rules, owner checks, allow-lists, idempotency, atomicity, I1/I2/I4/I6 | P4-B02, P4-B03 | BE-011 | Draft |

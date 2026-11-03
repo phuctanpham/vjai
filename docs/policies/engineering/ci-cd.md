@@ -13,8 +13,11 @@ flutter test                      # or a focused path: flutter test test/feature
 
 **Backend** (from `backend/`)
 ```bash
-uv sync --extra dev
-uv run pytest
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
+python -m pytest
 ```
 
 A gate that cannot run (missing toolchain) is reported as **skipped** with the reason, never as passed.
@@ -24,9 +27,9 @@ A gate that cannot run (missing toolchain) is reported as **skipped** with the r
 |---|---|
 | Flutter | **3.24.5** (Dart 3.5.4), pinned in [`.fvmrc`](../../../.fvmrc) and the CI workflow ([CHG-004](../../changes/CHG-004-enforce-format-gate.md)). `apps/mobile/pubspec.yaml` keeps `>= 3.10.0` as the minimum |
 | Python | ≥ 3.10 |
-| uv | latest |
+| pip | current version supplied by the supported Python installation |
 
-`apps/mobile/pubspec.lock` and `uv.lock` are committed ([CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)).
+`apps/mobile/pubspec.lock` is committed ([CHG-005](../../changes/CHG-005-phase-2-local-persistence.md)).
 
 Tests that open SQLite use the host library: the system `libsqlite3` on Linux and macOS, and on Windows a `sqlite3.dll` outside the repo (default `F:\tools\sqlite\sqlite3.dll`, or the path in `GARBLO_SQLITE3_DLL`). Benchmarks carry the `benchmark` tag and run with `flutter test --run-skipped --tags benchmark`.
 
@@ -43,7 +46,7 @@ fails the build ([CHG-004](../../changes/CHG-004-enforce-format-gate.md)).
 | Job | Steps |
 |---|---|
 | `flutter` | Set up the pinned Flutter version → Flutter gates |
-| `backend` | Set up Python + uv → backend gates |
+| `backend` | Set up Python + pip → backend gates |
 
 `main` accepts merges only when both jobs pass. A workflow file is Type 3 code, written by the developer whose toolchain it runs, through a backlog item or CHG.
 
@@ -52,7 +55,7 @@ None. The backend is a local mock and the app is not distributed yet. Release pi
 
 ## 5. Running locally
 ```bash
-cd backend && uv run uvicorn app.main:app --reload --port 8080 --host 0.0.0.0
+cd backend && python -m uvicorn app.main:app --reload --port 8080 --host 0.0.0.0
 cd apps/mobile && flutter run   # requires platform folders, see CHG-002
 ```
 
@@ -65,3 +68,4 @@ cd apps/mobile && flutter run   # requires platform folders, see CHG-002
 | 2026-10-30 | [CHG-005](../../changes/CHG-005-phase-2-local-persistence.md) | Lock files committed; host SQLite for tests; benchmark tag |
 | 2026-10-30 | [CHG-009](../../changes/CHG-009-phase-2-verification.md) | CI runs the derived-query benchmark |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Flutter gates and CI run from `apps/mobile/` |
+| 2026-11-03 | [CHG-016](../../changes/CHG-016-pip-backend-toolchain.md) | Backend gate migrated from uv to pip |

@@ -6,7 +6,7 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.24.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![uv](https://img.shields.io/badge/uv-Package%20Manager-DE5FE9)](https://docs.astral.sh/uv/)
+[![pip](https://img.shields.io/badge/pip-Package%20Manager-3776AB)](https://pip.pypa.io/)
 
 ---
 
@@ -59,7 +59,7 @@ This is a two-package monorepo. The annotated file tree lives in one place,
 | Path | Contents |
 |---|---|
 | `apps/mobile/lib/`, `apps/mobile/test/`, `apps/mobile/pubspec.yaml` | Flutter app (`garblo`): `app/` shell and routing, `core/` storage, media and layout, `features/` wardrobe slices |
-| `backend/` | Legacy FastAPI mock API (`garblo-backend`, managed with `uv`) |
+| `backend/` | Legacy FastAPI mock API (`garblo-backend`, managed with pip) |
 | `docs/` | Every document; start at [`docs/README.md`](docs/README.md) |
 | `CLAUDE.md`, `.claude/` | Claude Code instructions, subagents and skills |
 | `.github/` | Copilot instructions and the Android APK workflow |
@@ -124,11 +124,11 @@ flutter run
 flutter run --dart-define=API_BASE_URL=http://localhost:8080
 ```
 
-### 2. Backend Setup (with `uv`)
+### 2. Backend Setup (with pip)
 
 #### Prerequisites
 - Python `>= 3.10`
-- [`uv`](https://docs.astral.sh/uv/)
+- `pip`
 
 #### Commands
 
@@ -136,10 +136,10 @@ flutter run --dart-define=API_BASE_URL=http://localhost:8080
 cd backend
 
 # Install dependencies into virtual environment
-uv sync --extra dev
+python -m pip install -r requirements-dev.txt
 
 # Start development server with live reload
-uv run uvicorn app.main:app --reload --port 8080 --host 0.0.0.0
+python -m uvicorn app.main:app --reload --port 8080 --host 0.0.0.0
 ```
 
 Once running:
@@ -192,7 +192,7 @@ production Play Store release.
 cd backend
 
 # Run pytest suite
-uv run pytest
+python -m pytest
 ```
 
 ---

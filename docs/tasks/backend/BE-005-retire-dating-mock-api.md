@@ -42,7 +42,7 @@ Keep: `health.py` (`/health`, `/api/v1/health`), `config.py`, `main.py`.
   `/v1/studio`, `/v1/wardrobe`, `/v1/gu-match` REST routes was removed by spec v2.8.
 - `app/main.py` title and description: "Garblo mock API", with no "discovery and
   profile data".
-- `uv run pytest` stays green (health tests).
+- `python -m pytest` stays green (health tests).
 - Moved here from [BE-010](BE-010-restore-backend-gate.md) (decision D3): add
   `filterwarnings = ["error::DeprecationWarning"]` to `[tool.pytest.ini_options]`
   once the dating models are gone. Before that, their `class Config` warnings break

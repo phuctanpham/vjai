@@ -57,7 +57,7 @@ Recommendation: **B**. Its `MockClient` keeps tests free of the network
 | TASK-010-S03 | Feed pages are applied in order and atomically; the checkpoint survives a restart; a repeated page changes nothing; applied rows add nothing to the upload queue | Unit (`local_db.dart`) |
 | TASK-010-S04 | A row the phone wrote, then normalised by the server (owner filled, server fields added), replaces the local row without losing a newer local edit (write checkpoint) | Unit |
 | TASK-010-S05 | With the flag off, every existing test passes unchanged, and no `core/sync/` code runs | Regression |
-| TASK-010-S06 | Live: tagged `live_backend` (skipped by default), S01–S04 run against `uv run uvicorn app.main:app` with `/v1/mock/reset` between tests | Integration |
+| TASK-010-S06 | Live: tagged `live_backend` (skipped by default), S01–S04 run against `python -m uvicorn app.main:app` with `/v1/mock/reset` between tests | Integration |
 
 Recorded responses come from the backend's contract tests (BE-012, BE-013) and are saved as JSON
 in `contracts/fixtures/sync/` ([TASK-012](TASK-012-shared-golden-fixtures.md)). The Flutter suite

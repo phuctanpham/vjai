@@ -34,8 +34,8 @@ The operating environment is **Windows** with **PowerShell** as the primary shel
 - **SQLite on Windows:**
   - DLL path: `F:\tools\sqlite\sqlite3.dll` (default in `apps/mobile/test/helpers/local_db.dart`) or set via `$env:GARBLO_SQLITE3_DLL`.
 - **Backend / Python:**
-  - Python toolchain managed by `uv` (`uv.exe` is on PATH).
-  - Run backend tests: `cd backend; uv run pytest`.
+  - Python toolchain is managed with a virtual environment and `pip`.
+  - Run backend tests: `cd backend; python -m pytest`.
 - **File Encoding:**
   - All files must be UTF-8 without BOM.
   - Never pipe documents through PowerShell `Get-Content`/`Set-Content` (corrupts encoding / formatting); always use Antigravity `read_file`, `edit_file`, and `write_file` tools.
@@ -99,7 +99,7 @@ cd apps/mobile
 
 # From backend/
 cd ../backend
-uv run pytest
+python -m pytest
 ```
 
 Always include the gate result table in delivery reports:
@@ -109,7 +109,7 @@ Always include the gate result table in delivery reports:
 | format | dart format --output=none --set-exit-if-changed . | passed |
 | analyze | flutter analyze | passed (0 issues) |
 | test | flutter test | passed (X passed, 0 failed) |
-| backend | uv run pytest | skipped: no backend change |
+| backend | python -m pytest | skipped: no backend change |
 ```
 
 ---

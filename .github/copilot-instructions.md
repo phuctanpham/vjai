@@ -10,7 +10,7 @@ Welcome to the **Garblo** codebase (`phuctanpham/vjai`). This project is designe
   - The core of this codebase is a maintainable, reactive Flutter framework targeting **Android, iOS, Windows, and macOS**.
   - All feature logic, state management, adaptive presentation, and domain modeling live here.
 - **SECONDARY UTILITY — Python Mock Backend (`backend/`)**:
-  - The current Python/FastAPI/Langchain service managed via `uv` is a **phase-limited
+  - The current Python/FastAPI/Langchain service managed with pip is a **phase-limited
     legacy mock** for fixtures, health checks and integration tests.
   - Do not treat its dating endpoints as the active product contract.
   - Do not implement the future MongoDB/PowerSync platform until
@@ -62,7 +62,7 @@ Data Source / API Client / Storage (Concrete implementation)
 
 ## 4. Backend Mock Guidelines
 
-- Lightweight mock API written in **Python / FastAPI** managed with **`uv`**.
+- Lightweight mock API written in **Python / FastAPI** managed with **pip**.
 - Encapsulate routes under `backend/app/api/v1/endpoints/`.
 - Keep the legacy mock typed and deterministic. Do not present its dating
   schemas as the wardrobe contract.
@@ -81,7 +81,7 @@ dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test
 
-# Backend (uv, from the repository root)
+# Backend (pip, from the repository root)
 cd ../../backend
-uv run pytest
+python -m pytest
 ```

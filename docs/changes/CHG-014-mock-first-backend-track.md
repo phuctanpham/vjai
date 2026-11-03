@@ -18,11 +18,10 @@ Status values: `Draft` → `Approved` (human) → `Done` (after merge).
    contract (replaces the API surface)* and T4 › DB5) removes them: the app reads and
    writes only its local database; every write and command is a row uploaded to
    **one** endpoint, `POST /v1/sync/tx`; results come back only through Sync Streams.
-3. **The backend gate does not run.** `uv run pytest` fails before collecting a test:
-   hatchling cannot find the `app` package (project name `garblo-backend`), and the
-   committed `uv.lock` is only an unreviewed diagnostic artifact. Uv also picks an
-   unpinned interpreter (3.15 on the reference machine). With the build bypassed
-   the 7 legacy tests pass.
+3. **The backend gate does not run.** The previous package-manager workflow
+   failed before collecting a test. The replacement pip workflow uses an
+   explicit virtual environment and requirements files. With the build
+   bypassed the 7 legacy tests pass.
 
 ## Decision
 
@@ -88,8 +87,8 @@ from DB5**. The phone may use them only from a dev connector behind a build flag
 | [architecture.md](../policies/engineering/architecture.md) §4 | Backend mock serves the v2.8 sync contract: write handler, fake side effects behind ports, change feed; `Store` protocol with an in-memory implementation |
 | [data-schema.md](../policies/engineering/data-schema.md) §5 | Mock wire contract (table above) is the active backend contract; snake_case column names exactly as phone schema v1 |
 | [coding-conventions.md](../policies/engineering/coding-conventions.md) §2 | Conflict: "`Field(alias="camelCase")`" vs. the sync contract, whose names are the snake_case phone-schema columns. Proposed: sync models use the column names, no aliases |
-| [tdd.md](../policies/engineering/tdd.md) §3 | pytest cannot name a function `[BE-012-S01] …`. Proposed: `def test_be012_s01_<slug>()` whose docstring starts with `[BE-012-S01]`; run one scenario with `uv run pytest -k be012_s01` |
-| [ci-cd.md](../policies/engineering/ci-cd.md) §2–3 | `uv.lock` is not committed today; Python pin; backend job in CI (BE-010) |
+| [tdd.md](../policies/engineering/tdd.md) §3 | pytest cannot name a function `[BE-012-S01] …`. Proposed: `def test_be012_s01_<slug>()` whose docstring starts with `[BE-012-S01]`; run one scenario with `python -m pytest -k be012_s01` |
+| [ci-cd.md](../policies/engineering/ci-cd.md) §2–3 | Backend requirements files, Python pin, and backend job in CI (BE-010) |
 | [codebase-map.md](../policies/engineering/codebase-map.md) | Backend tree after BE-005 and BE-011 |
 | Agent spec `agents/backend-developer.md` (Type 1, human) | Role rules already allow Track M; add "Track R needs BE-001" when BE-001 lands |
 
@@ -116,3 +115,4 @@ from DB5**. The phone may use them only from a dev connector behind a build flag
 |---|---|---|
 | 2026-10-30 | CHG-014 | Created (Draft) from the backend + AI codebase analysis |
 | 2026-10-31 | CHG-014 | Approved narrowly for BE-010 only; `[BE-010]` commit prefix confirmed; all mock runtime and platform work remains Draft |
+| 2026-11-03 | [CHG-016](CHG-016-pip-backend-toolchain.md) | Backend gate documentation migrated to pip and virtual environments |

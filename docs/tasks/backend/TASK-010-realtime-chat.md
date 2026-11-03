@@ -49,4 +49,4 @@ No production broker, message durability, encryption protocol, presence system, 
 
 ## Verification
 
-Run format, `flutter analyze`, focused Flutter chat tests, and `cd backend; uv run pytest`.
+Run format, `flutter analyze`, focused Flutter chat tests, and `cd backend; python -m pytest`.

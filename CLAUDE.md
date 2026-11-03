@@ -42,7 +42,7 @@ flutter analyze
 flutter test                                   # full suite
 flutter test test/features/wardrobe/           # one feature
 flutter test --plain-name '[TASK-006-S03]'     # one scenario
-cd ../../backend && uv run pytest              # backend, from backend/
+cd ../../backend && python -m pytest           # backend, from backend/
 ```
 
 Paths that only exist on one machine (an SDK that is not on PATH, the Windows `sqlite3.dll`) go in

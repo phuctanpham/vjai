@@ -30,7 +30,7 @@ The working tree on 2026-10-30 (uncommitted) **deletes** `docs/tasks/mobile/Garb
 | 8 | DB handbook › GM-02 session statuses; §13 `privacy_requests` statuses | Values not in Flow Spec T2 › Enums | Add them to T2 or mark them as the handbook's proposal | APM |
 | 9 | [coding-conventions.md](../../policies/engineering/coding-conventions.md) §2 | "`Field(alias="camelCase")`" contradicts the snake_case column names of the sync contract | Sync models use column names, no alias (CHG-014) | ASEM |
 | 10 | [tdd.md](../../policies/engineering/tdd.md) §3 | Scenario-ID test names (`'[BE-012-S01] …'`) are impossible as pytest function names | `test_be012_s01_<slug>` + docstring `[BE-012-S01] …`; select with `-k` (CHG-014) | ASEM |
-| 11 | [ci-cd.md](../../policies/engineering/ci-cd.md) §2 | Says `uv.lock` is committed; it is not, and the backend gate fails to build | Fixed by [BE-010](../backend/BE-010-restore-backend-gate.md); update the text after it merges | ASEM |
+| 11 | [ci-cd.md](../../policies/engineering/ci-cd.md) §2 | The backend toolchain and gate were inconsistent | Fixed by [BE-010](../backend/BE-010-restore-backend-gate.md) and [CHG-016](../../changes/CHG-016-pip-backend-toolchain.md) | ASEM |
 | 12 | Design System Handbook moved from `policies/product/` to `specs/` | `design-system.md` and T7 references may point to the old path | Check and re-point | APM |
 
 ## Acceptance criteria

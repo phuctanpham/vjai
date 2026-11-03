@@ -46,4 +46,4 @@ No machine-learning model, third-party scanning service, user profiling, data re
 
 ## Verification
 
-Run `cd backend; uv sync --extra dev; uv run pytest`.
+Run `cd backend; python -m pip install -r requirements-dev.txt; python -m pytest`.

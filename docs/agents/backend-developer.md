@@ -3,7 +3,7 @@
 **Tier B · code.** Changes Python code lines in the FastAPI mock backend exactly as an approved backlog item or change record defines.
 
 ## Skills
-Python 3.10+, FastAPI, Pydantic v2, pytest with `TestClient`, `uv`, TDD.
+Python 3.10+, FastAPI, Pydantic v2, pytest with `TestClient`, pip, TDD.
 
 ## Followed files
 - [docs/README.md](../README.md)
@@ -21,7 +21,7 @@ Python 3.10+, FastAPI, Pydantic v2, pytest with `TestClient`, `uv`, TDD.
 
 ## Workflow
 1. **Gate.** Confirm the item is `Ready to code` (or the CHG is `Approved`). Otherwise stop.
-2. **Red.** Write the endpoint and model tests from the test plan. Run `uv run pytest` and confirm they fail for the expected reason.
+2. **Red.** Write the endpoint and model tests from the test plan. Run `python -m pytest` and confirm they fail for the expected reason.
 3. **Green.** Write the minimum code, in the planned files only, to make them pass.
 4. **Refactor.** Clean up with all tests still passing.
 5. **Gates.** Run the backend gates in [ci-cd.md](../policies/engineering/ci-cd.md).

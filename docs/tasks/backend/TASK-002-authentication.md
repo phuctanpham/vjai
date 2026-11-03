@@ -127,5 +127,5 @@ flutter test test/features/auth/
 
 # Backend checks
 cd backend
-uv run pytest tests/test_health.py
+python -m pytest tests/test_health.py
 ```
