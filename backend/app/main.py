@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+import base64
+import hmac
 import json
 import os
 from copy import deepcopy
@@ -8,9 +10,21 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Query
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 from pydantic import BaseModel, ConfigDict
 
 from app.ai.ports import ContextRequest, DeterministicContext
+from app.auth.powersync import (
+    DeterministicPowerSyncJwtIssuer,
+    OpenSSLRS256Signer,
+    PowerSyncTokenSettings,
+    PowerSyncTokenError,
+    PowerSyncJwtIssuer,
+    settings_from_env,
+)
+from app.auth.ports import Principal
 from app.core.clock import FixedClock, iso_now
 from app.store.memory import InMemoryStore
 from app.sync.ids import deterministic_object_id, is_object_id
@@ -75,6 +89,39 @@ def create_app(adapter: str = "mock") -> FastAPI:
     app.state.mock = state
     app.state.adapter = adapter
 
+    basic_username = os.getenv("BASIC_AUTH_USERNAME", os.getenv("GARBLO_BASIC_AUTH_USERNAME", "")).strip()
+    basic_password = os.getenv("BASIC_AUTH_PASSWORD", os.getenv("GARBLO_BASIC_AUTH_PASSWORD", "")).strip()
+
+    class BasicAuthMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request: Request, call_next) -> Response:
+            if request.url.path in {"/health", "/api/v1/health"}:
+                return await call_next(request)
+            authorization = request.headers.get("x-backend-authorization", "")
+            if not authorization and request.headers.get("authorization", "").startswith("Basic "):
+                authorization = request.headers["authorization"]
+            if not authorization.startswith("Basic "):
+                return Response(
+                    status_code=401,
+                    headers={"WWW-Authenticate": 'Basic realm="garblo-backend"'},
+                )
+            try:
+                decoded = base64.b64decode(authorization[6:], validate=True).decode("utf-8")
+                username, password = decoded.split(":", 1)
+            except (ValueError, UnicodeDecodeError):
+                username, password = "", ""
+            if not (
+                hmac.compare_digest(username, basic_username)
+                and hmac.compare_digest(password, basic_password)
+            ):
+                return Response(
+                    status_code=401,
+                    headers={"WWW-Authenticate": 'Basic realm="garblo-backend"'},
+                )
+            return await call_next(request)
+
+    if basic_username and basic_password:
+        app.add_middleware(BasicAuthMiddleware)
+
     def unavailable() -> None:
         if os.getenv("ENV", "development") == "production":
             raise HTTPException(status_code=404, detail="Not found")
@@ -98,6 +145,23 @@ def create_app(adapter: str = "mock") -> FastAPI:
         if not is_object_id(user_id):
             raise HTTPException(status_code=422, detail="user_id must be an ObjectId")
         return {"token": f"dev.{user_id}", "user_id": user_id}
+
+    @app.post("/v1/auth/powersync-token")
+    def powersync_token(authorization: str | None = Header(default=None)) -> dict[str, str | int]:
+        unavailable()
+        owner = _owner(authorization)
+        settings = settings_from_env()
+        try:
+            if os.getenv("ENV", "development") == "test":
+                issuer = DeterministicPowerSyncJwtIssuer(settings)
+            elif settings.private_key:
+                issuer = PowerSyncJwtIssuer(settings, OpenSSLRS256Signer())
+            else:
+                raise PowerSyncTokenError("PowerSync RSA private key is not configured")
+            token = issuer.issue(Principal(owner))
+        except PowerSyncTokenError as exc:
+            raise HTTPException(status_code=503, detail="PowerSync token issuer unavailable") from exc
+        return {"token": token, "expires_in": settings.lifetime_seconds}
 
     @app.put("/v1/mock/clock")
     def set_clock(payload: dict[str, str]) -> dict[str, str]:

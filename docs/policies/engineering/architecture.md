@@ -50,6 +50,12 @@ the current mock backend.
 - The Flutter connector gets short-lived access tokens from the auth boundary;
   refresh credentials use the existing `SecureStore` abstraction. Widgets never
   read tokens or configure sync endpoints.
+- The backend is a credential provider rather than a PowerSync data proxy:
+  it signs short-lived JWTs with a protected RSA private key, and the mobile
+  client connects directly to the configured PowerSync endpoint.
+- RustFS media transfer is direct from mobile to storage through backend-issued
+  owner-scoped presigned PUT/GET URLs. S3 access and secret keys never leave
+  the backend.
 - Sync streams and the write handler derive ownership from the verified JWT
   `sub`. Payload `user_id` values are consistency-checked, not authorization
   credentials.
@@ -73,3 +79,4 @@ the current mock backend.
 | 2026-10-16 | [CHG-001](../../changes/CHG-001-agentic-documentation-system.md) | Merged from `docs/archive/legacy/architecture/README.md`, ADR 001–003 and glossary technical terms |
 | 2026-10-30 | [CHG-010](../../changes/CHG-010-monorepo-mobile-move.md) | Paths updated for the move of the Flutter app to `apps/mobile/` |
 | 2026-10-30 | [CHG-011](../../changes/CHG-011-power-sync-security-baseline.md) | Added deferred P3/P4 sync security boundary rules |
+| 2026-11-03 | [CHG-017](../../changes/CHG-017-direct-infrastructure-credentials.md) | Clarified direct PowerSync JWT and RustFS presigned URL boundaries |

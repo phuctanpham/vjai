@@ -21,8 +21,9 @@ def test_configuration_rejects_unsafe_production_defaults(monkeypatch: pytest.Mo
     from app.config import ConfigurationError, Settings
 
     monkeypatch.setenv("ENV", "production")
-    monkeypatch.delenv("GARBLO_AUTH_ISSUER", raising=False)
-    with pytest.raises(ConfigurationError):
+    monkeypatch.delenv("BASIC_AUTH_USERNAME", raising=False)
+    monkeypatch.delenv("BASIC_AUTH_PASSWORD", raising=False)
+    with pytest.raises(ConfigurationError, match="BASIC_AUTH"):
         Settings.from_env()
 
 

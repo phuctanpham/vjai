@@ -10,8 +10,8 @@ def test_production_settings_require_all_service_endpoints(monkeypatch: pytest.M
     from app.config import ConfigurationError, Settings
 
     monkeypatch.setenv("ENV", "production")
-    monkeypatch.setenv("GARBLO_AUTH_ISSUER", "https://issuer")
-    monkeypatch.setenv("GARBLO_AUTH_AUDIENCE", "garblo")
+    monkeypatch.setenv("BASIC_AUTH_USERNAME", "service-user")
+    monkeypatch.setenv("BASIC_AUTH_PASSWORD", "service-password")
     with pytest.raises(ConfigurationError, match="MongoDB"):
         Settings.from_env()
 

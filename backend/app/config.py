@@ -15,19 +15,23 @@ def _env(name: str, default: str = "") -> str:
 @dataclass(frozen=True)
 class Settings:
     environment: str = "development"
-    auth_issuer: str = ""
-    auth_audience: str = ""
-    jwt_algorithm: str = "RS256"
+    basic_auth_username: str = ""
+    basic_auth_password: str = ""
     request_timeout_seconds: float = 5.0
     retry_attempts: int = 2
     cors_origins: tuple[str, ...] = ()
     mongodb_uri: str = ""
     mongodb_database: str = ""
     powersync_url: str = ""
-    powersync_token: str = ""
-    rustfs_url: str = ""
-    rustfs_bucket: str = ""
-    rustfs_token: str = ""
+    powersync_key_id: str = ""
+    powersync_private_key: str = ""
+    powersync_audience: str = ""
+    rustfs_endpoint: str = ""
+    rustfs_port: int = 443
+    rustfs_use_ssl: bool = True
+    rustfs_region: str = "us-east-1"
+    rustfs_access_key: str = ""
+    rustfs_secret_key: str = ""
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -38,19 +42,23 @@ class Settings:
         )
         settings = cls(
             environment=_env("ENV", "development").lower(),
-            auth_issuer=_env("GARBLO_AUTH_ISSUER"),
-            auth_audience=_env("GARBLO_AUTH_AUDIENCE"),
-            jwt_algorithm=_env("GARBLO_JWT_ALGORITHM", "RS256"),
+            basic_auth_username=_env("BASIC_AUTH_USERNAME", _env("GARBLO_BASIC_AUTH_USERNAME")),
+            basic_auth_password=_env("BASIC_AUTH_PASSWORD", _env("GARBLO_BASIC_AUTH_PASSWORD")),
             request_timeout_seconds=float(_env("GARBLO_REQUEST_TIMEOUT_SECONDS", "5")),
             retry_attempts=int(_env("GARBLO_RETRY_ATTEMPTS", "2")),
             cors_origins=origins,
             mongodb_uri=_env("GARBLO_MONGODB_URI"),
             mongodb_database=_env("GARBLO_MONGODB_DATABASE"),
             powersync_url=_env("GARBLO_POWERSYNC_URL"),
-            powersync_token=_env("GARBLO_POWERSYNC_TOKEN"),
-            rustfs_url=_env("GARBLO_RUSTFS_URL"),
-            rustfs_bucket=_env("GARBLO_RUSTFS_BUCKET"),
-            rustfs_token=_env("GARBLO_RUSTFS_TOKEN"),
+            powersync_key_id=_env("GARBLO_POWERSYNC_KEY_ID"),
+            powersync_private_key=_env("GARBLO_POWERSYNC_PRIVATE_KEY"),
+            powersync_audience=_env("GARBLO_POWERSYNC_AUDIENCE"),
+            rustfs_endpoint=_env("GARBLO_RUSTFS_ENDPOINT", _env("GARBLO_RUSTFS_URL")),
+            rustfs_port=int(_env("GARBLO_RUSTFS_PORT", "443")),
+            rustfs_use_ssl=_env("GARBLO_RUSTFS_USE_SSL", "true").lower() == "true",
+            rustfs_region=_env("GARBLO_RUSTFS_REGION", "us-east-1"),
+            rustfs_access_key=_env("GARBLO_RUSTFS_ACCESS_KEY"),
+            rustfs_secret_key=_env("GARBLO_RUSTFS_SECRET_KEY"),
         )
         settings.validate()
         return settings
@@ -63,22 +71,22 @@ class Settings:
         if self.retry_attempts < 0:
             raise ConfigurationError("retry attempts cannot be negative")
         if self.environment == "production":
-            if not self.auth_issuer or not self.auth_audience:
+            if not self.basic_auth_username or not self.basic_auth_password:
                 raise ConfigurationError(
-                    "production requires GARBLO_AUTH_ISSUER and GARBLO_AUTH_AUDIENCE"
+                    "production requires BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD"
                 )
-            if self.jwt_algorithm not in {"RS256", "RS384", "RS512", "ES256", "ES384", "ES512"}:
-                raise ConfigurationError("production requires an asymmetric JWT algorithm")
             if "*" in self.cors_origins:
                 raise ConfigurationError("production CORS origins cannot be wildcard")
             required = {
                 "MongoDB URI": self.mongodb_uri,
                 "MongoDB database": self.mongodb_database,
                 "PowerSync URL": self.powersync_url,
-                "PowerSync token": self.powersync_token,
-                "RustFS URL": self.rustfs_url,
-                "RustFS bucket": self.rustfs_bucket,
-                "RustFS token": self.rustfs_token,
+                "PowerSync key ID": self.powersync_key_id,
+                "PowerSync private key": self.powersync_private_key,
+                "PowerSync audience": self.powersync_audience,
+                "RustFS endpoint": self.rustfs_endpoint,
+                "RustFS access key": self.rustfs_access_key,
+                "RustFS secret key": self.rustfs_secret_key,
             }
             missing = [name for name, value in required.items() if not value]
             if missing:

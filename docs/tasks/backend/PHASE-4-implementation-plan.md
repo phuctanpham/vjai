@@ -1,6 +1,6 @@
 # Phase 4 Backend Implementation Plan
 
-> **Status:** Draft — documentation and task preparation only  
+> **Status:** In progress — mock/local track implemented; production track and formal acceptance outstanding
 > **Toolchain:** Python virtual environment with `pip`  
 > **Authority:** [CHG-014](../../changes/CHG-014-mock-first-backend-track.md),
 > [CHG-016](../../changes/CHG-016-pip-backend-toolchain.md), and the approved
@@ -17,6 +17,26 @@ This plan does not authorize implementation while the `backend/` source tree,
 requirements files, and test suite are absent from the checkout. Each step
 must have an approved task card and an explicit allowed-file list before code
 is written.
+
+## Current status and outstanding work
+
+The deterministic mock/local backend track is implemented and currently
+verified with 67 passing backend tests and the local self-test. Phase 4 is not
+complete because the following work remains:
+
+| Area | Outstanding work | Current blocker or challenge |
+|---|---|---|
+| Platform decision | Approve and record BE-001, including the real wire contract, JWT ownership rules, idempotency key, worker topology, and operational controls | BE-001 is acknowledged but not approved; it gates Track R |
+| PowerSync | Repair the Cloudflare/reverse-proxy upstream and prove an authenticated `/sync/stream` handshake | The configured endpoint currently returns HTTP 502; JWT issuance and local RS256 verification pass, but sync is not verified |
+| RustFS | Install and wire a real S3-compatible presigner, then validate owner-scoped PUT/GET URLs against RustFS | Only the deterministic presigner boundary exists; live endpoint reachability is separate from signed upload/download verification |
+| OpenAI | Diagnose the configured-model HTTP 400 and rerun a minimal live request with response validation | API authentication/reachability passes, but the model request does not |
+| Local deployment | Complete non-Docker restart, migration/seed, OpenAPI, ownership, retry, and external-service verification as a recorded delivery report | Existing checks cover self-test and contracts, not the complete deployment checklist |
+| Docker deployment | Build from a clean checkout and verify Compose startup, networking, volumes, health/restart behavior, environment injection, and secret/log scans | Full Step 9 verification has not been rerun after the current configuration changes |
+| Acceptance | Move the relevant task cards and this plan from Draft/blocked states through engineering and product acceptance | Required approvals and delivery reports are not complete |
+
+These are completion criteria, not claims that the production platform is
+ready. No live platform wiring should be declared complete until BE-001 is
+approved and the external handshake and transfer tests pass.
 
 ## Step sequence
 
@@ -111,6 +131,12 @@ The Step 1 contract suite must run against these adapters when services are
 available. External-service tests must be explicitly marked and must not hide
 unit-test failures.
 
+The backend is a credential provider, not a data or media proxy: it issues
+short-lived PowerSync JWTs for direct mobile connections and RustFS/S3
+presigned PUT/GET URLs for direct media transfer. Live platform wiring remains
+gated by BE-001; local contracts and deterministic fakes may be implemented
+before that decision.
+
 ### Step 7 — Mock and real OpenAI APIs
 
 Implement both providers behind the same AI ports.
@@ -188,5 +214,6 @@ For every step:
 ## Change history
 
 | Date | CHG | Change |
+| 2026-11-03 | [CHG-017](../../changes/CHG-017-direct-infrastructure-credentials.md) | Corrected PowerSync and RustFS roles to direct-client credential boundaries |
 |---|---|---|
 | 2026-11-03 | [CHG-016](../../changes/CHG-016-pip-backend-toolchain.md) | Refactored Phase 4 into nine ordered backend implementation and verification steps |
