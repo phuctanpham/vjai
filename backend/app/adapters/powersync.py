@@ -1,11 +1,59 @@
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 from collections.abc import Iterator
 from typing import Any
+from collections.abc import Callable
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 from app.adapters.mongodb import MongoMockStore
 from app.sync.ports import Change
+from app.adapters.mongodb import AdapterUnavailable
+
+
+HttpRequest = Callable[[str, str, dict[str, str], bytes | None], bytes]
+
+
+def _http_request(method: str, url: str, headers: dict[str, str], body: bytes | None) -> bytes:
+    try:
+        with urlopen(Request(url, data=body, headers=headers, method=method), timeout=5) as response:
+            return response.read()
+    except OSError as exc:
+        raise AdapterUnavailable(f"PowerSync request unavailable: {exc}") from exc
+
+
+class PowerSyncHttpAdapter:
+    """HTTP boundary for the PowerSync change feed."""
+
+    def __init__(self, base_url: str, token: str, *, request: HttpRequest = _http_request) -> None:
+        if not base_url or not token:
+            raise AdapterUnavailable("PowerSync URL and token are required")
+        self._base_url = base_url.rstrip("/")
+        self._token = token
+        self._request = request
+        self._checkpoint = 0
+
+    def _headers(self) -> dict[str, str]:
+        return {"Authorization": "Bearer " + self._token}
+
+    def read(
+        self, owner_id: str, after: int, streams: tuple[str, ...], limit: int = 500
+    ) -> tuple[Change, ...]:
+        query = urlencode({"owner": owner_id, "after": after, "streams": ",".join(streams), "limit": limit})
+        raw = self._request("GET", f"{self._base_url}/v1/sync/changes?{query}",
+                            self._headers(), None)
+        try:
+            payload = json.loads(raw)
+            changes = tuple(Change(**change) for change in payload["changes"])
+            self._checkpoint = int(payload.get("checkpoint", max((c.sequence for c in changes), default=after)))
+            return changes
+        except (ValueError, KeyError, TypeError) as exc:
+            raise AdapterUnavailable("PowerSync returned an invalid change response") from exc
+
+    def checkpoint(self) -> int:
+        return self._checkpoint
 
 
 class PowerSyncMockAdapter:
