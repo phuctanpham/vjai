@@ -5771,7 +5771,14 @@ Response: Here are the complete **Phase 1: Pre-Code Specifications & Policies** 
 ``| `extracted_items` | `PHONE_PATCH_ONLY` | `my_studio` | `PATCH` (`value`, `last_worn_input` only) | `value`, `last_worn_input` | `id`, `user_id`, `batch_id`, `asset_id`, `item_index`, `name`, `confidence`, `ai`, `cutout_attachment_id`, `created_at` |``  
 ``| `gu_match_sessions` | `COMMAND` | `my_decks`, `deck_history` | `PUT`, `PATCH` (`occasions`, `raw_prompt`) | `id`, `user_id`, `path`, `occasions`, `raw_prompt`, `event_title`, `window_start`, `window_end`, `city_id`, `ambient_temp_c`, `status` (`REQUESTED` on PUT), `created_at` | `status` (`GATHERING`, `ANALYZED`, `DECK_READY`, `NO_ELIGIBLE_ITEMS`, `FAILED`), `context`, `eligible_item_count`, `owned_only`, `deck_size`, `recent`, `expires_at` |``  
 ``| `outfit_candidates` | `READ_ONLY` | `my_decks`, `deck_history` | None (`403`) | *(none — swipe decisions go via `interactions`)* | `id`, `user_id`, `session_id`, `deck_order`, `title`, `match_pct`, `highlight_reason`, `visual_mode`, `swipe_status`, `items`, `created_at` |``  
-``| `interactions` | `READ_WRITE` | `my_decks` | `PUT` | `id`, `user_id`, `session_id`, `candidate_id`, `action`, `dwell_ms`, `from_item_id`, `to_item_id`, `created_at` | *(none)* |``  
+``| `interactions` | `READ_WRITE` | `my_decks` | `PUT` | `id`, `user_id`, `session_id`, `candidate_id`, `action`, `dwell_ms`, `from_item_id`, `to_item_id`, `created_at` | *(none)* |``  ubuntu@ip-172-26-11-45:~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 17883  100 17883    0     0   453k      0 --:--:-- --:--:-- --:--:--  459k
+=> Downloading nvm from git to '/home/ubuntu/.nvm'
+=> Cloning into '/home/ubuntu/.nvm'...
+fatal: unable to access 'https://github.com/nvm-sh/nvm.git/': Failed to connect to github.com port 443 after 135799 ms: Couldn't connect to server
+Failed to clone nvm repo. Please report this!
 ``| `vton_jobs` | `COMMAND` | `my_decks` | `PUT` | `id`, `user_id`, `session_id`, `candidate_id`, `body_asset_id`, `status` (`REQUESTED` on PUT), `created_at` | `status` (`PROCESSING`, `COMPLETED`, `FAILED`, `CANCELLED`), `output_attachment_id`, `updated_at` |``  
 ``| `attachments` | `READ_WRITE` | `my_files` | `PUT`, `PATCH` (`state` = `UPLOADED`) | `id`, `user_id`, `kind` (`PHOTO`, `BODY`), `owner_table`, `owner_id`, `mime_type`, `bytes`, `sha256`, `state` (`PENDING_UPLOAD`, `UPLOADED`), `created_at` | `kind` (`CUTOUT`, `RENDER`, `POSTER`, `EXPORT`, `EDITORIAL`), `state` (`VERIFIED`, `REJECTED`, `READY`) |``  
 ``| `attachment_tickets` | `READ_ONLY` | `my_files` | None (`403`) | *(none)* | `id`, `user_id`, `attachment_id`, `op`, `url`, `expires_at` |``  
