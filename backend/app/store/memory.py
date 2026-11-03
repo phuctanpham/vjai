@@ -25,8 +25,14 @@ class InMemoryStore:
     def delete(self, owner: str, table: str, row_id: str) -> None:
         self._table(owner, table).pop(row_id, None)
 
-    def query(self, table: str, owner: str) -> list[dict[str, Any]]:
-        return [deepcopy(row) for row in self._table(owner, table).values()]
+    def query(
+        self, table: str, owner: str, where: dict[str, Any] | None = None
+    ) -> list[dict[str, Any]]:
+        return [
+            deepcopy(row)
+            for row in self._table(owner, table).values()
+            if where is None or all(row.get(key) == value for key, value in where.items())
+        ]
 
     @contextmanager
     def transaction(self) -> Iterator[None]:
