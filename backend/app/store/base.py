@@ -1,6 +1,14 @@
 from __future__ import annotations
 
+from collections.abc import Iterator
 from typing import Any, Protocol
+
+
+class StoreTransaction(Protocol):
+    """Unit-of-work boundary; implementations must roll back on exceptions."""
+
+    def __enter__(self) -> None: ...
+    def __exit__(self, exc_type: object, exc: object, traceback: object) -> None: ...
 
 
 class Store(Protocol):
@@ -9,3 +17,4 @@ class Store(Protocol):
     def patch(self, owner: str, table: str, row_id: str, values: dict[str, Any]) -> None: ...
     def delete(self, owner: str, table: str, row_id: str) -> None: ...
     def query(self, table: str, owner: str) -> list[dict[str, Any]]: ...
+    def transaction(self) -> Iterator[None]: ...
