@@ -86,6 +86,11 @@ def create_app(adapter: str = "mock") -> FastAPI:
             return JSONResponse(content=exc.detail, status_code=exc.status_code)
         return JSONResponse(content={"detail": exc.detail}, status_code=exc.status_code)
 
+    @app.get("/health")
+    @app.get("/api/v1/health")
+    def health() -> dict[str, str]:
+        return {"status": "ok", "service": "garblo-backend"}
+
     @app.post("/v1/auth/dev-token")
     def dev_token(payload: dict[str, str]) -> dict[str, str]:
         unavailable()

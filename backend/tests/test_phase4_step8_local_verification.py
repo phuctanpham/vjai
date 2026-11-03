@@ -1,0 +1,28 @@
+from __future__ import annotations
+
+from fastapi.testclient import TestClient
+
+from app.main import create_app
+
+
+def test_phase4_step8_health_is_local_and_non_sensitive() -> None:
+    with TestClient(create_app(adapter="mock")) as client:
+        response = client.get("/health")
+        versioned = client.get("/api/v1/health")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ok",
+        "service": "garblo-backend",
+    }
+    assert versioned.status_code == 200
+    assert versioned.json() == response.json()
+
+
+def test_phase4_step8_self_test_runs_seed_and_migration_checks(
+    capsys: object,
+) -> None:
+    from app.self_test import main
+
+    assert main([]) == 0
+    assert "health=ok" in capsys.readouterr().out  # type: ignore[attr-defined]
