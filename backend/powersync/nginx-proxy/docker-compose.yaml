@@ -1,0 +1,59 @@
+services:
+
+  nginx:
+
+    image: nginx:alpine
+
+    container_name: nginx-proxy
+
+    restart: unless-stopped
+
+    ulimits:
+
+      nofile:
+
+        soft: 65535
+
+        hard: 65535
+
+    volumes:
+
+      - ./conf.d:/etc/nginx/conf.d:ro
+
+      - ./certs:/etc/nginx/certs:ro
+
+    ports:
+
+      - "80:80"
+
+      - "443:443"
+
+    read_only: true
+
+    tmpfs:
+
+      - /var/cache/nginx
+
+      - /var/run
+
+    healthcheck:
+
+      test: ["CMD-SHELL", "nginx -t"]
+
+      interval: 30s
+
+      timeout: 5s
+
+      retries: 3
+
+    networks:
+
+      - powersync_net
+
+networks:
+
+  powersync_net:
+
+    external: true
+
+    name: powersync_network

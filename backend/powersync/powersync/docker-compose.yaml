@@ -1,0 +1,44 @@
+services:
+
+  powersync-server:
+
+    image: journeyapps/powersync-service:latest
+
+    container_name: powersync-server
+
+    restart: unless-stopped
+
+    expose:
+
+      - "8080" # Chỉ mở trong nội bộ mạng Docker
+
+    environment:
+
+      POWERSYNC_CONFIG_PATH: /config/service.yaml
+
+    ulimits:
+
+      nofile:
+
+        soft: 65535
+
+        hard: 65535
+
+    volumes:
+
+      - ./config/service.yaml:/config/service.yaml:ro
+
+      - ./config/sync-config.yaml:/config/sync-config.yaml:ro
+
+    networks:
+
+      - powersync_net
+
+
+networks:
+
+  powersync_net:
+
+    external: true
+
+    name: powersync_network

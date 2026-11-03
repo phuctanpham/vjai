@@ -1,0 +1,52 @@
+
+_type: self-hosted
+
+
+
+port: 8080
+
+
+
+replication:
+
+  connections:
+
+    - type: mongodb
+
+      uri: "mongodb+srv://phuctanpham_db_user:qREm1iVIvSuLSbjN@garblo.snu6yci.mongodb.net/garbloDB?retryWrites=true&w=majority"
+
+
+
+storage:
+
+  type: mongodb
+
+  uri: "mongodb+srv://phuctanpham_db_user:qREm1iVIvSuLSbjN@garblo.snu6yci.mongodb.net/powersync_storage?retryWrites=true&w=majority"
+
+
+
+sync_config:
+
+  path: /config/sync-config.yaml
+
+
+
+api:
+
+  tokens:
+
+    - 1738a6fe3d366c014bab71e87b3ad7180bd3cd7da9509a6019409d915cfbdb67
+healthcheck:
+
+  probes:
+
+    use_http: true
+
+
+
+client_auth:
+
+
+  audience:
+    - https://sync.phamtanph.uk
+

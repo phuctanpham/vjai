@@ -1,0 +1,65 @@
+
+_type: self-hosted
+
+
+
+port: 8080
+
+
+
+replication:
+
+  connections:
+
+    - type: mongodb
+
+      uri: "mongodb+srv://phuctanpham_db_user:qREm1iVIvSuLSbjN@garblo.snu6yci.mongodb.net/garbloDB?retryWrites=true&w=majority"
+
+
+
+storage:
+
+  type: mongodb
+
+  uri: "mongodb+srv://phuctanpham_db_user:qREm1iVIvSuLSbjN@garblo.snu6yci.mongodb.net/powersync_storage?retryWrites=true&w=majority"
+
+
+
+sync_config:
+
+  path: /config/sync-config.yaml
+
+
+
+api:
+
+  tokens:
+
+    - b46ba072c196415911584084f1eb1288cf6c09f8f86cf28816d771bfb3404144
+healthcheck:
+
+  probes:
+
+    use_http: true
+
+
+
+client_auth:
+
+
+  audience:
+    - https://sync.phamtanph.uk
+
+  jwks:
+
+    keys:
+
+      - kty: RSA
+
+        alg: RS256
+
+        kid: prod-rsa-key-1
+
+        n: "0r1v5W4vdwEA0b5ifwimPYJGwLZUC80s39IkQj2CrXHNOPAEzKuf88Mvq659sWGEz9kIfL1hvaYMEz8JoK1AB_cfVAQCvEy8la-W8MlD0xlkDyHaLxctWbrz9QPhZp8Dh-FeRE0iGdUPx12FFN7sdKLA9El_zq2HTVoSaNCf-IiQETTqqU_XahQXefC7npMWQUrInNlR-dmFBopb-jslkPq9Wz3XoIMwIazU_I0XQ-xYo5zjxQHmWnVYWpBDkjeiurtDtTWF_gkebJl8o8myQ7kvyhGlpMKplFSURZh9VUcQVrBJ6Pm7ZyKRlzksN73qnr6gJG7E_QSeYT3EP1sJiQ"
+
+        e: "AQAB"
